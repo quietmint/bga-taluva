@@ -100,6 +100,63 @@
   background-position: 0px 0px;
 }
 
+.huticon {
+    display:inline-block;
+    width: 16px;
+    height: 17px;
+    background-image: url(https://raw.githubusercontent.com/quietmint/bga-taluva/master/img/sides.png);
+    background-size: 350%;
+    background-position: 16px -17px;
+}
+
+.templeicon {
+    display:inline-block;
+    width: 20px;
+    height: 25px;
+    background-image: url(https://raw.githubusercontent.com/quietmint/bga-taluva/master/img/sides.png);
+    background-size: 300%;
+    background-position: -23px -12px;
+}
+
+.templeicon.color_ff0000 {
+      background-position: -23px -122px;
+}
+.templeicon.color_ffffff {
+      background-position: -23px -85px;
+}
+.templeicon.color_b1634f {
+      background-position: -23px -49px;
+}
+
+.towericon.color_ff0000 {
+     background-position: 0px -106px;
+}
+.towericon.color_ffffff {
+     background-position: 0px -71px;
+}
+.towericon.color_b1634f {
+     background-position: 0px -36px;
+}
+
+.huticon.color_ff0000 {
+     background-position: 16px 17px;
+}
+.huticon.color_ffffff {
+      background-position: 16px -85px;
+}
+.huticon.color_b1634f {
+     background-position: 16px -51px;
+}
+
+.towericon {
+    display:inline-block;
+    width: 20px;
+    height: 35px;
+    background-image: url(https://raw.githubusercontent.com/quietmint/bga-taluva/master/img/sides.png);
+    background-size: 290%;
+    background-position: 0px 0px;
+}
+
 /** Faces **/
 
 @keyframes fade-in {

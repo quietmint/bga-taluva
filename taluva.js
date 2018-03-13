@@ -58,7 +58,8 @@ define([
                         dojo.destroy(e.target);
                     }
                 }, false);
-
+                
+				this.player_colors= { "ff0000": "red" , "ffa500": "yellow" , "ffffff": "white" , "a52a2a": "brown" };
 
                 // Setup remaining tile counter
                 dojo.place($('remain'), 'game_play_area_wrap', 'first');

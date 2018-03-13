@@ -16,15 +16,15 @@
   var jstpl_player_board =
     '<div class="counters">\
     <div title="{I18N_Temples}">\
-      <i id="icon_temples_${id}" class="mdi mdi-city" style="color: #${color}"></i>\
+      <div id="icon_temples_${id}" class="templeicon color_${color}"></div>\
       <span id="count_temples_${id}">0</span>\
     </div>\
     <div title="{I18N_Towers}">\
-      <i id="icon_towers_${id}" class="mdi mdi-atlassian" style="color: #${color}"></i>\
+      <div id="icon_towers_${id}" class="towericon color_${color}"></div>\
       <span id="count_towers_${id}">0</span>\
     </div>\
     <div title="{I18N_Huts}">\
-      <i id="icon_huts_${id}" class="mdi mdi-home" style="color: #${color}"></i>\
+      <div id="icon_huts_${id}" class="huticon color_${color}"></div>\
       <span id="count_huts_${id}">0</span>\
     </div>\
 </div>\

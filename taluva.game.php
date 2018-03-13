@@ -150,7 +150,7 @@ class taluva extends Table
     {
         $player_id = self::getCurrentPlayerId();
         $result = array();
-        $result['players'] = self::getCollectionFromDb('SELECT player_id id, player_score score, temples, towers, huts FROM player');
+        $result['players'] = self::getCollectionFromDb('SELECT player_id id, player_score score, temples, towers, huts, player_color color FROM player');
         foreach ($result['players'] as $id => $player) {
             if ($id == $player_id || $id == self::getActivePlayerId()) {
                 $result['players'][$id]['preview'] = $this->getTileInHand($id);
