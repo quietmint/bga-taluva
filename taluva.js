@@ -35,7 +35,7 @@ define([
                 // Set defaults for 3D mode
                 this.control3dxaxis = 30;
                 this.control3dzaxis = 0;
-                this.control3dscale = 1.2;
+                this.control3dscale = 1;
             },
 
             /*
@@ -58,7 +58,7 @@ define([
                         dojo.destroy(e.target);
                     }
                 }, false);
-                
+                this.dragElement3d ($("pagesection_gameview"));
 				this.player_colors= { "ff0000": "red" , "ffa500": "yellow" , "ffffff": "white" , "a52a2a": "brown" };
 
                 // Setup remaining tile counter
@@ -82,12 +82,14 @@ define([
 
                 // Setup scrollable map & tiles
                 var mapContainer = $('map_container');
+				this.scrollmap.onMouseDown = this.myonMouseDown;
                 this.scrollmap.create(mapContainer, $('map_scrollable'), $('map_surface'), $('map_scrollable_oversurface'));
+			
                 this.scrollmap.setupOnScreenArrows(this.hexWidth * 3);
                 if (dojo.isFF) {
-                    dojo.connect(mapContainer, 'DOMMouseScroll', this, 'onMouseWheel');
+                    dojo.connect($("pagesection_gameview"), 'DOMMouseScroll', this, 'onMouseWheel');
                 } else {
-                    dojo.connect(mapContainer, 'mousewheel', this, 'onMouseWheel');
+                    dojo.connect($("pagesection_gameview"), 'mousewheel', this, 'onMouseWheel');
                 }
                 var prior_tile = {};
                 for (var tile_id in gamedatas.tiles) {
@@ -106,7 +108,7 @@ define([
                 this.setupNotifications();
             },
 
-            change3d: function(_dc2, xpos, ypos, _dc3, _dc4, _dc5, _dc6) {
+            /* change3d: function(_dc2, xpos, ypos, _dc3, _dc4, _dc5, _dc6) {
                 var isModeChange = arguments[5] === false;
                 if (isModeChange) {
                     newMode = !this.control3dmode3d;
@@ -132,7 +134,7 @@ define([
                             min_y = Math.min(min_y, dojo.style(node, "top"));
                         }));
                         console.log('max_x', max_x, 'min_x', min_x, 'max_y', max_y, 'min_y', min_y);
-                        $('game_play_area').style.width = (max_x - min_x) + 'px';
+                        //$('game_play_area').style.width = (max_x - min_x) + 'px';
                         $('map_container').style.height = (max_y - min_y) + 'px';
                         dojo.style('map_scrollable', {
                             left: (min_x * -1) + 'px',
@@ -145,14 +147,14 @@ define([
                         this.scrollmap.disableScrolling();
 
                     } else {
-                        $('game_play_area').style.width = null;
+                     //   $('game_play_area').style.width = null;
                         $('map_container').style.height = null;
                         this.scrollmap.enableScrolling();
                         this.scrollmap.scrollToCenter();
                     }
                 }
                 return this.inherited(arguments);
-            },
+            },*/
 
 
             ///////////////////////////////////////////////////
@@ -207,6 +209,64 @@ define([
                     this.change3d(0, 0, 0, 0, d, true, false);
                 }
             },
+
+		myonMouseDown: function(evt) {
+					if (!this.bEnableScrolling) {
+						return;
+					}
+                    if (evt.which == 1){
+						this.isdragging = true;
+                        var _101c = dojo.position(this.scrollable_div);
+                        var _101d = dojo.position(this.container_div);
+                        this.dragging_offset_x = evt.pageX - (_101c.x - _101d.x);
+                        this.dragging_offset_y = evt.pageY - (_101c.y - _101d.y);
+                        this.dragging_handler = dojo.connect($("ebd-body"), "onmousemove", this, "onMouseMove");
+                        this.dragging_handler_touch = dojo.connect($("ebd-body"), "ontouchmove", this, "onMouseMove");
+					}
+        },			
+
+		
+		dragElement3d: function(elmnt) {
+
+		  dojo.connect(elmnt, "onmousedown", this, "drag3dMouseDown");
+		  dojo.connect(elmnt, "onmouseup", this, "closeDragElement3d");
+		  elmnt.oncontextmenu = function () { return false; }
+		  //elmnt.style.transition = "transform 0.05s ease";
+          this.drag3d=elmnt;
+			
+		},
+
+		drag3dMouseDown:  function(e) {
+			e = e || window.event;
+			// get the mouse cursor position at startup:
+			this.pos3 = e.clientX;
+			this.pos4 = e.clientY;
+			if (e.which == 3){
+				dojo.stopEvent( e );
+				this.dragging_3dhandler = dojo.connect(this.drag3d, "mousemove", this, "elementDrag3d");
+			}
+		},
+
+		elementDrag3d: function(e) {
+			e = e || window.event;
+			
+			this.change3d( e.movementY/ (-10)   , 0, 0, e.movementX / (-10) , 0, true, false);
+		  },
+
+		closeDragElement3d:  function(evt) {
+			/* stop moving when mouse button is released:*/
+			console.log ("mouseup button 3");
+			if (evt.which == 3){ 
+				/*if(evt.preventDefault != undefined)
+						evt.preventDefault();
+				if(evt.stopPropagation != undefined)
+					evt.stopPropagation();*/
+				dojo.stopEvent( evt );
+				dojo.disconnect(this.dragging_3dhandler);
+			}
+			
+			
+		},
 
             ///////////////////////////////////////////////////
             //// Utility methods

@@ -1,7 +1,7 @@
 /**
  *------
- * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * Taluva implementation : © quietmint
+ * BGA framework: Ã‚Â© Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
+ * Taluva implementation : Ã‚Â© quietmint
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -14,14 +14,62 @@
  */
 
 @import url(../../../css/csslayer.css);
-@import url('https://cdn.materialdesignicons.com/2.1.19/css/materialdesignicons.min.css');
+
 /** Remaining tile counter **/
+
+#playArea {
+    margin: 15px;
+    height: 880px;
+    width: 100%;
+    display: block;
+    background-repeat: repeat;
+    background-image: url('img/background.jpg');
+    border-radius: 10px;
+    box-shadow: 6px 6px 2px 0px rgba(0, 0, 0, 0.65);
+}
+
+@media screen and (min-width: 1920px) {
+    #playareascaler {
+        transform:scale(0.9,0.9);
+        transform-origin: left top;
+        width: 1800px;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (max-width: 1913px) and (min-width: 1025px) {
+    #playareascaler {
+        transform:scale(0.7,0.7);
+        transform-origin: top left;
+        width: 1432px;
+        margin: auto;
+    }
+}
+
+@media screen and (max-width: 1024px) and (min-width: 800px) {
+    #playareascaler {
+        transform:scale(0.7,0.7);
+        transform-origin: top left;
+        width: 1050px;
+        margin: auto;
+    }
+}
+
+@media screen and (max-width: 799px) and (min-width: 1px) {
+    #playareascaler {
+        transform:scale(0.5,0.5);
+        transform-origin: top left;
+		width: 820px;
+    }
+}
 
 #remain {
   position: absolute;
   right: 0;
   top: 0;
   margin: 0;
+  transform: translateZ(10px);
+  z-index:  200;
 }
 
 #count_remain {
@@ -33,7 +81,7 @@
 #map_container {
   position: relative;
   width: 100%;
-  height: 600px;
+  height: 100%;
   overflow: hidden;
 }
 
@@ -47,6 +95,7 @@
   position: absolute;
   top: 300px;
   left: 350px;
+  /* background:  red; */
 }
 
 #map_surface {
@@ -56,6 +105,7 @@
   width: 100%;
   height: 100%;
   cursor: move;
+  /* background:  red; */
 }
 
 .mode_3d #map_surface {
@@ -104,7 +154,7 @@
     display:inline-block;
     width: 16px;
     height: 17px;
-    background-image: url(https://raw.githubusercontent.com/quietmint/bga-taluva/master/img/sides.png);
+    background-image: url(img/sides.png);
     background-size: 350%;
     background-position: 16px -17px;
 }
@@ -113,11 +163,18 @@
     display:inline-block;
     width: 20px;
     height: 25px;
-    background-image: url(https://raw.githubusercontent.com/quietmint/bga-taluva/master/img/sides.png);
+    background-image: url(img/sides.png);
     background-size: 300%;
     background-position: -23px -12px;
 }
-
+.towericon {
+    display:inline-block;
+    width: 20px;
+    height: 35px;
+    background-image: url(img/sides.png);
+    background-size: 290%;
+    background-position: 0px 0px;
+}
 .templeicon.color_ff0000 {
       background-position: -23px -122px;
 }
@@ -148,14 +205,7 @@
      background-position: 16px -51px;
 }
 
-.towericon {
-    display:inline-block;
-    width: 20px;
-    height: 35px;
-    background-image: url(https://raw.githubusercontent.com/quietmint/bga-taluva/master/img/sides.png);
-    background-size: 290%;
-    background-position: 0px 0px;
-}
+
 
 /** Faces **/
 
@@ -333,8 +383,8 @@
   filter: drop-shadow(0 0 1px black) drop-shadow(-2px -2px 0px white) drop-shadow(2px 2px 0px white) drop-shadow(-2px 2px 0px white) drop-shadow(2px -2px 0px white);
 }
 
-.tile.prior-move-000000 {
-  filter: drop-shadow(0 0 1px black) drop-shadow(-2px -2px 0px black) drop-shadow(2px 2px 0px black) drop-shadow(-2px 2px 0px black) drop-shadow(2px -2px 0px black);
+.tile.prior-move-b1634f {
+  filter: drop-shadow(0 0 1px #b1634f) drop-shadow(-2px -2px 0px #b1634f) drop-shadow(2px 2px 0px #b1634f) drop-shadow(-2px 2px 0px #b1634f) drop-shadow(2px -2px 0px #b1634f);
 }
 
 .tile.prior-move-ff0000 {

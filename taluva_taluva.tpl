@@ -1,16 +1,19 @@
 {OVERALL_GAME_HEADER}
-<div id="remain" class="whiteblock"><span id="count_remain">{count_remain}</span> {I18N_Remain}</div>
+<div id="playareascaler">
+  <div id="playArea">
+	<div id="remain" class="whiteblock"><span id="count_remain">{count_remain}</span> {I18N_Remain}</div>
 
-<div id="map_container">
-  <div id="map_scrollable"></div>
-  <div id="map_surface"></div>
-  <div id="map_scrollable_oversurface"></div>
-  <a class="move movetop" href="#"></a>
-  <a class="move moveleft" href="#"></a>
-  <a class="move moveright" href="#"></a>
-  <a class="move movedown" href="#"></a>
+	<div id="map_container">
+	  <div id="map_scrollable"></div>
+	  <div id="map_surface"></div>
+	  <div id="map_scrollable_oversurface"></div>
+	  <a class="move movetop" href="#"></a>
+	  <a class="move moveleft" href="#"></a>
+	  <a class="move moveright" href="#"></a>
+	  <a class="move movedown" href="#"></a>
+	</div>
+  </div>
 </div>
-
 
 <script type="text/javascript">
   var jstpl_player_board =
