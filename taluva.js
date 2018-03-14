@@ -348,7 +348,7 @@ define([
                 for (var i in this.gamedatas.gamestate.args.possible) {
                     var possible = this.gamedatas.gamestate.args.possible[i];
                     var coords = this.getCoords(possible.x, possible.y);
-                    var possibleEl = dojo.place('<div id="possible_' + i + '" class="face possible" style="' + coords.style + '">' + (possible.z > 1 ? possible.z : '') +
+                    var possibleEl = dojo.place('<div id="possible_' + i + '" class="face possible level'+possible.z+'" style="' + coords.style + '">' + (possible.z > 1 ? possible.z : '') +
                         '</div>', 'map_scrollable_oversurface');
                 }
                 dojo.query('.face.possible').connect('onclick', this, 'onClickPossible');

@@ -1,7 +1,7 @@
 /**
  *------
- * BGA framework: Ã‚Â© Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * Taluva implementation : Ã‚Â© quietmint
+ * BGA framework: Ãƒâ€šÃ‚Â© Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
+ * Taluva implementation : Ãƒâ€šÃ‚Â© quietmint
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -22,10 +22,16 @@
     height: 880px;
     width: 100%;
     display: block;
-    background-repeat: repeat;
-    background-image: url('img/background.jpg');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-image: url('img/background2.jpg');
     border-radius: 10px;
     box-shadow: 6px 6px 2px 0px rgba(0, 0, 0, 0.65);
+}
+
+#playArea div {
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
 }
 
 @media screen and (min-width: 1920px) {
@@ -242,7 +248,7 @@
   transform: scale(0.85);
   cursor: pointer;
   animation: 350ms fade-in ease-in-out;
-  
+  background:  url(img/hex.png);
 }
 
 .face.rotate {
@@ -290,6 +296,88 @@
   background: url(img/lake84.png);
     background-repeat:no-repeat;
 }
+
+.level1 .face{
+   transform: translateZ(20px);
+}
+.level2 .face{
+   transform: translateZ(40px);
+}
+.level3 .face{
+   transform: translateZ(60px);
+}
+.level4 .face{
+   transform: translateZ(80px);
+}
+.level5 .face{
+   transform: translateZ(100px);
+}
+.level6 .face{
+   transform: translateZ(120px);
+}
+
+.level1.possible{
+   transform: translateZ(20px);
+}
+.level2.possible{
+   transform: translateZ(40px);
+}
+.level3.possible{
+   transform: translateZ(60px);
+}
+.level4.possible{
+   transform: translateZ(80px);
+}
+.level5.possible{
+   transform: translateZ(100px);
+}
+.level6.possible{
+   transform: translateZ(120px);
+}
+
+
+#playArea .tile .face::after {
+  content:"";
+  position: absolute;
+  width: 84px;
+  height: 97px;
+  background: url(img/tileback.png);
+  transform: translateZ(-18px);
+}
+
+#playArea .tile .side1 {
+  content:"";
+  position: absolute;
+  width: 97px;
+  height: 18px;
+  background: #bbbbbb;
+  transform-origin: bottom center;
+  transform: rotatez(90deg) translatex(32px) translatey(6px) rotatex(90deg);
+}
+
+
+#playArea .tile .side2 {
+  content:"";
+  position: absolute;
+  width: 97px;
+  height: 18px;
+  background: #bbbbbb;
+  transform-origin: bottom center;
+  transform: rotatez(90deg) translatex(32px) translatey(6px) rotatex(90deg) rotatey(-60deg);
+}
+
+
+#playArea .tile .side3 {
+  content:"";
+  position: absolute;
+  width: 97px;
+  height: 18px;
+  background: #bbbbbb;
+  transform-origin: bottom center;
+  transform: rotatez(90deg) translatex(32px) translatey(6px) rotatex(90deg) rotatey(60deg);
+}
+
+
 
 /** 3D Sides */
 
