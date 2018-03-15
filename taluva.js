@@ -98,6 +98,26 @@ define([
                     var coords = this.getCoords(tile.x, tile.y);
                     var tileEl = this.createTile(tile);
                     this.positionTile(tileEl, coords);
+					
+					
+					//////////////////////////////////   TEST BUILDINGS //////////////////////////debugger;
+					switch ( tileEl.id.slice(-1) ) { 
+						case "1" : dojo.place(  '<div class="hut"><div class="hutside"></div><div class="hutroof"></div></div>'       , tileEl.children[1] );						
+						 break;
+						case "2" : dojo.place( '<div class="hut red"><div class="hutside"></div><div class="hutroof"></div></div>'    , tileEl.children[1] ); 				
+						 break;
+						case "3" : dojo.place( '<div class="hut white"><div class="hutside"></div><div class="hutroof"></div></div>'  , tileEl.children[1] );
+						 break;
+						case "4" : dojo.place( '<div class="tower"><div class="towerside"></div><div class="towerroof"></div></div>'  , tileEl.children[1] );				
+						 break;
+						case "5" : dojo.place( '<div class="temple"><div class="templeside"></div><div class="templeroof"></div></div>'   , tileEl.children[1] );
+						break;
+						case "6" : dojo.place( '<div class="tower red"><div class="towerside"></div><div class="towerroof"></div></div>'   , tileEl.children[1] );
+						 break;
+						case "7" : dojo.place( '<div class="temple red"><div class="templeside"></div><div class="templeroof"></div></div>'   , tileEl.children[1] );
+						 break;
+						  
+					}
                 }
                 for (var player_id in prior_tile) {
                     var player = gamedatas.players[player_id];
@@ -348,8 +368,9 @@ define([
                 for (var i in this.gamedatas.gamestate.args.possible) {
                     var possible = this.gamedatas.gamestate.args.possible[i];
                     var coords = this.getCoords(possible.x, possible.y);
-                    var possibleEl = dojo.place('<div id="possible_' + i + '" class="face possible level'+possible.z+'" style="' + coords.style + '">' + (possible.z > 1 ? possible.z : '') +
-                        '</div>', 'map_scrollable_oversurface');
+                    var possibleEl = dojo.place('<div id="possible_' + i + '" class="face possible level'+possible.z+'" style="' + coords.style + '">' + 
+					     '<span class="facelabel">' + (possible.z > 1 ? possible.z : '') + "</span>" +
+                        ' <div class="side side1"></div><div class="side side2"></div><div class="side side3"> </div>', 'map_scrollable_oversurface');
                 }
                 dojo.query('.face.possible').connect('onclick', this, 'onClickPossible');
             },
@@ -381,7 +402,7 @@ define([
 
                 // Create rotator
                 if (possible.r.length > 1) {
-                    var rotateEl = dojo.place('<div class="face possible rotate" style="' + coords.style + '">↻</div>', 'map_scrollable_oversurface');
+                    var rotateEl = dojo.place('<div class="face possible rotate level'+ possible.z +'" style="' + coords.style + '">↻</div>', 'map_scrollable_oversurface');
                     dojo.connect(rotateEl, 'onclick', this, 'onClickRotate');
                 }
 

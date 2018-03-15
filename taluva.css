@@ -1,7 +1,7 @@
 /**
  *------
- * BGA framework: Ãƒâ€šÃ‚Â© Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * Taluva implementation : Ãƒâ€šÃ‚Â© quietmint
+ * BGA framework: ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â© Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
+ * Taluva implementation : ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â© quietmint
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -19,7 +19,7 @@
 
 #playArea {
     margin: 15px;
-    height: 880px;
+    height: 850px;
     width: 100%;
     display: block;
     background-size: 100% 100%;
@@ -91,9 +91,8 @@
   /* overflow: hidden; */
 }
 
-.mode_3d #map_container {
-  /* perspective: 800px; */
-  /* perspective-origin: center bottom; */
+.mode_3d #playArea {
+  height:1200px;
 }
 
 #map_scrollable,
@@ -236,23 +235,43 @@
   width: 84px;
   height: 97px;
   line-height: 97px;
-  font-size: 48px;
+  font-size: 68px;
   font-weight: bold;
-  /* text-align: center; */
   color: white;
   text-shadow: 1px 1px 10px black;
   /*  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%); */
 }
 
+.facelabel{
+  position: absolute;
+  left: 25%;
+  line-height: 97px;
+  font-size: 68px;
+  font-weight: bold;
+  color: white;
+  text-shadow: 1px 1px 10px black;
+}
+
 .face.possible {
+  position:absolute;
   transform: scale(0.85);
   cursor: pointer;
   animation: 350ms fade-in ease-in-out;
   background:  url(img/hex.png);
 }
 
+.face.possible:not(.rotate)::after {
+  content: "";
+  width: 84px;
+  height: 97px;
+  position: absolute;
+  transform: translatez(-20px);
+  animation: 350ms fade-in ease-in-out;
+  background:  url(img/hex.png);
+}
+
 .face.rotate {
-  font-size: 80px;
+  font-size: 100px;
 }
 
 /* Volcano */
@@ -317,22 +336,22 @@
 }
 
 .level1.possible{
-   transform: translateZ(20px);
+   transform: translateZ(20px) scale(0.8);
 }
 .level2.possible{
-   transform: translateZ(40px);
+   transform: translateZ(40px) scale(0.8);
 }
 .level3.possible{
-   transform: translateZ(60px);
+   transform: translateZ(60px) scale(0.8);
 }
 .level4.possible{
-   transform: translateZ(80px);
+   transform: translateZ(80px) scale(0.8);
 }
 .level5.possible{
-   transform: translateZ(100px);
+   transform: translateZ(100px) scale(0.8);
 }
 .level6.possible{
-   transform: translateZ(120px);
+   transform: translateZ(120px) scale(0.8);
 }
 
 
@@ -345,77 +364,44 @@
   transform: translateZ(-18px);
 }
 
-#playArea .tile .side1 {
-  content:"";
-  position: absolute;
-  width: 97px;
-  height: 18px;
-  background: #bbbbbb;
-  transform-origin: bottom center;
-  transform: rotatez(90deg) translatex(32px) translatey(6px) rotatex(90deg);
+#playArea .side1 {
+  transform: rotatez(90deg) translatex(30px) translatey(6px) rotatex(90deg);
 }
 
 
-#playArea .tile .side2 {
-  content:"";
-  position: absolute;
-  width: 97px;
-  height: 18px;
-  background: #bbbbbb;
-  transform-origin: bottom center;
-  transform: rotatez(90deg) translatex(32px) translatey(6px) rotatex(90deg) rotatey(-60deg);
+#playArea .side2 {
+  transform: rotatez(90deg) translatex(30px) translatey(6px) rotatex(90deg) rotatey(-60deg);
 }
 
 
-#playArea .tile .side3 {
-  content:"";
-  position: absolute;
-  width: 97px;
-  height: 18px;
-  background: #bbbbbb;
-  transform-origin: bottom center;
-  transform: rotatez(90deg) translatex(32px) translatey(6px) rotatex(90deg) rotatey(60deg);
+#playArea .side3 {
+  transform: rotatez(90deg) translatex(30px) translatey(6px) rotatex(90deg) rotatey(60deg);
 }
 
 
 
 /** 3D Sides */
 
-.side {
-  width: 175px;
-  height: 100px;
-  position: absolute;
-  background: linear-gradient(to right, rgba(255, 81, 50, 1) 0%, rgba(255, 246, 0, 1) 100%);
-  text-align: center;
-  line-height: 100px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 1) inset;
+#playArea .tile .side {
+    border-left: 3px solid #999999;
+    border-right: 3px solid #999999;
+    box-sizing: border-box;
+    position: absolute;
+  width: 97px;
+  height: 19px;
+  background: #bbbbbb;
+  transform-origin: bottom center;
 }
 
-.side:nth-child(1) {
-  transform: rotateY(-90deg) translateZ(87px);
+#playArea .possible .side {
+    border-left: 3px solid #cd83dd;
+    border-right: 3px solid #cd83dd;
+    box-sizing: border-box;
+    position: absolute;
+  width: 97px;
+  height: 20px;
+  transform-origin: bottom center;
 }
-
-.side:nth-child(2) {
-  transform: rotateY(-90deg) rotateX(60deg) translateZ(87px);
-}
-
-.side:nth-child(3) {
-  transform: rotateZ(180deg) rotateY(-90deg) rotateX(-60deg) translateZ(87px);
-}
-
-.side:nth-child(4) {
-  transform: rotateZ(180deg) rotateY(-90deg) translateZ(87px);
-}
-
-.side:nth-child(5) {
-  transform: rotateZ(180deg) rotateY(-90deg) rotateX(60deg) translateZ(87px);
-}
-
-.side:nth-child(6) {
-  transform: rotateY(-90deg) rotateX(-60deg) translateZ(87px);
-}
-
-/** Tiles **/
 
 /*
 .tile {
