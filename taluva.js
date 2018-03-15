@@ -31,11 +31,22 @@ define([
                 this.hexHeight = 71;
                 this.tryTile = null;
                 this.zoom = 1;
-
-                // Set defaults for 3D mode
-                this.control3dxaxis = 30;
-                this.control3dzaxis = 0;
-                this.control3dscale = 1;
+				
+				 if (!dojo.hasClass("ebd-body", "mode_3d")) {
+                    dojo.addClass("ebd-body", "mode_3d");
+                    //dojo.addClass("ebd-body", "enableTransitions");
+                    $("globalaction_3d").innerHTML = "3D";   // controls the upper right button 
+                    this.control3dxaxis = 30;  // rotation in degrees of x axis (it has a limit of 0 to 80 degrees in the frameword so users cannot turn it upsidedown)
+                    this.control3dzaxis = 0;   // rotation in degrees of z axis
+                    this.control3dxpos = -100;   // center of screen in pixels
+                    this.control3dypos = -100;   // center of screen in pixels
+                    this.control3dscale = 0.8;   // zoom level, 1 is default 2 is double normal size, 
+                    this.control3dmode3d = true ;  			// is the 3d enabled	
+                     //    transform: rotateX(10deg) translate(-100px, -100px) rotateZ(0deg) scale3d(0.7, 0.7, 0.7);
+    
+                    $("game_play_area").style.transform = "rotatex(" + this.control3dxaxis + "deg) translate(" + this.control3dypos + "px," + this.control3dxpos + "px) rotateZ(" + this.control3dzaxis + "deg) scale3d(" + this.control3dscale + "," + this.control3dscale + "," + this.control3dscale + ")";
+                }
+				
             },
 
             /*
@@ -258,18 +269,14 @@ define([
 
 		drag3dMouseDown:  function(e) {
 			e = e || window.event;
-			// get the mouse cursor position at startup:
-			this.pos3 = e.clientX;
-			this.pos4 = e.clientY;
 			if (e.which == 3){
 				dojo.stopEvent( e );
-				this.dragging_3dhandler = dojo.connect(this.drag3d, "mousemove", this, "elementDrag3d");
+				this.dragging_3dhandler = dojo.connect($("ebd-body"), "mousemove", this, "elementDrag3d");
 			}
 		},
 
 		elementDrag3d: function(e) {
 			e = e || window.event;
-			
 			this.change3d( e.movementY/ (-10)   , 0, 0, e.movementX / (-10) , 0, true, false);
 		  },
 
@@ -370,7 +377,7 @@ define([
                     var coords = this.getCoords(possible.x, possible.y);
                     var possibleEl = dojo.place('<div id="possible_' + i + '" class="face possible level'+possible.z+'" style="' + coords.style + '">' + 
 					     '<span class="facelabel">' + (possible.z > 1 ? possible.z : '') + "</span>" +
-                        ' <div class="side side1"></div><div class="side side2"></div><div class="side side3"> </div>', 'map_scrollable_oversurface');
+                        ' <div class="side side1"></div><div class="side side2"></div><div class="side side3"></div>', 'map_scrollable_oversurface');
                 }
                 dojo.query('.face.possible').connect('onclick', this, 'onClickPossible');
             },
