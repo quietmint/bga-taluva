@@ -203,13 +203,15 @@ class taluva extends Table
     public function getTileInHand($player_id)
     {
         $t = $this->tiles->getPlayerHand($player_id);
-        $t = array_shift($t);
-        $tile = array(
-            'player_id' => $player_id,
-            'tile_id' => (int) $t['id'],
-            'tile_type' => $t['type'],
-        );
-        return $tile;
+        if (!empty($t)) {
+            $t = array_shift($t);
+            $tile = array(
+                'player_id' => $player_id,
+                'tile_id' => (int) $t['id'],
+                'tile_type' => $t['type'],
+            );
+            return $tile;
+        }
     }
 
     public function getPossibleTile()
@@ -276,10 +278,18 @@ class taluva extends Table
         return array_values($possible);
     }
 
-    public function getPossibleBuilding()
+    public function getPossibleBuilding($player_id)
     {
-        $moves = array();
-        return $moves;
+        $possible = array();
+        $board = $this->getBoard();
+        $spaces = $board->getSpaces();
+        foreach ($spaces as $space) {
+            $options = $board->getBuildingOptions($space, $player_id);
+            if ($options != null) {
+                $possible[] = array('x' => $space->x, 'y' => $space->y, 'z' => $space->z, 'bldg_types' => $options);
+            }
+        }
+        return $possible;
     }
 
     //////////////////////////////////////////////////////////////////////////////
@@ -301,7 +311,7 @@ class taluva extends Table
         $spaces = $board->getSpaceTile($x, $y, $z, $r, $tile['tile_type']);
         $valid = $board->isValidPlacement($spaces);
         if (!$valid) {
-            die('Invalid placement!');
+            die('Invalid tile placement!');
         }
 
         // Add volcano face at the clicked location
@@ -320,7 +330,36 @@ class taluva extends Table
         $tile['y'] = $y;
         $tile['z'] = $z;
         $tile['r'] = $r;
-        self::notifyAllPlayers('commitTile', 'COMMIT A TILE', $tile);
+        self::notifyAllPlayers('commitTile', 'COMMIT TILE', $tile);
+        $this->gamestate->nextState('');
+    }
+
+    public function actionCommitBuilding($x, $y, $z, $bldg_type)
+    {
+        $player_id = self::getActivePlayerId();
+
+        $board = $this->getBoard();
+        $space = $board->getSpace($x, $y, $z);
+        $options = $board->getBuildingOptions($space, $player_id);
+        if (!array_key_exists($bldg_type, $options)) {
+            die('Invalid building placement!');
+        }
+
+        // Add building at the clicked location
+        self::DbQuery("UPDATE board SET bldg_player_id = $player_id, bldg_type = $bldg_type WHERE x = $x AND y = $y AND z = $z");
+        $space->bldg_player_id = $player_id;
+        $space->bldg_type = $bldg_type;
+        $spaces = array($space);
+        if ($bldg_type == HUT) {
+            // Add huts on adjacent locations
+            foreach ($options[HUT] as $h) {
+                self::DbQuery("UPDATE board SET bldg_player_id = $player_id, bldg_type = $bldg_type WHERE x = {$h->x} AND y = {$h->y} AND z = {$h->z}");
+                $h->bldg_player_id = $player_id;
+                $h->bldg_type = $bldg_type;
+                $spaces[] = $h;
+            }
+        }
+        self::notifyAllPlayers('commitBuilding', 'COMMIT BUILDING', $spaces);
 
         // Draw next tile
         $newTile = $this->tiles->pickCard('deck', $player_id);
@@ -356,8 +395,10 @@ class taluva extends Table
 
     public function argBuilding()
     {
-        $result = array();
-        $result['possible'] = $this->getPossibleBuilding();
+        $player_id = self::getActivePlayerId();
+        $result = array(
+            'possible' => $this->getPossibleBuilding($player_id)
+        );
         return $result;
     }
 
@@ -378,7 +419,9 @@ class taluva extends Table
         if ($tile != null) {
             $tile['remain'] = $this->tiles->countCardInLocation('deck');
             self::notifyAllPlayers('draw', 'Draw a tile', $tile);
-            $this->gamestate->nextState('');
+            $this->gamestate->nextState('tile');
+        } else {
+            $this->gamestate->nextState('gameEnd');
         }
     }
 

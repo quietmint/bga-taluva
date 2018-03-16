@@ -46,4 +46,15 @@ class action_taluva extends APP_GameAction
         $this->game->actionCommitTile($x, $y, $z, $r);
         self::ajaxResponse();
     }
+
+    public function commitBuilding()
+    {
+        self::setAjaxMode();
+        $x = (int) self::getArg('x', AT_int, true);
+        $y = (int) self::getArg('y', AT_int, true);
+        $z = (int) self::getArg('z', AT_posint, true);
+        $bldg_type = (int) self::getArg('bldg_type', AT_posint, true);
+        $this->game->actionCommitBuilding($x, $y, $z, $bldg_type);
+        self::ajaxResponse();
+    }
 }
