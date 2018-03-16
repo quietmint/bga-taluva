@@ -409,7 +409,7 @@ define([
 
                 // Create rotator
                 if (possible.r.length > 1) {
-                    var rotateEl = dojo.place('<div class="face possible rotate level'+ possible.z +'" style="' + coords.style + '">↻</div>', 'map_scrollable_oversurface');
+                    var rotateEl = dojo.place('<div class="face possible rotate level'+ possible.z +'" style="' + coords.style + '"><span class="facelabel">↻</span></div>', 'map_scrollable_oversurface');
                     dojo.connect(rotateEl, 'onclick', this, 'onClickRotate');
                 }
 
