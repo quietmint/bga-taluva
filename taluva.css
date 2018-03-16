@@ -254,7 +254,8 @@
   transform: scale(0.85);
   cursor: pointer;
   animation: 350ms fade-in ease-in-out;
-  background:  url(img/hex.png);
+  background: url(img/hexagons.png);
+  background-position: -252px -97px;
 }
 
 .face.possible:not(.rotate)::after {
@@ -264,7 +265,8 @@
   position: absolute;
   transform: translatez(-20px);
   animation: 350ms fade-in ease-in-out;
-  background:  url(img/hex.png);
+  background: url(img/hexagons.png);
+  background-position: -252px -97px;
 }
 
 .face.rotate {
@@ -274,42 +276,47 @@
 /* Volcano */
 
 .face.face-0 {
-  background: url(img/volcano84.png);
+  background: url(img/hexagons.png);
     background-repeat:no-repeat;
 }
 
 /* Jungle */
 
 .face.face-1 {
-  background: url(img/jungle84.png);
+  background: url(img/hexagons.png);
+  background-position: -84px -0px;
     background-repeat:no-repeat;
 }
 
 /* Grass */
 
 .face.face-2 {
-  background:url(img/plains84.png);
+  background: url(img/hexagons.png);
+  background-position: -168px -0px;
     background-repeat:no-repeat;
 }
 
 /* Sand */
 
 .face.face-3 {
-  background:url(img/desert84.png);
+  background: url(img/hexagons.png);
+  background-position: -252px -0px;
     background-repeat:no-repeat;
 }
 
 /* Rock */
 
 .face.face-4 {
-  background:url(img/mountain84.png);
+  background: url(img/hexagons.png);
+  background-position: -0px -97px;
     background-repeat:no-repeat;
 }
 
 /* Lake */
 
 .face.face-5 {
-  background: url(img/lake84.png);
+  background: url(img/hexagons.png);
+  background-position: -84px -97px;
     background-repeat:no-repeat;
 }
 
@@ -357,7 +364,8 @@
   position: absolute;
   width: 84px;
   height: 97px;
-  background: url(img/tileback.png);
+  background: url(img/hexagons.png);
+  background-position: -168px -97px;
   transform: translateZ(-17px);
 }
 
