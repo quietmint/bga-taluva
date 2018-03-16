@@ -67,7 +67,8 @@ $machinestates = array(
         'type' => 'game',
         'action' => 'stNextPlayer',
         'transitions' => array(
-            '' => ST_TILE,
+            'tile' => ST_TILE,
+            'gameEnd' => ST_GAME_END
         ),
         'updateGameProgression' => true,
     ),
@@ -80,23 +81,21 @@ $machinestates = array(
         'args' => 'argTile',
         'possibleactions' => array( 'commitTile' ),
         'transitions' => array(
-            '' => ST_NEXT_PLAYER,
+            '' => ST_BUILDING,
         ),
     ),
 
-    /*ST_BUILDING => array(
+    ST_BUILDING => array(
         'name' => 'building',
         'description' => clienttranslate('${actplayer} must place a building'),
         'descriptionmyturn' => clienttranslate('${you} must place a building'),
         'type' => 'activeplayer',
         'args' => 'argBuilding',
-        'possibleactions' => array( 'building' ),
+        'possibleactions' => array( 'commitBuilding' ),
         'transitions' => array(
-            'nextPlayer' => ST_NEXT_PLAYER,
-            'gameEnd' => ST_GAME_END
+            '' => ST_NEXT_PLAYER,
         ),
-        'updateGameProgression' => true,
-    ),*/
+    ),
 
     // Final state.
     // Please do not modify.

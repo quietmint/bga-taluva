@@ -35,9 +35,9 @@
 
   var jstpl_tile =
     '<div id="tile_${id}" class="tile rotate${rotate} level${z}">\
-  <div   class="top face face-${face0}" title="${title0}"><div class="side side1"></div><div class="side side2"></div><div class="side side3"></div></div>\
-  <div  class="left face face-${face1}" title="${title1}"><div class="side side1"></div><div class="side side2"></div><div class="side side3"></div></div>\
-  <div class="right face face-${face2}" title="${title2}"><div class="side side1"></div><div class="side side2"></div><div class="side side3"></div></div>\
+  <div id="hex_${id}_0" class="subface0 face face-${face0}" title="${title0}"><div class="side side1"></div><div class="side side2"></div><div class="side side3"></div></div>\
+  <div id="hex_${id}_1" class="subface1 face face-${face1}" title="${title1}"><div class="side side1"></div><div class="side side2"></div><div class="side side3"></div></div>\
+  <div id="hex_${id}_2" class="subface2 face face-${face2}" title="${title2}"><div class="side side1"></div><div class="side side2"></div><div class="side side3"></div></div>\
 </div>';
 </script>
 

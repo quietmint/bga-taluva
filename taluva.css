@@ -1,7 +1,7 @@
 /**
  *------
- * BGA framework: ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â© Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
- * Taluva implementation : ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã¢â‚¬Â ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦Ãƒâ€šÃ‚Â¡ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€¦Ã‚Â¡ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â© quietmint
+ * BGA framework: (c) Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
+ * Taluva implementation : (c) quietmint & Morgalad
  *
  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
  * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -238,9 +238,11 @@
 
 .facelabel{
   position: absolute;
-  left: 25%;
+  left: 0;
+  right: 0;
+  text-align: center;
   line-height: 97px;
-  font-size: 68px;
+  font-size: 55px;
   font-weight: bold;
   user-select:  none;
   color: white;
@@ -311,22 +313,22 @@
     background-repeat:no-repeat;
 }
 
-.level1 .face{
+.level1 .face , .bldg-container.level1 {
    transform: translateZ(20px);
 }
-.level2 .face{
+.level2 .face , .bldg-container.level2{
    transform: translateZ(40px);
 }
-.level3 .face{
+.level3 .face , .bldg-container.level3{
    transform: translateZ(60px);
 }
-.level4 .face{
+.level4 .face , .bldg-container.level4{
    transform: translateZ(80px);
 }
-.level5 .face{
+.level5 .face , .bldg-container.level5{
    transform: translateZ(100px);
 }
-.level6 .face{
+.level6 .face , .bldg-container.level6{
    transform: translateZ(120px);
 }
 
@@ -356,22 +358,22 @@
   width: 84px;
   height: 97px;
   background: url(img/tileback.png);
-  transform: translateZ(-18px);
+  transform: translateZ(-17px);
 }
 
 #playArea .side1 {
-   transform: rotatez(90deg) translatex(30px) translatey(6px) rotatex(90deg); 
+   transform: translatez(-0.5px) rotatez(90deg) translatex(30px) translatey(6px) rotatex(90deg); 
 }
 
 
 #playArea .side2 {
-  transform: rotatez(90deg) translatex(30px) translatey(6px) rotatex(90deg) rotatey(-60deg);
+  transform:  translatez(-0.5px) rotatez(90deg) translatex(30px) translatey(6px) rotatex(90deg) rotatey(-60deg);
   
 }
 
 
 #playArea .side3 {
-  transform: rotatez(90deg) translatex(30px) translatey(6px) rotatex(90deg) rotatey(60deg);
+  transform: translatez(-0.5px) rotatez(90deg) translatex(30px) translatey(6px) rotatex(90deg) rotatey(60deg);
   /* background:  orange; */
 }
 
@@ -385,14 +387,14 @@
     box-sizing: border-box;
     position: absolute;
   width: 97px;
-  height: 19px;
+  height: 17px;
   background: #bbbbbb;
   transform-origin: bottom center;
 }
 
 #playArea .possible .side {
-    border-left: 3px solid #cd83dd;
-    border-right: 3px solid #cd83dd;
+    border-left: 3px solid #acc1de;
+    border-right: 3px solid #acc1de;
     box-sizing: border-box;
     position: absolute;
     width: 97px;
@@ -442,17 +444,17 @@
   transform: translate(43px, -25px) rotate(300deg);
 }
 
-.tile .face.top {
+.tile .face.subface0 {
   top: 0;
   left: 25%;
 }
 
-.tile .face.left {
+.tile .face.subface1 {
   top: 71px;
   left: 0;
 }
 
-.tile .face.right {
+.tile .face.subface2 {
   top: 71px;
   right: 0;
 }
@@ -534,7 +536,7 @@
     transform-style: preserve-3d;
     transform: rotateZ(90deg) translateZ(13px) rotateX(-60deg) translateZ(6px);
     box-shadow: inset 0px 0px 1px 2px rgba(0, 0, 0, 0.78);
-} 
+}
 .hutroof:after {
    content:"";
        position: absolute;
@@ -597,11 +599,11 @@ position: absolute;
     height: 50px;
     background: linear-gradient( #fdd72d,  #fdd72d, #fdd72d,  #fdd72d , #202020 ,#fdd72d,  #fdd72d , #202020 ,#fdd72d,  #fdd72d , #202020, #fdd72d,  #fdd72d ,#fdd72d,  #fdd72d);
     transform-style: preserve-3d;
-    
+
     transform-origin: bottom center ;
     transform: translatey(-30px) rotatez(-90deg) translatey(17px) rotateX(-69deg) ;
     box-shadow: inset 0px 0px 1px 2px rgba(0, 0, 0, 0.78);
-} 
+}
 .templeroof:after {
     content:"";
     position: absolute;
@@ -609,7 +611,7 @@ position: absolute;
     height: 50px;
     background: linear-gradient( #fdd72d,  #fdd72d, #fdd72d,  #fdd72d , #202020 ,#fdd72d,  #fdd72d , #202020 ,#fdd72d,  #fdd72d , #202020, #fdd72d,  #fdd72d ,#fdd72d,  #fdd72d);
     transform-style: preserve-3d;
-    
+
     transform-origin: top center ;
     transform:translatez(4px) rotateX(-42deg)   ;
     box-shadow: inset 0px 0px 1px 2px rgba(0, 0, 0, 0.78);
@@ -818,34 +820,36 @@ position: absolute;
   background: #f5f5f5;
 }
 
-.face .tower {
+.bldg-container .tower {
   top: 30px !important ;
   left: 25px !important ;
 }
 
-.face .temple {
+.bldg-container .temple {
   top:30px !important;
   left:25px !important;
 }
 
-.face div:not(.side):not(.tower):not(.temple):nth-child(4) {
+.bldg-container>div:not(.tower):not(.temple):nth-child(1) {
   top: 15px;
   left: 12px;
 }
 
-.face div:not(.tower):not(.temple):nth-child(5) {
+.bldg-container>div:not(.tower):not(.temple):nth-child(2) {
   top: 15px;
   left: 42px;
 }
 
-.face div:not(.tower):not(.temple):nth-child(6) {
+.bldg-container>div:not(.tower):not(.temple):nth-child(3) {
   top: 53px;
   left: 12px;
 }
 
-.face div:not(.tower):not(.temple):nth-child(7) {
+.bldg-container>div:not(.tower):not(.temple):nth-child(4) {
   top: 53px;
   left: 42px;
 }
 
-
+.bldg-container {
+  position: absolute;
+}
