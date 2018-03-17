@@ -40,6 +40,9 @@
   <div id="hex_${id}_2" class="subface2 face face-${face2}" title="${title2}"><div class="side side1"></div><div class="side side2"></div><div class="side side3"></div></div>\
 </div>';
 
+  var jstpl_possible =
+    '<div id="possible_${id}" class="face possible level${z}" style="${style}"><span class="facelabel">${label}</span></div>';
+
   // Hut
   var jstpl_building_1 =
     '<div class="hut ${colorName}"><div class="hutside"></div><div class="hutroof"></div></div>';

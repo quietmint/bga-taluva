@@ -349,7 +349,7 @@ class taluva extends Table
         $tile['face_name'] = $this->terrain[$spaces[1]->face];
         $tile['face_name2'] = $this->terrain[$spaces[2]->face];
         $tile['i18n'] = array('face_name', 'face_name2');
-        self::notifyAllPlayers('commitTile', '${player_name} places a ${face_name} and ${face_name2} tile', $tile);
+        self::notifyAllPlayers('commitTile', '${player_name} places a tile with ${face_name} and ${face_name2} on level ${z}', $tile);
         $this->gamestate->nextState('');
     }
 

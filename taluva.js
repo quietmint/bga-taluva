@@ -129,7 +129,7 @@ define([
                 }
                 for (var player_id in prior_tile) {
                     var player = this.gamedatas.players[player_id];
-                    dojo.addClass('tile_' + prior_tile[player_id], 'prior-move-' + player.color);
+                    dojo.addClass('tile_' + prior_tile[player_id], 'prior-move-' + player.colorName);
                 }
 
                 // Setup buildings
@@ -402,26 +402,31 @@ define([
                 for (var i in this.gamedatas.gamestate.args.possible) {
                     var possible = this.gamedatas.gamestate.args.possible[i];
                     var coords = this.getCoords(possible.x, possible.y);
-                    var possibleEl = dojo.place('<div id="possible_' + i + '" class="face possible level' + possible.z + '" style="' + coords.style + '">' +
-                        '<span class="facelabel">' + (possible.z > 1 ? possible.z : '') + "</span>" +
-                        ' <div class="side side1"></div><div class="side side2"></div><div class="side side3"></div>', 'map_scrollable_oversurface');
+                    var possibleHtml = this.format_block('jstpl_possible', {
+                        id: i,
+                        z: possible.z - 1,
+                        style: coords.style,
+                        label: (possible.z > 1 ? possible.z : ''),
+                    });
+                    var possibleEl = dojo.place(possibleHtml, 'map_scrollable_oversurface');
                 }
                 dojo.query('.face.possible').connect('onclick', this, 'onClickPossibleTile');
             },
 
             showPossibleBuilding: function() {
-                console.log('showPossibleBuilding');
                 this.clearPossible();
                 for (var i in this.gamedatas.gamestate.args.possible) {
                     var possible = this.gamedatas.gamestate.args.possible[i];
-                    console.log('possiblebuilding', possible);
+                    console.log('possibleBuilding', possible);
                     var coords = this.getCoords(possible.x, possible.y);
-
-                    var abbr = 'H' + possible.bldg_types[1].length;
-
-                    var possibleEl = dojo.place('<div id="possible_' + i + '" class="face possible level' + possible.z + '" style="' + coords.style + '">' +
-                        '<span class="facelabel">' + abbr + "</span>" +
-                        '<div class="side side1"></div><div class="side side2"></div><div class="side side3"></div>', 'map_scrollable_oversurface');
+                    var label = 'H' + (possible.bldg_types[1].length + 1);
+                    var possibleHtml = this.format_block('jstpl_possible', {
+                        id: i,
+                        z: possible.z,
+                        style: coords.style,
+                        label: label,
+                    });
+                    var possibleEl = dojo.place(possibleHtml, 'map_scrollable_oversurface');
                 }
                 dojo.query('.face.possible').connect('onclick', this, 'onClickPossibleBuilding');
             },
@@ -453,7 +458,13 @@ define([
 
                 // Create rotator
                 if (possible.r.length > 1) {
-                    var rotateEl = dojo.place('<div class="face possible rotate level' + possible.z + '" style="' + coords.style + '"><span class="facelabel">↻</span></div>', 'map_scrollable_oversurface');
+                    var rotatorHtml = this.format_block('jstpl_possible', {
+                        id: 'rotator',
+                        z: possible.z,
+                        style: coords.style,
+                        label: '↻',
+                    });
+                    var rotateEl = dojo.place(rotatorHtml, 'map_scrollable_oversurface');
                     dojo.connect(rotateEl, 'onclick', this, 'onClickRotateTile');
                 }
 
@@ -501,8 +512,14 @@ define([
                 }
 
                 // Create rotator
-                var rotateEl = dojo.place('<div class="face possible rotate level' + possible.z + '" style="' + coords.style + '"><span class="facelabel">∞</span></div>', 'map_scrollable_oversurface');
-                dojo.connect(rotateEl, 'onclick', this, 'onClickSwapBuilding');
+                var swapHtml = this.format_block('jstpl_possible', {
+                    id: 'swap',
+                    z: possible.z,
+                    style: coords.style,
+                    label: '⇆',
+                });
+                var swapEl = dojo.place(swapHtml, 'map_scrollable_oversurface');
+                dojo.connect(swapEl, 'onclick', this, 'onClickSwapBuilding');
 
                 this.removeActionButtons();
                 this.onUpdateActionButtons(this.gamedatas.gamestate.name, this.gamedatas.gamestate.args);
@@ -604,7 +621,7 @@ define([
                 console.log('notif_tile', n.args);
                 var player_id = this.getActivePlayerId();
                 var player = this.gamedatas.players[player_id];
-                var colorClass = 'prior-move-' + player.color;
+                var colorClass = 'prior-move-' + player.colorName;
 
                 // Create tile
                 var tileEl = this.createTile(n.args);

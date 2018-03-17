@@ -250,20 +250,9 @@
 }
 
 .face.possible {
-  position:absolute;
-  transform: scale(0.85);
-  cursor: pointer;
-  animation: 350ms fade-in ease-in-out;
-  background: url(img/hexagons.png);
-  background-position: -252px -97px;
-}
-
-.face.possible:not(.rotate)::after {
-  content: "";
-  width: 84px;
-  height: 97px;
   position: absolute;
-  transform: translatez(-20px);
+  transform: translateZ(1px) scale(0.8);
+  cursor: pointer;
   animation: 350ms fade-in ease-in-out;
   background: url(img/hexagons.png);
   background-position: -252px -97px;
@@ -340,22 +329,22 @@
 }
 
 .level1.possible{
-   transform: translateZ(20px) scale(0.8);
+   transform: translateZ(21px) scale(0.8);
 }
 .level2.possible{
-   transform: translateZ(40px) scale(0.8);
+   transform: translateZ(41px) scale(0.8);
 }
 .level3.possible{
-   transform: translateZ(60px) scale(0.8);
+   transform: translateZ(61px) scale(0.8);
 }
 .level4.possible{
-   transform: translateZ(80px) scale(0.8);
+   transform: translateZ(81px) scale(0.8);
 }
 .level5.possible{
-   transform: translateZ(100px) scale(0.8);
+   transform: translateZ(101px) scale(0.8);
 }
 .level6.possible{
-   transform: translateZ(120px) scale(0.8);
+   transform: translateZ(121px) scale(0.8);
 }
 
 
@@ -370,21 +359,16 @@
 }
 
 #playArea .side1 {
-   transform: translatez(-0.5px) rotatez(90deg) translatex(30px) translatey(6px) rotatex(90deg); 
+   transform: translatez(-0.5px) rotatez(90deg) translatex(30px) translatey(6px) rotatex(90deg);
 }
-
 
 #playArea .side2 {
   transform:  translatez(-0.5px) rotatez(90deg) translatex(30px) translatey(6px) rotatex(90deg) rotatey(-60deg);
-  
 }
-
 
 #playArea .side3 {
   transform: translatez(-0.5px) rotatez(90deg) translatex(30px) translatey(6px) rotatex(90deg) rotatey(60deg);
-  /* background:  orange; */
 }
-
 
 
 /** 3D Sides */
@@ -465,22 +449,6 @@
 .tile .face.subface2 {
   top: 71px;
   right: 0;
-}
-
-.tile.prior-move-ffffff {
-  /*filter: drop-shadow(0 0 1px black) drop-shadow(-2px -2px 0px white) drop-shadow(2px 2px 0px white) drop-shadow(-2px 2px 0px white) drop-shadow(2px -2px 0px white); */ 
-}
-
-.tile.prior-move-b1634f {
-/*  filter: drop-shadow(0 0 1px #b1634f) drop-shadow(-2px -2px 0px #b1634f) drop-shadow(2px 2px 0px #b1634f) drop-shadow(-2px 2px 0px #b1634f) drop-shadow(2px -2px 0px #b1634f); */
-}
-
-.tile.prior-move-ff0000 {
-  /* filter: drop-shadow(0 0 1px black) drop-shadow(-2px -2px 0px red) drop-shadow(2px 2px 0px red) drop-shadow(-2px 2px 0px red) drop-shadow(2px -2px 0px red); */
-}
-
-.tile.prior-move-ffa500 {
-  /* filter: drop-shadow(0 0 1px black) drop-shadow(-2px -2px 0px #ffa500) drop-shadow(2px 2px 0px #ffa500) drop-shadow(-2px 2px 0px #ffa500) drop-shadow(2px -2px 0px #ffa500);*/
 }
 
 /** Player panels **/
@@ -664,11 +632,11 @@ position: absolute;
     height: 40px;
     border-radius:50%;
     background:  #fdd72d;
-    transform-style: preserve-3d;    
+    transform-style: preserve-3d;
     transform-origin: center center ;
     transform: translatez(25px);
     box-shadow: inset 0px 0px 2px 3px rgba(0, 0, 0, 0.78);
-} 
+}
 .towerroof:after {
    content:"";
     position: absolute;
@@ -684,12 +652,12 @@ position: absolute;
 
 .towerroof:before {
    content:"";
-    position: absolute;    
+    position: absolute;
     width: 36px;
     height: 36px;
     border-radius:70%;
     background:  #fdd72d;
-    transform-style: preserve-3d;    
+    transform-style: preserve-3d;
     transform-origin: center center ;
     transform: translate3D(2px, 2px,19px);
     box-shadow: inset 0px 0px 2px 3px rgba(0, 0, 0, 0.78);
