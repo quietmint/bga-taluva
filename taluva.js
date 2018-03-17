@@ -358,7 +358,7 @@ define([
             },
 			
 			placeBuilding: function ( h , player_id, type ){
-				debugger;
+				
 				container =  $(h+">.bldg-container") ||  dojo.place('<div id="bdg_' + h + '" class="bldg-container" ></div>', $(h) );
                 color = this.player_colors[ this.gamedatas.players[player_id].color ];
 				switch (eval(type)){
@@ -367,13 +367,8 @@ define([
 					case 2 :  hutEl = dojo.place('<div class="temple '+ color +'"><div class="templeside"></div><div class="templeroof"></div></div>', container);
 					break;
 					case 3 :  hutEl = dojo.place('<div class="tower '+ color +'"><div class="towerside"></div><div class="towerroof"></div></div>', container);
-					break;
-					
-					
+					break;	
 				}
-                
-				
-				
 			},
 
             positionTile: function(tileEl, coords) {
