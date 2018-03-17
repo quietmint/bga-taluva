@@ -8,6 +8,8 @@ class TaluvaSpace extends APP_GameClass
     public $z;
     public $r;
     public $face;
+    public $tile_id;
+    public $subface;
     public $tile_player_id;
     public $bldg_player_id;
     public $bldg_type;
@@ -20,6 +22,8 @@ class TaluvaSpace extends APP_GameClass
         $this->z = (int) $row['z'];
         $this->r = (int) $row['r'];
         $this->face = (int) $row['face'];
+        $this->tile_id = (int) @$row['tile_id'];
+        $this->subface = (int) @$row['subface'];
         $this->tile_player_id = (int) @$row['tile_player_id'];
         $this->bldg_player_id = (int) @$row['bldg_player_id'];
         $this->bldg_type = (int) @$row['bldg_type'];
@@ -194,11 +198,13 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
     {
         foreach ($settlement as $space) {
             $adjacents = array_values($this->getSpaceAdjacents($space));
-            self::warn("Check if we can add $addSpace to adjacents $adjacents /");
+            self::warn("Check if we can add $addSpace to adjacents /");
             if (array_search($addSpace, $adjacents) !== false) {
+                self::warn("- Yes we can! /");
                 $settlement[] = $addSpace;
                 return true;
             }
+            self::warn("- No we cannot! /");
         }
         return false;
     }
@@ -235,7 +241,7 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
                 if (!$adj->isEmpty() && $adj->bldg_player_id == $player_id) {
                     $added = false;
                     foreach ($settlements as $settlement) {
-                        self::warn("Trying to add $adj to existing settlement $settlement /");
+                        self::warn("Trying to add $adj to existing settlement /");
                         if ($this->settlementAddSpace($settlement, $adj)) {
                             $added = true;
                             break;

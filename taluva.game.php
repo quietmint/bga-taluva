@@ -19,7 +19,7 @@
 require_once(APP_GAMEMODULE_PATH.'module/table/table.game.php');
 require_once('taluva.board.php');
 
-// Tile constants
+// Terrain constants
 define('VOLCANO', 0);
 define('JUNGLE', 1);
 define('GRASS', 2);
@@ -158,7 +158,7 @@ class taluva extends Table
         }
         $result['terrain'] = $this->terrain;
         $result['tiles'] = $this->getTiles();
-		$result['buildings'] = $this->getBuildingsOnBoard();
+        $result['buildings'] = $this->getBuildings();
         $result['remain'] = $this->tiles->countCardInLocation('deck');
         return $result;
     }
@@ -184,14 +184,14 @@ class taluva extends Table
     //////////// Utility functions
     ////////////
 
-    /*
-        In this space, you can put any utility methods useful for your game logic
-    */
+    public function getPlayer($player_id)
+    {
+        return self::getNonEmptyObjectFromDB("SELECT player_id id, player_color color, player_name name, player_score score, temples, towers, huts FROM player WHERE player_id = $player_id");
+    }
 
     public function getBoard()
     {
-        $board = array();
-        $rows = self::getObjectListFromDB('SELECT x, y, z, r, face, tile_player_id, bldg_player_id, bldg_type FROM board ORDER BY z, x, y');
+        $rows = self::getObjectListFromDB('SELECT x, y, z, r, face, tile_id, subface, tile_player_id, bldg_player_id, bldg_type FROM board ORDER BY z, x, y');
         return new TaluvaBoard($rows);
     }
 
@@ -200,11 +200,11 @@ class taluva extends Table
         $tiles = self::getObjectListFromDB('SELECT card_id tile_id, card_type tile_type, x, y, z, r, tile_player_id, bldg_player_id, bldg_type FROM tile JOIN board ON (tile.card_location = "board" AND tile.card_location_arg = board.id) ORDER BY board.id');
         return $tiles;
     }
-	
-	public function getBuildingsOnBoard()
+
+    public function getBuildings()
     {
-        $tiles = self::getObjectListFromDB('SELECT id , bldg_player_id, bldg_type , tile_id , subface FROM board WHERE bldg_type IS NOT NULL') ;
-        return $tiles;
+        $buildings = self::getObjectListFromDB('SELECT tile_id, subface, z, bldg_type, bldg_player_id FROM board WHERE bldg_type IS NOT NULL') ;
+        return $buildings;
     }
 
     public function getTileInHand($player_id)
@@ -293,7 +293,14 @@ class taluva extends Table
         foreach ($spaces as $space) {
             $options = $board->getBuildingOptions($space, $player_id);
             if ($options != null) {
-                $possible[] = array('x' => $space->x, 'y' => $space->y, 'z' => $space->z, 'bldg_types' => $options);
+                $possible[] = array(
+                    'x' => $space->x,
+                    'y' => $space->y,
+                    'z' => $space->z,
+                    'tile_id' => $space->tile_id,
+                    'subface' => $space->subface,
+                    'bldg_types' => $options
+                );
             }
         }
         return $possible;
@@ -322,29 +329,33 @@ class taluva extends Table
         }
 
         // Add volcano face at the clicked location
-        self::DbQuery("INSERT INTO board (x, y, z, r, face, tile_player_id , tile_id , subface ) VALUES ($x, $y, $z, $r, 0, $player_id , $tile_id , 0 ) ");
+        self::DbQuery("INSERT INTO board (x, y, z, r, face, tile_id, subface, tile_player_id) VALUES ($x, $y, $z, $r, 0, $tile_id, 0, $player_id) ");
         $board_id = self::DbGetLastId();
         $this->tiles->moveCard($tile['tile_id'], 'board', $board_id);
 
         // Add secondary faces at adjacent locations
         $values = array(
-            1 => "({$spaces[1]->x}, {$spaces[1]->y}, $z, $r, {$spaces[1]->face}, $player_id ,  $tile_id , 1 )",
-            2 => "({$spaces[2]->x}, {$spaces[2]->y}, $z, $r, {$spaces[2]->face}, $player_id ,  $tile_id , 2 )",
+            1 => "({$spaces[1]->x}, {$spaces[1]->y}, $z, $r, {$spaces[1]->face}, $tile_id, 1, $player_id)",
+            2 => "({$spaces[2]->x}, {$spaces[2]->y}, $z, $r, {$spaces[2]->face}, $tile_id, 2, $player_id)",
         );
-        self::DbQuery("INSERT INTO board (x, y, z, r, face, tile_player_id , tile_id , subface) VALUES " . implode($values, ','));
+        self::DbQuery("INSERT INTO board (x, y, z, r, face, tile_id, subface, tile_player_id) VALUES " . implode($values, ','));
 
+        $player = $this->getPlayer($player_id);
         $tile['x'] = $x;
         $tile['y'] = $y;
         $tile['z'] = $z;
         $tile['r'] = $r;
-        self::notifyAllPlayers('commitTile', 'COMMIT TILE', $tile);
+        $tile['player_name'] = $player['name'];
+        $tile['face_name'] = $this->terrain[$spaces[1]->face];
+        $tile['face_name2'] = $this->terrain[$spaces[2]->face];
+        $tile['i18n'] = array('face_name', 'face_name2');
+        self::notifyAllPlayers('commitTile', '${player_name} places a ${face_name} and ${face_name2} tile', $tile);
         $this->gamestate->nextState('');
     }
 
     public function actionCommitBuilding($x, $y, $z, $bldg_type)
     {
         $player_id = self::getActivePlayerId();
-
         $board = $this->getBoard();
         $space = $board->getSpace($x, $y, $z);
         $options = $board->getBuildingOptions($space, $player_id);
@@ -356,22 +367,46 @@ class taluva extends Table
         self::DbQuery("UPDATE board SET bldg_player_id = $player_id, bldg_type = $bldg_type WHERE x = $x AND y = $y AND z = $z");
         $space->bldg_player_id = $player_id;
         $space->bldg_type = $bldg_type;
-        $spaces = array($space);
+        $buildings = array($space);
         if ($bldg_type == HUT) {
+            $count = $z;
             // Add huts on adjacent locations
             foreach ($options[HUT] as $h) {
+                $count += $h->z;
                 self::DbQuery("UPDATE board SET bldg_player_id = $player_id, bldg_type = $bldg_type WHERE x = {$h->x} AND y = {$h->y} AND z = {$h->z}");
                 $h->bldg_player_id = $player_id;
                 $h->bldg_type = $bldg_type;
-                $spaces[] = $h;
+                $buildings[] = $h;
             }
+        } else {
+            $count = 1;
         }
-        self::notifyAllPlayers('commitBuilding', 'COMMIT BUILDING', $spaces);
+
+        // Subtract buildings from player
+        $columnName = strtolower($this->buildings[$bldg_type]);
+        self::DbQuery("UPDATE player SET $columnName = $columnName - $count WHERE player_id = $player_id AND $columnName >= $count");
+        if (self::DbAffectedRow() != 1) {
+            die('Not enough buildings!');
+        }
+
+        $player = $this->getPlayer($player_id);
+        $args = array(
+            'player_id' => $player_id,
+            'player_name' => $player['name'],
+            'huts' => $player['huts'],
+            'temples' => $player['temples'],
+            'towers' => $player['towers'],
+            'bldg_name' => $this->buildings[$bldg_type],
+            'bldg_type' => $bldg_type,
+            'count' => $count,
+            'buildings' => $buildings,
+        );
+        self::notifyAllPlayers('commitBuilding', '${player_name} places ${count} ${bldg_name}', $args);
 
         // Draw next tile
         $newTile = $this->tiles->pickCard('deck', $player_id);
         if ($newTile != null) {
-            self::notifyPlayer($player_id, 'draw', '(private) Draw a tile', array(
+            self::notifyPlayer($player_id, 'draw', '', array(
                 'player_id' => $player_id,
                 'tile_id' => $newTile['id'],
                 'tile_type' => $newTile['type'],
@@ -425,9 +460,10 @@ class taluva extends Table
         $tile = $this->getTileInHand($player_id);
         if ($tile != null) {
             $tile['remain'] = $this->tiles->countCardInLocation('deck');
-            self::notifyAllPlayers('draw', 'Draw a tile', $tile);
+            self::notifyAllPlayers('draw', '', $tile);
             $this->gamestate->nextState('tile');
         } else {
+            self::notifyAllPlayers('message', 'No tiles remain');
             $this->gamestate->nextState('gameEnd');
         }
     }

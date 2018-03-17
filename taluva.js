@@ -23,6 +23,19 @@ define([
         "ebg/scrollmap"
     ],
     function(dojo, declare) {
+        // Terrain constants
+        const VOLCANO = 0;
+        const JUNGLE = 1;
+        const GRASS = 2;
+        const SAND = 3;
+        const ROCK = 4;
+        const LAKE = 5;
+
+        // Building constants
+        const HUT = 1;
+        const TEMPLE = 2;
+        const TOWER = 3;
+
         return declare("bgagame.taluva", ebg.core.gamegui, {
             constructor: function() {
                 // Scrollable area
@@ -31,23 +44,20 @@ define([
                 this.hexHeight = 71;
                 this.tryTile = null;
                 this.zoom = 1;
-				
-				
-				 if (!dojo.hasClass("ebd-body", "mode_3d")) {
+
+                if (!dojo.hasClass("ebd-body", "mode_3d")) {
                     dojo.addClass("ebd-body", "mode_3d");
                     //dojo.addClass("ebd-body", "enableTransitions");
-                    $("globalaction_3d").innerHTML = "3D";   // controls the upper right button 
-                    this.control3dxaxis = 30;  // rotation in degrees of x axis (it has a limit of 0 to 80 degrees in the frameword so users cannot turn it upsidedown)
-                    this.control3dzaxis = 0;   // rotation in degrees of z axis
-                    this.control3dxpos = -100;   // center of screen in pixels
-                    this.control3dypos = -100;   // center of screen in pixels
-                    this.control3dscale = 0.8;   // zoom level, 1 is default 2 is double normal size, 
-                    this.control3dmode3d = true ;  			// is the 3d enabled	
-                     //    transform: rotateX(10deg) translate(-100px, -100px) rotateZ(0deg) scale3d(0.7, 0.7, 0.7);
-    
+                    $("globalaction_3d").innerHTML = "3D"; // controls the upper right button
+                    this.control3dxaxis = 30; // rotation in degrees of x axis (it has a limit of 0 to 80 degrees in the frameword so users cannot turn it upsidedown)
+                    this.control3dzaxis = 0; // rotation in degrees of z axis
+                    this.control3dxpos = -100; // center of screen in pixels
+                    this.control3dypos = -100; // center of screen in pixels
+                    this.control3dscale = 1; // zoom level, 1 is default 2 is double normal size,
+                    this.control3dmode3d = true; // is the 3d enabled
+                    //    transform: rotateX(10deg) translate(-100px, -100px) rotateZ(0deg) scale3d(0.7, 0.7, 0.7);
                     $("game_play_area").style.transform = "rotatex(" + this.control3dxaxis + "deg) translate(" + this.control3dypos + "px," + this.control3dxpos + "px) rotateZ(" + this.control3dzaxis + "deg) scale3d(" + this.control3dscale + "," + this.control3dscale + "," + this.control3dscale + ")";
                 }
-				
             },
 
             /*
@@ -65,25 +75,30 @@ define([
 
             setup: function(gamedatas) {
                 console.info('SETUP', gamedatas);
+
                 // Setup 'fade-out' element destruction
                 $('overall-content').addEventListener('animationend', function(e) {
                     if (e.animationName == 'fade-out') {
                         dojo.destroy(e.target);
                     }
                 }, false);
-                this.dragElement3d ($("pagesection_gameview"));
-				this.player_colors= { "ff0000": "red" , "ffa500": "yellow" , "ffffff": "white" , "a52a2a": "brown" };
+                this.dragElement3d($("pagesection_gameview"));
 
                 // Setup remaining tile counter
                 dojo.place($('remain'), 'game_play_area_wrap', 'first');
 
                 // Setup player boards
+                var colorNames = {
+                    'ff0000': 'red',
+                    'ffa500': 'yellow',
+                    'ffffff': 'white',
+                    'a52a2a': 'brown'
+                };
                 for (var player_id in gamedatas.players) {
                     var player = gamedatas.players[player_id];
+                    player.colorName = colorNames[player.color];
                     dojo.place(this.format_block('jstpl_player_board', player), 'player_board_' + player_id);
-                    $('count_temples_' + player_id).innerText = player.temples;
-                    $('count_towers_' + player_id).innerText = player.towers;
-                    $('count_huts_' + player_id).innerText = player.huts;
+                    this.updatePlayerCounters(player);
                     if (player.preview) {
                         player.preview.player_id = player_id;
                         player.preview.remain = gamedatas.remain;
@@ -95,9 +110,9 @@ define([
 
                 // Setup scrollable map & tiles
                 var mapContainer = $('map_container');
-				this.scrollmap.onMouseDown = this.myonMouseDown;
+                this.scrollmap.onMouseDown = this.myonMouseDown;
                 this.scrollmap.create(mapContainer, $('map_scrollable'), $('map_surface'), $('map_scrollable_oversurface'));
-			
+
                 this.scrollmap.setupOnScreenArrows(this.hexWidth * 3);
                 if (dojo.isFF) {
                     dojo.connect($("pagesection_gameview"), 'DOMMouseScroll', this, 'onMouseWheel');
@@ -106,42 +121,21 @@ define([
                 }
                 var prior_tile = {};
                 for (var tile_id in gamedatas.tiles) {
-                    var tile = gamedatas.tiles[tile_id];  
+                    var tile = gamedatas.tiles[tile_id];
                     prior_tile[tile.tile_player_id] = tile.tile_id;
                     var coords = this.getCoords(tile.x, tile.y);
                     var tileEl = this.createTile(tile);
                     this.positionTile(tileEl, coords);
-					
-				}	
-					//////////////////////////////////   TEST BUILDINGS ///////////////////////// ;
-					/* switch ( tileEl.id.slice(-1) ) { 
-						case "1" : dojo.place(  '<div class="hut"><div class="hutside"></div><div class="hutroof"></div></div>'       , tileEl.children[1] );						
-						 break;
-						case "2" : dojo.place( '<div class="hut red"><div class="hutside"></div><div class="hutroof"></div></div>'    , tileEl.children[1] ); 				
-						 break;
-						case "3" : dojo.place( '<div class="hut white"><div class="hutside"></div><div class="hutroof"></div></div>'  , tileEl.children[1] );
-						 break;
-						case "4" : dojo.place( '<div class="tower"><div class="towerside"></div><div class="towerroof"></div></div>'  , tileEl.children[1] );				
-						 break;
-						case "5" : dojo.place( '<div class="temple"><div class="templeside"></div><div class="templeroof"></div></div>'   , tileEl.children[1] );
-						break;
-						case "6" : dojo.place( '<div class="tower red"><div class="towerside"></div><div class="towerroof"></div></div>'   , tileEl.children[1] );
-						 break;
-						case "7" : dojo.place( '<div class="temple red"><div class="templeside"></div><div class="templeroof"></div></div>'   , tileEl.children[1] );
-						 break;
-						  
-					} */
-                
-				for (var d in gamedatas.buildings) {
-                    var building = gamedatas.buildings[d]; 
-                    var hex = "hex_" + building.tile_id + "_" + building.subface ;
-					
-                    this.placeBuilding( hex, building.bldg_player_id ,building.bldg_type)
-				}	
-				
+                }
                 for (var player_id in prior_tile) {
                     var player = this.gamedatas.players[player_id];
                     dojo.addClass('tile_' + prior_tile[player_id], 'prior-move-' + player.color);
+                }
+
+                // Setup buildings
+                for (var b in gamedatas.buildings) {
+                    var building = gamedatas.buildings[b];
+                    this.placeBuilding(building);
                 }
 
                 // Setup game notifications
@@ -257,59 +251,56 @@ define([
                 }
             },
 
-		myonMouseDown: function(evt) {
-					if (!this.bEnableScrolling) {
-						return;
-					}
-                    if (evt.which == 1){
-						this.isdragging = true;
-                        var _101c = dojo.position(this.scrollable_div);
-                        var _101d = dojo.position(this.container_div);
-                        this.dragging_offset_x = evt.pageX - (_101c.x - _101d.x);
-                        this.dragging_offset_y = evt.pageY - (_101c.y - _101d.y);
-                        this.dragging_handler = dojo.connect($("ebd-body"), "onmousemove", this, "onMouseMove");
-                        this.dragging_handler_touch = dojo.connect($("ebd-body"), "ontouchmove", this, "onMouseMove");
-					}
-        },			
- 
-		
-		dragElement3d: function(elmnt) {
+            myonMouseDown: function(evt) {
+                if (!this.bEnableScrolling) {
+                    return;
+                }
+                if (evt.which == 1) {
+                    this.isdragging = true;
+                    var _101c = dojo.position(this.scrollable_div);
+                    var _101d = dojo.position(this.container_div);
+                    this.dragging_offset_x = evt.pageX - (_101c.x - _101d.x);
+                    this.dragging_offset_y = evt.pageY - (_101c.y - _101d.y);
+                    this.dragging_handler = dojo.connect($("ebd-body"), "onmousemove", this, "onMouseMove");
+                    this.dragging_handler_touch = dojo.connect($("ebd-body"), "ontouchmove", this, "onMouseMove");
+                }
+            },
 
-		  dojo.connect(elmnt, "onmousedown", this, "drag3dMouseDown");
-		  dojo.connect(elmnt, "onmouseup", this, "closeDragElement3d");
-		  elmnt.oncontextmenu = function () { return false; }
-		  //elmnt.style.transition = "transform 0.05s ease";
-          this.drag3d=elmnt;
-			
-		},
+            dragElement3d: function(elmnt) {
+                dojo.connect(elmnt, "onmousedown", this, "drag3dMouseDown");
+                dojo.connect(elmnt, "onmouseup", this, "closeDragElement3d");
+                elmnt.oncontextmenu = function() {
+                    return false;
+                }
+                //elmnt.style.transition = "transform 0.05s ease";
+                this.drag3d = elmnt;
+            },
 
-		drag3dMouseDown:  function(e) {
-			e = e || window.event;
-			if (e.which == 3){
-				dojo.stopEvent( e );
-				this.dragging_3dhandler = dojo.connect($("ebd-body"), "mousemove", this, "elementDrag3d");
-			}
-		},
+            drag3dMouseDown: function(e) {
+                e = e || window.event;
+                if (e.which == 3) {
+                    dojo.stopEvent(e);
+                    this.dragging_3dhandler = dojo.connect($("ebd-body"), "mousemove", this, "elementDrag3d");
+                }
+            },
 
-		elementDrag3d: function(e) {
-			e = e || window.event;
-			this.change3d( e.movementY/ (-10)   , 0, 0, e.movementX / (-10) , 0, true, false);
-		  },
+            elementDrag3d: function(e) {
+                e = e || window.event;
+                this.change3d(e.movementY / (-10), 0, 0, e.movementX / (-10), 0, true, false);
+            },
 
-		closeDragElement3d:  function(evt) {
-			/* stop moving when mouse button is released:*/
-			console.log ("mouseup button 3");
-			if (evt.which == 3){ 
-				/*if(evt.preventDefault != undefined)
-						evt.preventDefault();
-				if(evt.stopPropagation != undefined)
-					evt.stopPropagation();*/
-				dojo.stopEvent( evt );
-				dojo.disconnect(this.dragging_3dhandler);
-			}
-			
-			
-		},
+            closeDragElement3d: function(evt) {
+                /* stop moving when mouse button is released:*/
+                console.log("mouseup button 3");
+                if (evt.which == 3) {
+                    /*if(evt.preventDefault != undefined)
+                    		evt.preventDefault();
+                    if(evt.stopPropagation != undefined)
+                    	evt.stopPropagation();*/
+                    dojo.stopEvent(evt);
+                    dojo.disconnect(this.dragging_3dhandler);
+                }
+            },
 
             ///////////////////////////////////////////////////
             //// Utility methods
@@ -320,6 +311,13 @@ define([
                     //args.lock = true;
                     this.ajaxcall('/taluva/taluva/' + action + '.html', args, this, function(result) {});
                 }
+            },
+
+            updatePlayerCounters: function(player) {
+                var player_id = player.player_id || player.id;
+                $('count_huts_' + player_id).innerText = player.huts;
+                $('count_temples_' + player_id).innerText = player.temples;
+                $('count_towers_' + player_id).innerText = player.towers;
             },
 
             setZoom: function(newZoom) {
@@ -356,20 +354,18 @@ define([
                 }), 'map_scrollable');
                 return tileEl;
             },
-			
-			placeBuilding: function ( h , player_id, type ){
-				
-				container =  $(h+">.bldg-container") ||  dojo.place('<div id="bdg_' + h + '" class="bldg-container" ></div>', $(h) );
-                color = this.player_colors[ this.gamedatas.players[player_id].color ];
-				switch (eval(type)){
-					case 1 :  hutEl = dojo.place('<div class="hut '+ color +'"><div class="hutside"></div><div class="hutroof"></div></div>', container);
-					break;
-					case 2 :  hutEl = dojo.place('<div class="temple '+ color +'"><div class="templeside"></div><div class="templeroof"></div></div>', container);
-					break;
-					case 3 :  hutEl = dojo.place('<div class="tower '+ color +'"><div class="towerside"></div><div class="towerroof"></div></div>', container);
-					break;	
-				}
-			},
+
+            placeBuilding: function(building) {
+                console.log('placeBuilding', building);
+                var hexId = 'hex_' + building.tile_id + '_' + building.subface;
+                var container = $('bldg_' + hexId) || dojo.place('<div id="bldg_' + hexId + '" class="bldg-container"></div>', $(hexId));
+                building.colorName = this.gamedatas.players[building.bldg_player_id].colorName;
+                for (var i = 0; i < +building.z; i++) {
+                    var buildingHtml = this.format_block('jstpl_building_' + building.bldg_type, building);
+                    console.log('buildingHtml', buildingHtml);
+                    var buildingEl = dojo.place(buildingHtml, container);
+                }
+            },
 
             positionTile: function(tileEl, coords) {
                 tileEl.style.left = (coords.left - (this.hexWidth / 2)) + 'px';
@@ -474,19 +470,39 @@ define([
                 console.log('onClickPossibleBuilding', possible);
                 var coords = this.getCoords(possible.x, possible.y);
                 this.tryBuilding = {
-                    id: possible.x + possible.y + possible.z,
                     x: possible.x,
                     y: possible.y,
                     z: possible.z,
-                    bldg_type: 1,
+                    tile_id: possible.tile_id,
+                    subface: possible.subface,
+                    bldg_type: HUT,
+                    bldg_player_id: this.player_id,
                     possible: possible,
                 };
 
-                var bldgEl = dojo.place('<div id="bldg_' + this.tryBuilding.id + '" class="bldg-container level'+possible.z+'" style="' + coords.style + '"></div>', 'map_scrollable_oversurface');
-                if (possible.bldg_types[2] || possible.bldg_types[3]) {
-                    dojo.connect(bldgEl, 'onclick', this, 'onClickSwapBuilding');
+                // Create hut
+                this.placeBuilding(this.tryBuilding);
+
+                // Create adjacent huts
+                var moreHuts = possible.bldg_types[HUT];
+                for (var i in moreHuts) {
+                    var hut = possible.bldg_types[HUT][i];
+                    this.tryBuilding = {
+                        x: hut.x,
+                        y: hut.y,
+                        z: hut.z,
+                        tile_id: hut.tile_id,
+                        subface: hut.subface,
+                        bldg_type: HUT,
+                        bldg_player_id: this.player_id,
+                        possible: possible,
+                    };
+                    this.placeBuilding(this.tryBuilding);
                 }
-                var hutEl = dojo.place('<div class="hut"><div class="hutside"></div><div class="hutroof"></div></div>', bldgEl);
+
+                // Create rotator
+                var rotateEl = dojo.place('<div class="face possible rotate level' + possible.z + '" style="' + coords.style + '"><span class="facelabel">∞</span></div>', 'map_scrollable_oversurface');
+                dojo.connect(rotateEl, 'onclick', this, 'onClickSwapBuilding');
 
                 this.removeActionButtons();
                 this.onUpdateActionButtons(this.gamedatas.gamestate.name, this.gamedatas.gamestate.args);
@@ -496,6 +512,7 @@ define([
                 var bt = Object.keys(this.tryBuilding.possible.bldg_types);
                 var index = bt.indexOf(this.tryBuilding.bldg_type);
                 this.tryBuilding.bldg_type = bt[(index + 1) % bt.length];
+                this.placeBuilding(this.tryBuilding);
             },
 
             onClickRotateTile: function(evt) {
@@ -535,7 +552,7 @@ define([
             onClickResetBuilding: function(evt) {
                 dojo.stopEvent(evt);
                 if (this.tryBuilding != null) {
-                    var bldgContainer = $('bldg_' + this.tryBuilding.id);
+                    var bldgContainer = $('bldg_hex_' + this.tryBuilding.tile_id + '_' + this.tryBuilding.subface);
                     this.removeTile(bldgContainer);
                     this.showPossibleBuilding();
                 }
@@ -589,7 +606,6 @@ define([
                 var player = this.gamedatas.players[player_id];
                 var colorClass = 'prior-move-' + player.color;
 
-
                 // Create tile
                 var tileEl = this.createTile(n.args);
                 this.placeOnObject(tileEl, 'tile_p_' + player_id);
@@ -607,6 +623,11 @@ define([
 
             notif_building: function(n) {
                 console.log('notif_building', n.args);
+                this.updatePlayerCounters(n.args);
+                for (var i in n.args.buildings) {
+                    var building = n.args.buildings[i];
+                    this.placeBuilding(building);
+                }
             },
         });
     });

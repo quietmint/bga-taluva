@@ -23,11 +23,11 @@ CREATE TABLE IF NOT EXISTS `board` (
    `z` int(2) NOT NULL,
    `r` int(3) NOT NULL,
    `face` int(1) NOT NULL,
+   `tile_id` int(10) unsigned NOT NULL,
+   `subface` int(1) NOT NULL,
    `tile_player_id` int(10) unsigned NOT NULL,
    `bldg_player_id` int(10) unsigned,
    `bldg_type` int(1),
-   `tile_id` int(10) unsigned,
-   `subface` int(1),
    PRIMARY KEY (`id`),
    UNIQUE KEY `xyz` (`x`, `y`, `z`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;

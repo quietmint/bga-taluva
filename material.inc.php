@@ -29,3 +29,9 @@ $this->terrain = array(
     ROCK => clienttranslate('Rock'),
     LAKE => clienttranslate('Lake'),
 );
+
+$this->buildings = array(
+    HUT => clienttranslate('Huts'),
+    TEMPLE => clienttranslate('Temples'),
+    TOWER => clienttranslate('Towers'),
+);
