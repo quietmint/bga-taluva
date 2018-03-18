@@ -201,7 +201,7 @@
 }
 
 .huticon.color_ff0000 {
-     background-position: 16px 17px;
+     background-position: 16px -119px;
 }
 .huticon.color_ffffff {
       background-position: 16px -85px;
@@ -245,7 +245,7 @@
   font-size: 55px;
   font-weight: bold;
   user-select:  none;
-  color: white;
+  color: tempbuilding;
   text-shadow: 1px 1px 10px black;
 }
 
@@ -524,19 +524,6 @@
     box-shadow: inset 0px 0px 1px 2px rgba(0, 0, 0, 0.78);
 }
 
-.brown>.hutside{
-  background-position: 147px -106px;
-}
-.brown>.hutside:after{
-  background-position: 147px -106px;
-}
-.brown>.hutroof{
-  background: #b1634f;
-}
-.brown>.hutroof:after{
-  background: #b1634f;
-}
-
 .temple {
     position: absolute;
     width: 40px;
@@ -707,6 +694,20 @@ position: absolute;
   background: #b1634f;
 }
 
+.brown>.hutside{
+  background-position: 147px -106px;
+}
+.brown>.hutside:after{
+  background-position: 147px -106px;
+}
+.brown>.hutroof{
+  background: #b1634f;
+}
+.brown>.hutroof:after{
+  background: #b1634f;
+}
+
+
 .red>.hutside{
   background-position: 147px -246px;
 }
@@ -795,6 +796,58 @@ position: absolute;
 .white>.towerroof:before{
   background: #f5f5f5;
 }
+
+
+.tempbuilding>.hutside{
+  background-position: 147px -317px;
+}
+.tempbuilding>.hutside:after{
+  background-position: 147px -317px;
+}
+.tempbuilding>.hutroof{
+  background: #b3f1a88c;
+}
+.tempbuilding>.hutroof:after{
+  background: #b3f1a88c;
+  box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83);
+}
+
+.tempbuilding>.templeside{
+  background-position: 72px -162px;
+}
+.tempbuilding>.templeside:after{
+  background-position: 72px -162px;
+}
+
+.tempbuilding>.templeroof{
+  background: linear-gradient( #f5f5f5,  #f5f5f5, #f5f5f5,  #f5f5f5 , #202020 , #f5f5f5,  #f5f5f5 , #202020 ,#f5f5f5,  #f5f5f5 , #202020, #f5f5f5,  #f5f5f5 ,#f5f5f5,  #f5f5f5);
+}
+.tempbuilding>.templeroof:after{
+      background: linear-gradient( #f5f5f5,  #f5f5f5, #f5f5f5,  #f5f5f5 , #202020 , #f5f5f5,  #f5f5f5 , #202020 ,#f5f5f5,  #f5f5f5 , #202020, #f5f5f5,  #f5f5f5 ,#f5f5f5,  #f5f5f5);
+}
+
+.tempbuilding>.towerside{
+  background-position: 0px -280px;
+}
+.tempbuilding>.towerside:after{
+  background-position: 0px -280px;
+}
+.tempbuilding>.towerroof{
+  background: #b3f1a88c;
+  box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83);
+}
+.tempbuilding>.towerroof:after{
+  background: #b3f1a88c;
+  box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83);
+}
+
+.tempbuilding>.towerroof:before{
+  background: #b3f1a88c;
+  box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83);
+}
+
+
+
 
 .bldg-container .tower {
   top: 30px !important ;

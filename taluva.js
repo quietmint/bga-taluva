@@ -215,6 +215,7 @@ define([
                 console.info('Leaving state: ' + stateName);
                 if (stateName == 'tile' || stateName == 'building') {
                     this.clearPossible();
+					dojo.query(".tempbuilding").forEach(dojo.destroy);
                 }
             },
 
@@ -355,11 +356,18 @@ define([
                 return tileEl;
             },
 
-            placeBuilding: function(building) {
+            placeBuilding: function(building, temp) {
                 console.log('placeBuilding', building);
                 var hexId = 'hex_' + building.tile_id + '_' + building.subface;
                 var container = $('bldg_' + hexId) || dojo.place('<div id="bldg_' + hexId + '" class="bldg-container"></div>', $(hexId));
-                building.colorName = this.gamedatas.players[building.bldg_player_id].colorName;
+                
+				if (temp == true){
+					building.colorName="tempbuilding";
+				}
+				else{
+					building.colorName = this.gamedatas.players[building.bldg_player_id].colorName;
+				}
+				
                 for (var i = 0; i < +building.z; i++) {
                     var buildingHtml = this.format_block('jstpl_building_' + building.bldg_type, building);
                     console.log('buildingHtml', buildingHtml);
@@ -492,7 +500,7 @@ define([
                 };
 
                 // Create hut
-                this.placeBuilding(this.tryBuilding);
+                this.placeBuilding(this.tryBuilding , 1);
 
                 // Create adjacent huts
                 var moreHuts = possible.bldg_types[HUT];
@@ -508,7 +516,7 @@ define([
                         bldg_player_id: this.player_id,
                         possible: possible,
                     };
-                    this.placeBuilding(this.tryBuilding);
+                    this.placeBuilding(this.tryBuilding , 1 );
                 }
 
                 // Create rotator
@@ -526,10 +534,11 @@ define([
             },
 
             onClickSwapBuilding: function(evt) {
-                var bt = Object.keys(this.tryBuilding.possible.bldg_types);
+                dojo.query(".tempbuilding").forEach(dojo.destroy);
+				var bt = Object.keys(this.tryBuilding.possible.bldg_types);
                 var index = bt.indexOf(this.tryBuilding.bldg_type);
                 this.tryBuilding.bldg_type = bt[(index + 1) % bt.length];
-                this.placeBuilding(this.tryBuilding);
+                this.placeBuilding(this.tryBuilding , 1 );
             },
 
             onClickRotateTile: function(evt) {
