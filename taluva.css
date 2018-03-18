@@ -36,7 +36,7 @@
 
 @media screen and (min-width: 1920px) {
     #playareascaler {
-        transform:scale(0.9,0.9);
+        transform:scale3d(0.9,0.9,0.9);
         transform-origin: left top;
         width: 1800px;
         margin: 0 auto;
@@ -45,7 +45,7 @@
 
 @media screen and (max-width: 1913px) and (min-width: 1025px) {
     #playareascaler {
-        transform:scale(0.7,0.7);
+        transform:scale3d(0.7,0.7,0.7);
         transform-origin: top left;
         width: 1432px;
         margin: auto;
@@ -54,7 +54,7 @@
 
 @media screen and (max-width: 1024px) and (min-width: 800px) {
     #playareascaler {
-        transform:scale(0.7,0.7);
+        transform:scale3d(0.7,0.7,0.7);
         transform-origin: top left;
         width: 1050px;
         margin: auto;
@@ -63,7 +63,7 @@
 
 @media screen and (max-width: 799px) and (min-width: 1px) {
     #playareascaler {
-        transform:scale(0.5,0.5);
+        transform:scale(0.5,0.5,0.5);
         transform-origin: top left;
 		width: 820px;
     }
@@ -806,26 +806,47 @@ position: absolute;
   left:25px !important;
 }
 
-.bldg-container>div:not(.tower):not(.temple):nth-child(1) {
-  top: 15px;
-  left: 12px;
+.bldg-container>.hut:only-child {
+  top: 30px;
+  left: 25px;
 }
 
-.bldg-container>div:not(.tower):not(.temple):nth-child(2) {
-  top: 15px;
+
+.bldg-container>.hut:nth-child(3) {
+  top: 8px;
+  left: 10px;
+  transform:rotate(60deg);
+}
+
+.bldg-container>.hut:nth-child(2) {
+  top: 22px;
+  left: 50px;
+  transform:rotate(-30deg);
+}
+
+.bldg-container>.hut:not(:only-child):nth-child(1) {
+  top: 48px;
+  left: 2px;
+  transform:rotate(-30deg);
+}
+
+.bldg-container>.hut:nth-child(4) {
+  top: 60px;
   left: 42px;
+  transform: rotate(60deg);
 }
 
-.bldg-container>div:not(.tower):not(.temple):nth-child(3) {
-  top: 53px;
-  left: 12px;
+.bldg-container>.hut:nth-child(5) {
+  top: 34px;
+  left: 26px;
+  transform: rotate(-30deg);
 }
 
-.bldg-container>div:not(.tower):not(.temple):nth-child(4) {
-  top: 53px;
-  left: 42px;
+.bldg-container>.hut:nth-child(6) {
+  top: 30px;
+  left: 25px;
+  transform:translateZ(25px) rotate(60deg)
 }
-
 .bldg-container {
   position: absolute;
 }
