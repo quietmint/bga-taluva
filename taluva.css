@@ -99,8 +99,7 @@
 #map_scrollable_oversurface {
   position: absolute;
   top: 300px;
-  left: 350px;
-  /* background:  red; */
+  left: 350px;  
 }
 
 #map_surface {
@@ -110,7 +109,6 @@
   width: 100%;
   height: 100%;
   cursor: move;
-  /* background:  red; */
 }
 
 .mode_3d #map_surface {
@@ -395,17 +393,6 @@
     display:  block;
 }
 
-/*
-.tile {
-  position: absolute;
-  width: 168px;
-  height: 168px;
-  background: black;
-  transform-origin: 50% 57.74%;
-  clip-path: polygon(50% 0, 75% 14.29%, 75% 42.89%, 100% 57.14%, 100% 85.71%, 75% 100%, 50% 85.71%, 25% 100%, 0 85.71%, 0 57.14%, 25% 42.89%, 25% 14.29%);
-}
-*/
-
 .tile {
   position: absolute;
   width: 168px;
@@ -529,7 +516,6 @@
     width: 40px;
     height: 40px;
     transform-style: preserve-3d;
-    /* background: linear-gradient(to bottom, blue 0%,red 100%); */
 }
 
 .templeside {
@@ -546,15 +532,15 @@ position: absolute;
 
 .templeside:after {
    content:"";
-    position: absolute;
-    width: 40px;
-    height: 50px;
-    background-image: url(img/sides.png);
-    /* background-repeat: no-repeat; */
-    background-position: 72px -22px;
-    transform-style: preserve-3d;
-    transform-origin: bottom center;
-    transform: translateZ(-40px);
+   position: absolute;
+   width: 40px;
+   height: 50px;
+   background-image: url(img/sides.png);
+   /* background-repeat: no-repeat; */
+   background-position: 72px -22px;
+   transform-style: preserve-3d;
+   transform-origin: bottom center;
+   transform: translateZ(-40px);
 }
 .templeroof{
     position: absolute;
@@ -586,7 +572,6 @@ position: absolute;
     width: 40px;
     height: 40px;
     transform-style: preserve-3d;
-    /* background: linear-gradient(to bottom, blue 0%,red 100%); */
 }
 
 .towerside {
@@ -813,17 +798,17 @@ position: absolute;
 }
 
 .tempbuilding>.templeside{
-  background-position: 72px -162px;
+  background-position: 72px -302px;
 }
 .tempbuilding>.templeside:after{
-  background-position: 72px -162px;
+  background-position: 72px -302px;
 }
 
 .tempbuilding>.templeroof{
-  background: linear-gradient( #f5f5f5,  #f5f5f5, #f5f5f5,  #f5f5f5 , #202020 , #f5f5f5,  #f5f5f5 , #202020 ,#f5f5f5,  #f5f5f5 , #202020, #f5f5f5,  #f5f5f5 ,#f5f5f5,  #f5f5f5);
+  background: linear-gradient( #b3f1a88c,  #b3f1a88c, #b3f1a88c,  #b3f1a88c , rgb(99, 127, 83) , #b3f1a88c,  #b3f1a88c , rgb(99, 127, 83) ,#b3f1a88c,  #b3f1a88c , rgb(99, 127, 83), #b3f1a88c,  #b3f1a88c ,#b3f1a88c,  #b3f1a88c);
 }
 .tempbuilding>.templeroof:after{
-      background: linear-gradient( #f5f5f5,  #f5f5f5, #f5f5f5,  #f5f5f5 , #202020 , #f5f5f5,  #f5f5f5 , #202020 ,#f5f5f5,  #f5f5f5 , #202020, #f5f5f5,  #f5f5f5 ,#f5f5f5,  #f5f5f5);
+  background: linear-gradient( #b3f1a88c,  #b3f1a88c, #b3f1a88c,  #b3f1a88c , rgb(99, 127, 83) , #b3f1a88c,  #b3f1a88c , rgb(99, 127, 83) ,#b3f1a88c,  #b3f1a88c , rgb(99, 127, 83), #b3f1a88c,  #b3f1a88c ,#b3f1a88c,  #b3f1a88c);
 }
 
 .tempbuilding>.towerside{
@@ -846,8 +831,64 @@ position: absolute;
   box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83);
 }
 
+.tile:hover .face:before{
+  content:"";
+  width:84px;
+  height:97px;
+  position:absolute;
+  opacity:0.3;
+   background: url(img/hexagons.png);
+  background-position: -252px -97px;
+  transform: translateZ(1px);
+  pointer-events: none;
+}
 
+.tile.prior-move-white .face:before{
+  content:"";
+  width:84px;
+  height:84px;
+  top: 5px;
+  position:absolute;
+  border-radius:50%;
+  box-shadow: inset 0px 0px 5px 4px #ffffff80;
+  transform: translateZ(1px);
+  pointer-events: none;
+}
 
+.tile.prior-move-yellow .face:before{
+  content:"";
+  width:84px;
+  height:84px;
+  top: 5px;
+  position:absolute;
+  border-radius:50%;
+  box-shadow: inset 0px 0px 5px 4px #ffff0080;
+  transform: translateZ(1px);
+  pointer-events: none;
+}
+.tile.prior-move-red .face:before{
+  content:"";
+  width:84px;
+  height:84px;
+  top: 5px;
+  position:absolute;
+  border-radius:50%;
+  box-shadow: inset 0px 0px 5px 4px #ff000080;
+  transform: translateZ(1px);
+  pointer-events: none;
+}
+
+.tile.prior-move-brown .face:before{
+  content:"";
+  width:84px;
+  height:84px;
+  top: 5px;
+  position:absolute;
+  border-radius:50%;
+  box-shadow: inset 0px 0px 5px 4px #a52a2a80;
+  transform: translateZ(1px);
+  pointer-events: none;
+}
 
 .bldg-container .tower {
   top: 30px !important ;

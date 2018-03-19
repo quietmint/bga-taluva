@@ -81,7 +81,7 @@ $machinestates = array(
         'args' => 'argTile',
         'possibleactions' => array( 'commitTile' ),
         'transitions' => array(
-            '' => ST_BUILDING,
+            'normal' => ST_BUILDING, 'firstTurn' => ST_NEXT_PLAYER
         ),
     ),
 

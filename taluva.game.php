@@ -125,6 +125,7 @@ class taluva extends Table
             $tile = $this->tiles->pickCard('deck', $player_id);
             $tile['remain'] = $this->tiles->countCardInLocation('deck');
             self::notifyPlayer($player_id, 'draw', '', $tile);
+			self::initStat( "player", 'turns_number', 0 ,$player_id );
         }
         self::DbQuery($sql . implode($values, ','));
         self::reattributeColorsBasedOnPreferences($players, $gameinfos['player_colors']);
@@ -135,6 +136,9 @@ class taluva extends Table
 
         // Init game statistics
         // TODO
+		
+		self::initStat( 'table', 'turns_number', 1 );    // Init a table statistics
+		
     }
 
     /*
@@ -350,7 +354,22 @@ class taluva extends Table
         $tile['face_name2'] = $this->terrain[$spaces[2]->face];
         $tile['i18n'] = array('face_name', 'face_name2');
         self::notifyAllPlayers('commitTile', '${player_name} places a tile with ${face_name} and ${face_name2} on level ${z}', $tile);
-        $this->gamestate->nextState('');
+        if ( self::getStat("turns_number",$player_id) <= 1 ){
+			$newTile = $this->tiles->pickCard('deck', $player_id);
+            if ($newTile != null) {
+            self::notifyPlayer($player_id, 'draw', '', array(
+                'player_id' => $player_id,
+                'tile_id' => $newTile['id'],
+                'tile_type' => $newTile['type'],
+                'remain' => $this->tiles->countCardInLocation('deck'),
+            ));
+			}
+			$this->gamestate->nextState('firstTurn');
+		}
+		else {
+			$this->gamestate->nextState('normal');
+		}
+		
     }
 
     public function actionCommitBuilding($x, $y, $z, $bldg_type)
@@ -461,9 +480,11 @@ class taluva extends Table
         if ($tile != null) {
             $tile['remain'] = $this->tiles->countCardInLocation('deck');
             self::notifyAllPlayers('draw', '', $tile);
-            $this->gamestate->nextState('tile');
-        } else {
-            self::notifyAllPlayers('message', 'No tiles remain');
+            self::incStat( 1 ,"turns_number", $player_id );
+			$this->gamestate->nextState('tile');
+        } 
+		else {
+            self::notifyAllPlayers('message', 'No tiles remain', array() );
             $this->gamestate->nextState('gameEnd');
         }
     }

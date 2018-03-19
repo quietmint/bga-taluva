@@ -88,11 +88,11 @@ define([
                 dojo.place($('remain'), 'game_play_area_wrap', 'first');
 
                 // Setup player boards
-                var colorNames = {
+                colorNames = {
                     'ff0000': 'red',
                     'ffa500': 'yellow',
                     'ffffff': 'white',
-                    'a52a2a': 'brown'
+                    'b1634f': 'brown'
                 };
                 for (var player_id in gamedatas.players) {
                     var player = gamedatas.players[player_id];
@@ -365,10 +365,10 @@ define([
 					building.colorName="tempbuilding";
 				}
 				else{
-					building.colorName = this.gamedatas.players[building.bldg_player_id].colorName;
+					building.colorName = this.gamedatas.players[building.bldg_player_id].colorName ;
 				}
 				
-                for (var i = 0; i < +building.z; i++) {
+                for (var i = 0; i < +building.z; i++) { 
                     var buildingHtml = this.format_block('jstpl_building_' + building.bldg_type, building);
                     console.log('buildingHtml', buildingHtml);
                     var buildingEl = dojo.place(buildingHtml, container);

@@ -220,9 +220,22 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
     }
 
     public function getBuildingOptions($space, $player_id)
+	
     {
+		
+		/// THERE ARE 4 BUILDING OPTIONS
+		//
+		//  - Single hut on level 1 tiles (not connected with settlement)
+		//  - temple on Settlements with at least other 3 buildings and no other temple
+		//  - Extend a settlement to all spaces of the same terrain connected to a settlement 
+		//  - Tower on level 3 tiles with no other tower in the settlement
+		//
+		//   ON THE FIRST TURN OF EACH PLAYER IN THE GAME THE BUILDING PHASE IS SKIPPED
+		
+		
         self::warn("Ask buildings for $space: empty=" . $space->isEmpty() . " bldg_type=" . $space->bldg_type . " face=" . $space->face . " /");
-        if (!$space->isEmpty() && !$space->bldg_type && $space->face !== VOLCANO) {
+        
+		if (!$space->isEmpty() && !$space->bldg_type && $space->face !== VOLCANO) {
             self::warn("- Can place a building on $space /");
             // Huts always allowed, may place on multiple tiles
             $options = array(HUT => array());
@@ -262,7 +275,7 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
                 }
 
                 // Tower must be adjacent, no other towers, level 3 or higher
-                if (!array_key_exists(TOWER, $options) && !$this->settlementHasBuilding($settlement, TOWER)) {
+                if (!array_key_exists(TOWER, $options) && $space->z >=3  && !$this->settlementHasBuilding($settlement, TOWER)) {
                     $options[TOWER] = true;
                 }
             }
