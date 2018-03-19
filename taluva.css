@@ -346,7 +346,7 @@
 }
 
 
-#playArea .tile .face::after {
+#playArea .tile .face:after {
   content:"";
   position: absolute;
   width: 84px;
@@ -357,15 +357,15 @@
 }
 
 #playArea .side1 {
-   transform: translatez(-0.5px) rotatez(90deg) translatex(30px) translatey(6px) rotatex(90deg);
+   transform: translatez(-0.5px) rotatez(90deg) translatex(31px) translatey(6px) rotatex(90deg);
 }
 
 #playArea .side2 {
-  transform:  translatez(-0.5px) rotatez(90deg) translatex(30px) translatey(6px) rotatex(90deg) rotatey(-60deg);
+  transform:  translatez(-0.5px) rotatez(90deg) translatex(31px) translatey(6px) rotatex(90deg) rotatey(-60deg);
 }
 
 #playArea .side3 {
-  transform: translatez(-0.5px) rotatez(90deg) translatex(30px) translatey(6px) rotatex(90deg) rotatey(60deg);
+  transform: translatez(-0.5px) rotatez(90deg) translatex(31px) translatey(6px) rotatex(90deg) rotatey(60deg);
 }
 
 
@@ -837,57 +837,39 @@ position: absolute;
   height:97px;
   position:absolute;
   opacity:0.3;
-   background: url(img/hexagons.png);
+  background: url(img/hexagons.png);
   background-position: -252px -97px;
-  transform: translateZ(1px);
+  transform: translateZ(1px) !important;
   pointer-events: none;
 }
 
-.tile.prior-move-white .face:before{
-  content:"";
-  width:84px;
-  height:84px;
-  top: 5px;
-  position:absolute;
-  border-radius:50%;
-  box-shadow: inset 0px 0px 5px 4px #ffffff80;
-  transform: translateZ(1px);
-  pointer-events: none;
+.tile.prior-move-white .face:after{
+  background-position: -252px -194px !important;
+}
+.tile.prior-move-white .side {
+  background: #ffffff !important
 }
 
-.tile.prior-move-yellow .face:before{
-  content:"";
-  width:84px;
-  height:84px;
-  top: 5px;
-  position:absolute;
-  border-radius:50%;
-  box-shadow: inset 0px 0px 5px 4px #ffff0080;
-  transform: translateZ(1px);
-  pointer-events: none;
+.tile.prior-move-yellow .face:after{
+ background-position: -168px -194px !important;
 }
-.tile.prior-move-red .face:before{
-  content:"";
-  width:84px;
-  height:84px;
-  top: 5px;
-  position:absolute;
-  border-radius:50%;
-  box-shadow: inset 0px 0px 5px 4px #ff000080;
-  transform: translateZ(1px);
-  pointer-events: none;
+.tile.prior-move-yellow .side {
+  background: #fdd72d !important
 }
 
-.tile.prior-move-brown .face:before{
-  content:"";
-  width:84px;
-  height:84px;
-  top: 5px;
-  position:absolute;
-  border-radius:50%;
-  box-shadow: inset 0px 0px 5px 4px #a52a2a80;
-  transform: translateZ(1px);
-  pointer-events: none;
+.tile.prior-move-red .face:after{
+   background-position: -0px -194px !important;
+}
+.tile.prior-move-red .side {
+  background: #ff0000 !important
+}
+
+.tile.prior-move-brown .face:after{
+   background-position: -84px -194px !important;
+}
+
+.tile.prior-move-brown .side {
+  background: #b1634f !important
 }
 
 .bldg-container .tower {
