@@ -90,6 +90,24 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
         $empty->new = true;
         return $empty;
     }
+	
+	public function getSpaceOnTop($x, $y)
+    {
+        $sql= "SELECT * FROM BOARD WHERE x=$x AND y=$y ORDER BY Z DESC LIMIT 1";
+		$tileontop = self::getObjectFromDB($sql);
+		if ( $tileontop == null ){
+			$tileontop = new TaluvaSpace(array(
+				'x' => $x,
+				'y' => $y,
+				'z' => $z,
+				'r' => 0,
+				'face' => -1,
+			));
+			$tileontop->new = true;
+		}
+        
+		return $tileontop;
+    }
 
     public function getSpaceBelow($space)
     {
@@ -111,6 +129,19 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
             'bottomRight' => $this->getSpace($xmod + $space->x, $space->y + 1, $space->z),
             'bottomLeft' => $this->getSpace($xmod + $space->x - 1, $space->y + 1, $space->z),
             'left' => $this->getSpace($space->x - 1, $space->y, $space->z),
+        );
+    }
+	
+	public function getAdjacentsOnTop($space)
+    {
+        $xmod = abs($space->y % 2);
+        return array(
+            'topLeft' => $this->getSpaceOnTop($xmod + $space->x - 1, $space->y - 1 ),
+            'topRight' => $this->getSpaceOnTop($xmod + $space->x, $space->y - 1),
+            'right' => $this->getSpaceOnTop($space->x + 1, $space->y ),
+            'bottomRight' => $this->getSpaceOnTop($xmod + $space->x, $space->y + 1 ),
+            'bottomLeft' => $this->getSpaceOnTop($xmod + $space->x - 1, $space->y + 1 ),
+            'left' => $this->getSpaceOnTop($space->x - 1, $space->y),
         );
     }
 
