@@ -93,19 +93,23 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
 	
 	public function getSpaceOnTop($x, $y)
     {
-        $sql= "SELECT * FROM BOARD WHERE x=$x AND y=$y ORDER BY Z DESC LIMIT 1";
-		$tileontop = self::getObjectFromDB($sql);
-		if ( $tileontop == null ){
+        $sql= "SELECT * FROM board WHERE x=$x AND y=$y ORDER BY Z DESC LIMIT 1";
+		$sqlresult = self::getObjectFromDB($sql);
+		
+		if ( $sqlresult == null ){
 			$tileontop = new TaluvaSpace(array(
 				'x' => $x,
 				'y' => $y,
-				'z' => $z,
+				'z' => 0,
 				'r' => 0,
 				'face' => -1,
 			));
 			$tileontop->new = true;
 		}
-        
+        else{ 
+			$tileontop = $this->getSpace($sqlresult["x"] , $sqlresult["y"], $sqlresult["z"]);
+		}	
+		
 		return $tileontop;
     }
 
@@ -256,10 +260,10 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
 		
 		/// THERE ARE 4 BUILDING OPTIONS
 		//
-		//  - Single hut on level 1 tiles (not connected with settlement)
-		//  - temple on Settlements with at least other 3 buildings and no other temple
-		//  - Extend a settlement to all spaces of the same terrain connected to a settlement 
-		//  - Tower on level 3 tiles with no other tower in the settlement
+		//  A - Single hut on level 1 tiles 
+		//  B - temple on Settlements with at least other 3 buildings and no other temple
+		//  C - Extend a settlement to all spaces of the same terrain connected to a settlement 
+		//  D - Tower on level 3 tiles with no other tower in the settlement
 		//
 		//   ON THE FIRST TURN OF EACH PLAYER IN THE GAME THE BUILDING PHASE IS SKIPPED
 		
@@ -269,14 +273,21 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
 		if (!$space->isEmpty() && !$space->bldg_type && $space->face !== VOLCANO) {
             self::warn("- Can place a building on $space /");
             // Huts always allowed, may place on multiple tiles
-            $options = array(HUT => array());
-            $adjacents = array_values($this->getSpaceAdjacents($space));
-            foreach ($adjacents as $adj) {
-                self::warn("-- adj $adj can have a hut? bldg_type={$adj->bldg_type} face={$adj->face} /");
+                                           
+            if ( $space->z == 1) {                                     // Option A
+			    $options = array(HUT => array());	
+			}
+				
+			$adjacents = array_values($this->getAdjacentsOnTop($space));
+            
+			/*
+			foreach ($adjacents as $adj) {
+                //self::warn("-- adj $adj can have a hut? bldg_type={$adj->bldg_type} face={$adj->face} /");
                 if (!$adj->isEmpty() && !$adj->bldg_type && $adj->face === $space->face) {
                     $options[HUT][] = $adj;
                 }
             }
+			*/
 
             // Determine settlements
             $settlements = array();
