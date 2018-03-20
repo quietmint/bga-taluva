@@ -260,7 +260,7 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
 		
 		/// THERE ARE 4 BUILDING OPTIONS
 		//
-		//  A - Single hut on level 1 tiles 
+		//  A - Single hut on level 1 tiles not connected to existing settlement
 		//  B - temple on Settlements with at least other 3 buildings and no other temple
 		//  C - Extend a settlement to all spaces of the same terrain connected to a settlement 
 		//  D - Tower on level 3 tiles with no other tower in the settlement

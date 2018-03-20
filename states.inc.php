@@ -81,7 +81,20 @@ $machinestates = array(
         'args' => 'argTile',
         'possibleactions' => array( 'commitTile' ),
         'transitions' => array(
-            'normal' => ST_BUILDING, 'firstTurn' => ST_NEXT_PLAYER
+            'normal' => ST_SELECT_SPACE, 
+			'firstTurn' => ST_NEXT_PLAYER
+        ),
+    ),
+	
+	ST_SELECT_SPACE => array(
+        'name' => 'selectSpace',
+        'description' => clienttranslate('${actplayer} must select a space to build'),
+        'descriptionmyturn' => clienttranslate('${you} must select a space to build'),
+        'type' => 'activeplayer',
+        'args' => 'argBuildingSpaces',
+        'possibleactions' => array( 'selectSpace' ),
+        'transitions' => array(
+            '' => ST_BUILDING,
         ),
     ),
 
@@ -90,10 +103,11 @@ $machinestates = array(
         'description' => clienttranslate('${actplayer} must place a building'),
         'descriptionmyturn' => clienttranslate('${you} must place a building'),
         'type' => 'activeplayer',
-        'args' => 'argBuilding',
+        'args' => 'argBuildingTypes',
         'possibleactions' => array( 'commitBuilding' ),
         'transitions' => array(
-            '' => ST_NEXT_PLAYER,
+            'nextPlayer' => ST_NEXT_PLAYER,
+			'cancel' => ST_SELECT_SPACE,
         ),
     ),
 

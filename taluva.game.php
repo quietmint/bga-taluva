@@ -36,7 +36,8 @@ define('TOWER', 3);
 define('ST_GAME_BEGIN', 1);
 define('ST_NEXT_PLAYER', 2);
 define('ST_TILE', 3);
-define('ST_BUILDING', 4);
+define('ST_SELECT_SPACE', 4);
+define('ST_BUILDING', 5);
 define('ST_GAME_END', 99);
 
 class taluva extends Table
@@ -52,6 +53,16 @@ class taluva extends Table
         parent::__construct();
 
         self::initGameStateLabels(array(
+		
+               "selection_x" => 10,
+			   "selection_y" => 11,
+			   "selection_z" => 12,
+			   
+            //      ...
+            //    "my_first_game_variant" => 100,
+            //    "my_second_game_variant" => 101,
+            //      ...
+        
             // IntlCodePointBreakIterator
         ));
 
@@ -73,9 +84,16 @@ class taluva extends Table
     */
     protected function setupNewGame($players, $options = array())
     {
+		
+		self::setGameStateInitialValue( 'selection_x', 0 );
+		self::setGameStateInitialValue( 'selection_y', 0 );
+		self::setGameStateInitialValue( 'selection_z', 0 );
+		
+		
         // Create tiles
         // Distribution from https://boardgamegeek.com/image/155164/taluva
-        $tiles = array();
+        //
+		$tiles = array();
         for ($left = JUNGLE; $left <= LAKE; $left++) {
             for ($right = JUNGLE; $right <= LAKE; $right++) {
                 $type = "$left$right";
@@ -293,18 +311,23 @@ class taluva extends Table
     {
         $possible = array();
         $board = $this->getBoard();
+        $space = $board->getSpace(self::getGameStateValue('selection_x'),self::getGameStateValue('selection_y'),self::getGameStateValue('selection_z') );
+        
+		$possible = $board->getBuildingOptions($space, $player_id);
+        
+        return $possible;
+    }
+	
+		
+	public function getPossibleSpaces($player_id)
+    {
+        $possible = array();
+        $board = $this->getBoard();
         $spaces = $board->getSpaces();
         foreach ($spaces as $space) {
-            $options = $board->getBuildingOptions($space, $player_id);
-            if ($options != null) {
-                $possible[] = array(
-                    'x' => $space->x,
-                    'y' => $space->y,
-                    'z' => $space->z,
-                    'tile_id' => $space->tile_id,
-                    'subface' => $space->subface,
-                    'bldg_types' => $options
-                );
+            if (!$space->isEmpty() && !$space->bldg_type && $space->face !== VOLCANO )
+            {
+                $possible[] = $space;
             }
         }
         return $possible;
@@ -369,8 +392,18 @@ class taluva extends Table
 		else {
 			$this->gamestate->nextState('normal');
 		}
-		
     }
+	
+	public function actionSelectSpace($x, $y, $z){
+		self::setGameStateValue( 'selection_x', $x );
+		self::setGameStateValue( 'selection_y', $y );
+		self::setGameStateValue( 'selection_z', $z );
+		$this->gamestate->nextState();
+	}
+	
+	public function actionCancel(){
+		$this->gamestate->nextState('cancel');
+	}
 
     public function actionCommitBuilding($x, $y, $z, $bldg_type)
     {
@@ -454,11 +487,20 @@ class taluva extends Table
         return $result;
     }
 
-    public function argBuilding()
+    public function argBuildingSpaces()
     {
         $player_id = self::getActivePlayerId();
         $result = array(
-            'possible' => $this->getPossibleBuilding($player_id)
+            'spaces' => $this->getPossibleSpaces($player_id)
+        );
+        return $result;
+    }
+	
+	public function argBuildingTypes()
+    {
+        $player_id = self::getActivePlayerId();
+        $result = array(
+            'possibleBuildingtypes' => $this->getPossibleBuilding($player_id)
         );
         return $result;
     }

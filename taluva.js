@@ -202,6 +202,8 @@ define([
                 if (this.isCurrentPlayerActive()) {
                     if (stateName == 'tile') {
                         this.showPossibleTile();
+                    } else if (stateName == 'selectSpace') {
+                        this.showPossibleSpaces();
                     } else if (stateName == 'building') {
                         this.showPossibleBuilding();
                     }
@@ -421,7 +423,27 @@ define([
                 dojo.query('.face.possible').connect('onclick', this, 'onClickPossibleTile');
             },
 
-            showPossibleBuilding: function() {
+            showPossibleSpaces: function() {
+                this.clearPossible();
+				debugger;
+                for (var i in this.gamedatas.gamestate.args.spaces) {
+					
+                    var possible = this.gamedatas.gamestate.args.spaces[i];
+                    console.log('possibleSpace', possible);
+                    var coords = this.getCoords(possible.x, possible.y);
+                   
+                    var possibleHtml = this.format_block('jstpl_possible', {
+                        id: i,
+                        z: possible.z,
+                        style: coords.style,
+                        label: "",
+                    });
+                    var possibleEl = dojo.place(possibleHtml, 'map_scrollable_oversurface');
+                }
+                dojo.query('.face.possible').connect('onclick', this, 'onClickPossibleBuilding');
+            },
+			
+			showPossibleBuilding: function() {
                 this.clearPossible();
                 for (var i in this.gamedatas.gamestate.args.possible) {
                     var possible = this.gamedatas.gamestate.args.possible[i];

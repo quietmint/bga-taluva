@@ -46,6 +46,23 @@ class action_taluva extends APP_GameAction
         $this->game->actionCommitTile($x, $y, $z, $r);
         self::ajaxResponse();
     }
+	
+	public function selectSpace()
+    {
+        self::setAjaxMode();
+        $x = (int) self::getArg('x', AT_int, true);
+        $y = (int) self::getArg('y', AT_int, true);
+        $z = (int) self::getArg('z', AT_posint, true);        
+        $this->game->actionSelectSpace($x, $y, $z);
+        self::ajaxResponse();
+    }
+	
+	public function cancel()
+    {
+        self::setAjaxMode();
+        $this->game->actionCancel();
+        self::ajaxResponse();
+    }
 
     public function commitBuilding()
     {
