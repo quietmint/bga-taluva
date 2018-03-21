@@ -366,7 +366,7 @@ class taluva extends Table
 			$spaceBelow=$board->getSpace ( $spaces[$i]->x , $spaces[$i]->y , $spaces[$i]->z -1 );
 			if ( $spaceBelow != null && $spaceBelow->bldg_type > 0){
 				self::DbQuery("UPDATE board SET bldg_type = null, bldg_player_id=null WHERE x = {$spaces[$i]->x} AND y = {$spaces[$i]->y} AND z = ({$spaces[$i]->z} -1)");
-				self::notifyAllPlayers('destroyBuildng', '${player_name} destroys a building with the volcaninc eruption', array(
+				self::notifyAllPlayers('destroytBuilding', '${player_name} destroys a building with the volcaninc eruption', array(
 					'player_name' =>$player['name'],
 					'tile_id' => $spaceBelow->tile_id,
                     'subface' => $spaceBelow->subface

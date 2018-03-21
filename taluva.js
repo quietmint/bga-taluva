@@ -708,9 +708,7 @@ define([
 			
 			notif_destroytBuilding: function(n) {
                 console.log('notif_destroyBuilding', n.args);
-                
-				dojo.query('#bldg_hex_'+n.args.tile_id+'_'+n.args.subface).forEach(dojo.destroy);
-				
+				$('bldg_hex_'+n.args.tile_id+'_'+n.args.subface).innerHTML="";
 				
             },
         });
