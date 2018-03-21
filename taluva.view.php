@@ -41,9 +41,9 @@
 
           // Translations for static text
           $this->tpl['I18N_Remain'] = self::_('tiles remain');
-          $this->tpl['I18N_Temples'] = self::_('Temples');
-          $this->tpl['I18N_Towers'] = self::_('Towers');
-          $this->tpl['I18N_Huts'] = self::_('Huts');
+          $this->tpl['I18N_Temples'] = self::_($this->game->buildings[TEMPLE]);
+          $this->tpl['I18N_Towers'] = self::_($this->game->buildings[TOWER]);
+          $this->tpl['I18N_Huts'] = self::_($this->game->buildings[HUT]);
 
           // Remaining tile counter
           $this->tpl['count_remain'] = $this->game->tiles->countCardInLocation('deck');

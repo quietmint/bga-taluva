@@ -20,12 +20,12 @@ require_once(APP_GAMEMODULE_PATH.'module/table/table.game.php');
 require_once('taluva.board.php');
 
 // Terrain constants
-define('VOLCANO', 0);
 define('JUNGLE', 1);
 define('GRASS', 2);
 define('SAND', 3);
 define('ROCK', 4);
 define('LAKE', 5);
+define('VOLCANO', 6);
 
 // Building constants
 define('HUT', 1);
@@ -53,16 +53,16 @@ class taluva extends Table
         parent::__construct();
 
         self::initGameStateLabels(array(
-		
+
                "selection_x" => 10,
-			   "selection_y" => 11,
-			   "selection_z" => 12,
-			   
+               "selection_y" => 11,
+               "selection_z" => 12,
+
             //      ...
             //    "my_first_game_variant" => 100,
             //    "my_second_game_variant" => 101,
             //      ...
-        
+
             // IntlCodePointBreakIterator
         ));
 
@@ -84,16 +84,13 @@ class taluva extends Table
     */
     protected function setupNewGame($players, $options = array())
     {
-		
-		self::setGameStateInitialValue( 'selection_x', 0 );
-		self::setGameStateInitialValue( 'selection_y', 0 );
-		self::setGameStateInitialValue( 'selection_z', 0 );
-		
-		
+        self::setGameStateInitialValue('selection_x', 0);
+        self::setGameStateInitialValue('selection_y', 0);
+        self::setGameStateInitialValue('selection_z', 0);
+
         // Create tiles
         // Distribution from https://boardgamegeek.com/image/155164/taluva
-        //
-		$tiles = array();
+        $tiles = array();
         for ($left = JUNGLE; $left <= LAKE; $left++) {
             for ($right = JUNGLE; $right <= LAKE; $right++) {
                 $type = "$left$right";
@@ -129,6 +126,11 @@ class taluva extends Table
         $this->tiles->createCards($tiles, 'deck');
         $this->tiles->shuffle('deck');
 
+        // Remove extra tiles from the game (12 per player)
+        if (count($players) < 4) {
+            $this->tiles->pickCardsForLocation(12 * (4 - count($players)), 'deck', 'box');
+        }
+
         // Create players
         self::DbQuery('DELETE FROM player');
         $gameinfos = self::getGameinfos();
@@ -143,20 +145,19 @@ class taluva extends Table
             $tile = $this->tiles->pickCard('deck', $player_id);
             $tile['remain'] = $this->tiles->countCardInLocation('deck');
             self::notifyPlayer($player_id, 'draw', '', $tile);
-			self::initStat( "player", 'turns_number', 0 ,$player_id );
+            self::initStat('player', 'turns_number', 0, $player_id);
+            self::initStat('player', 'buildings_' . HUT, 0, $player_id);
+            self::initStat('player', 'buildings_' . TEMPLE, 0, $player_id);
+            self::initStat('player', 'buildings_' . TOWER, 0, $player_id);
         }
         self::DbQuery($sql . implode($values, ','));
         self::reattributeColorsBasedOnPreferences($players, $gameinfos['player_colors']);
         self::reloadPlayersBasicInfos();
 
-        // Init global values with their initial values
-        // TODO
-
-        // Init game statistics
-        // TODO
-		
-		self::initStat( 'table', 'turns_number', 1 );    // Init a table statistics
-		
+        self::initStat('table', 'turns_number', 1);
+        self::initStat('table', 'buildings_' . HUT, 0, $player_id);
+        self::initStat('table', 'buildings_' . TEMPLE, 0, $player_id);
+        self::initStat('table', 'buildings_' . TOWER, 0, $player_id);
     }
 
     /*
@@ -197,7 +198,8 @@ class taluva extends Table
     */
     public function getGameProgression()
     {
-        $tileProgress = $this->tiles->countCardInLocation('board') / 48 * 100;
+        $totalTiles = 48 - $this->tiles->countCardInLocation('box');
+        $tileProgress = $this->tiles->countCardInLocation('board') / $totalTiles * 100;
         return round($tileProgress);
     }
 
@@ -209,12 +211,6 @@ class taluva extends Table
     public function getPlayer($player_id)
     {
         return self::getNonEmptyObjectFromDB("SELECT player_id id, player_color color, player_name name, player_score score, temples, towers, huts FROM player WHERE player_id = $player_id");
-    }
-
-    public function getBoard()
-    {
-        $rows = self::getObjectListFromDB('SELECT x, y, z, r, face, tile_id, subface, tile_player_id, bldg_player_id, bldg_type FROM board ORDER BY z, x, y');
-        return new TaluvaBoard($rows);
     }
 
     public function getTiles()
@@ -246,8 +242,8 @@ class taluva extends Table
     public function getPossibleTile()
     {
         $possible = array();
-        $board = $this->getBoard();
-        if ($board->isEmpty()) {
+        $board = new TaluvaBoard();
+        if ($board->empty()) {
             // Center is only possible space at game start
             $possible[] = array('x' => 0, 'y' => 0, 'z' => 1, 'r' => $this->rotations);
         } else {
@@ -255,11 +251,11 @@ class taluva extends Table
             foreach ($spaces as $space) {
                 $adjacents = $board->getSpaceAdjacents($space);
                 foreach ($adjacents as $as) {
-                    if ($as->isEmpty() && !array_key_exists("$as", $possible)) {
+                    if (!$as->exists() && !array_key_exists("$as", $possible)) {
                         $validRotations = array();
                         $rotations = $board->getSpaceRotations($as);
                         foreach ($rotations as $r => $rspaces) {
-                            if ($board->isValidPlacement($rspaces)) {
+                            if ($board->isValidTilePlacement($rspaces)) {
                                 $validRotations[] = $r;
                             }
                         }
@@ -268,11 +264,11 @@ class taluva extends Table
 
                     $bacons = $board->getSpaceAdjacents($as);
                     foreach ($bacons as $bs) {
-                        if ($bs->isEmpty() && !array_key_exists("$bs", $possible)) {
+                        if (!$bs->exists() && !array_key_exists("$bs", $possible)) {
                             $validRotations = array();
                             $rotations = $board->getSpaceRotations($bs);
                             foreach ($rotations as $r => $rspaces) {
-                                if ($board->isValidPlacement($rspaces)) {
+                                if ($board->isValidTilePlacement($rspaces)) {
                                     $validRotations[] = $r;
                                 }
                             }
@@ -284,12 +280,12 @@ class taluva extends Table
                 // Check for possible eruptions
                 if ($space->face == VOLCANO) {
                     $above = $board->getSpaceAbove($space);
-                    if ($above->isEmpty()) {
+                    if (!$above->exists()) {
                         $validRotations = array();
                         $rotations = $board->getSpaceRotations($above);
                         foreach ($rotations as $r => $rspaces) {
                             $above->r = $r;
-                            if ($board->isValidPlacement($rspaces)) {
+                            if ($board->isValidTilePlacement($rspaces)) {
                                 $validRotations[] = $r;
                             }
                         }
@@ -307,26 +303,14 @@ class taluva extends Table
         return array_values($possible);
     }
 
-    public function getPossibleBuilding($player_id)
+
+    public function getPossibleSpaces($player_id)
     {
         $possible = array();
-        $board = $this->getBoard();
-        $space = $board->getSpace(self::getGameStateValue('selection_x'),self::getGameStateValue('selection_y'),self::getGameStateValue('selection_z') );
-        
-		$possible = $board->getBuildingOptions($space, $player_id);
-        
-        return $possible;
-    }
-	
-		
-	public function getPossibleSpaces($player_id)
-    {
-        $possible = array();
-        $board = $this->getBoard();
+        $board = new TaluvaBoard();
         $spaces = $board->getSpaces();
         foreach ($spaces as $space) {
-            if (!$space->isEmpty() && !$space->bldg_type && $space->face !== VOLCANO )
-            {
+            if (!empty($board->getBuildingOptions($space, $player_id))) {
                 $possible[] = $space;
             }
         }
@@ -348,15 +332,15 @@ class taluva extends Table
         $player_id = self::getActivePlayerId();
         $tile = $this->getTileInHand($player_id);
         $tile_id = $tile['tile_id'];
-        $board = $this->getBoard();
-        $spaces = $board->getSpaceTile($x, $y, $z, $r, $tile['tile_type']);
-        $valid = $board->isValidPlacement($spaces);
+        $board = new TaluvaBoard();
+        $spaces = $board->getSpacesForTile($x, $y, $z, $r, $tile['tile_type']);
+        $valid = $board->isValidTilePlacement($spaces);
         if (!$valid) {
             die('Invalid tile placement!');
         }
 
         // Add volcano face at the clicked location
-        self::DbQuery("INSERT INTO board (x, y, z, r, face, tile_id, subface, tile_player_id) VALUES ($x, $y, $z, $r, 0, $tile_id, 0, $player_id) ");
+        self::DbQuery("INSERT INTO board (x, y, z, r, face, tile_id, subface, tile_player_id) VALUES ($x, $y, $z, $r, " . VOLCANO . ", $tile_id, 0, $player_id) ");
         $board_id = self::DbGetLastId();
         $this->tiles->moveCard($tile['tile_id'], 'board', $board_id);
 
@@ -377,38 +361,39 @@ class taluva extends Table
         $tile['face_name2'] = $this->terrain[$spaces[2]->face];
         $tile['i18n'] = array('face_name', 'face_name2');
         self::notifyAllPlayers('commitTile', '${player_name} places a tile with ${face_name} and ${face_name2} on level ${z}', $tile);
-        if ( self::getStat("turns_number",$player_id) <= 1 ){
-			$newTile = $this->tiles->pickCard('deck', $player_id);
+        if (self::getStat("turns_number", $player_id) <= 1) {
+            $newTile = $this->tiles->pickCard('deck', $player_id);
             if ($newTile != null) {
-            self::notifyPlayer($player_id, 'draw', '', array(
+                self::notifyPlayer($player_id, 'draw', '', array(
                 'player_id' => $player_id,
                 'tile_id' => $newTile['id'],
                 'tile_type' => $newTile['type'],
                 'remain' => $this->tiles->countCardInLocation('deck'),
             ));
-			}
-			$this->gamestate->nextState('firstTurn');
-		}
-		else {
-			$this->gamestate->nextState('normal');
-		}
+            }
+            $this->gamestate->nextState('firstTurn');
+        } else {
+            $this->gamestate->nextState('normal');
+        }
     }
-	
-	public function actionSelectSpace($x, $y, $z){
-		self::setGameStateValue( 'selection_x', $x );
-		self::setGameStateValue( 'selection_y', $y );
-		self::setGameStateValue( 'selection_z', $z );
-		$this->gamestate->nextState();
-	}
-	
-	public function actionCancel(){
-		$this->gamestate->nextState('cancel');
-	}
+
+    public function actionSelectSpace($x, $y, $z)
+    {
+        self::setGameStateValue('selection_x', $x);
+        self::setGameStateValue('selection_y', $y);
+        self::setGameStateValue('selection_z', $z);
+        $this->gamestate->nextState();
+    }
+
+    public function actionCancel()
+    {
+        $this->gamestate->nextState('cancel');
+    }
 
     public function actionCommitBuilding($x, $y, $z, $bldg_type)
     {
         $player_id = self::getActivePlayerId();
-        $board = $this->getBoard();
+        $board = new TaluvaBoard();
         $space = $board->getSpace($x, $y, $z);
         $options = $board->getBuildingOptions($space, $player_id);
         if (!array_key_exists($bldg_type, $options)) {
@@ -440,6 +425,10 @@ class taluva extends Table
         if (self::DbAffectedRow() != 1) {
             die('Not enough buildings!');
         }
+
+        // Increment statistics
+        self::incStat($count, 'buildings_' . $bldg_type, $player_id);
+        self::incStat($count, 'buildings_' . $bldg_type);
 
         $player = $this->getPlayer($player_id);
         $args = array(
@@ -495,12 +484,16 @@ class taluva extends Table
         );
         return $result;
     }
-	
-	public function argBuildingTypes()
+
+    public function argBuildingTypes()
     {
         $player_id = self::getActivePlayerId();
+        $board = new TaluvaBoard();
+        $space = $board->getSpace(self::getGameStateValue('selection_x'), self::getGameStateValue('selection_y'), self::getGameStateValue('selection_z'));
         $result = array(
-            'possibleBuildingtypes' => $this->getPossibleBuilding($player_id)
+            'tile_id' => $space->tile_id,
+            'subface' => $space->subface,
+            'possible' => $board->getBuildingOptions($space, $player_id)
         );
         return $result;
     }
@@ -522,11 +515,10 @@ class taluva extends Table
         if ($tile != null) {
             $tile['remain'] = $this->tiles->countCardInLocation('deck');
             self::notifyAllPlayers('draw', '', $tile);
-            self::incStat( 1 ,"turns_number", $player_id );
-			$this->gamestate->nextState('tile');
-        } 
-		else {
-            self::notifyAllPlayers('message', 'No tiles remain', array() );
+            self::incStat(1, 'turns_number', $player_id);
+            $this->gamestate->nextState('tile');
+        } else {
+            self::notifyAllPlayers('message', 'No tiles remain', array());
             $this->gamestate->nextState('gameEnd');
         }
     }

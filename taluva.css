@@ -99,7 +99,7 @@
 #map_scrollable_oversurface {
   position: absolute;
   top: 300px;
-  left: 350px;  
+  left: 350px;
 }
 
 #map_surface {
@@ -261,7 +261,7 @@
 
 /* Volcano */
 
-.face.face-0 {
+.face.face-6 {
   background: url(img/hexagons.png);
     background-repeat:no-repeat;
 }
@@ -830,12 +830,12 @@ position: absolute;
   box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83);
 }
 
-.tile:hover .face:before{
+#playArea .tile:hover .face:before{
   content:"";
   width:84px;
   height:97px;
   position:absolute;
-  opacity:0.3;
+  opacity:0.33;
   background: url(img/hexagons.png);
   background-position: -252px -97px;
   transform: translateZ(1px) !important;
@@ -989,28 +989,28 @@ margin:auto;
 @keyframes rotator1 {
 	100% {
         transform: rotate(72deg);
-        }	 
+        }
 }
 
 @keyframes rotator2 {
 	100% {
         transform: rotate(144deg);
-        }	 
+        }
 }
 @keyframes rotator3 {
 	100% {
         transform: rotate(216deg);
-        }	 
+        }
 }
 @keyframes rotator4 {
 	100% {
         transform: rotate(288deg);
-        }	 
+        }
 }
 @keyframes rotator5 {
 	100% {
         transform: rotate(300deg);
-        }	 
+        }
 }
 
 
@@ -1020,7 +1020,7 @@ margin:auto;
 	    width: 180px;
 	    transform: translate3d(-45px,-40px,60px);
         }
-	 
+
 }
 
 /*

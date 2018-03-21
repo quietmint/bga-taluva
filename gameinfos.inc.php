@@ -34,7 +34,7 @@ $gameinfos = array(
 
 
 // Players configuration that can be played (ex: 2 to 4 players)
-'players' => array( 2, 3, 4 ),
+'players' => array( 1, 2, 3, 4 ),
 
 // Suggest players to play with this number of players. Must be null if there is no such advice, or if there is only one possible player configuration.
 'suggest_player_number' => null,
@@ -62,7 +62,7 @@ $gameinfos = array(
 // Note: if you are NOT using any tie breaker, leave the empty string.
 //
 // Example: 'tie_breaker_description' => totranslate( "Number of remaining cards in hand" ),
-'tie_breaker_description' => totranslate("Number of temples build, then number of towers built, then number of huts built"),
+'tie_breaker_description' => totranslate("Number of temples built, then number of towers built, then number of huts built"),
 
 // Game is "beta". A game MUST set is_beta=1 when published on BGA for the first time, and must remains like this until all bugs are fixed.
 'is_beta' => 1,

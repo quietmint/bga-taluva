@@ -24,12 +24,12 @@ define([
     ],
     function(dojo, declare) {
         // Terrain constants
-        const VOLCANO = 0;
         const JUNGLE = 1;
         const GRASS = 2;
         const SAND = 3;
         const ROCK = 4;
         const LAKE = 5;
+        const VOLCANO = 6;
 
         // Building constants
         const HUT = 1;
@@ -48,11 +48,11 @@ define([
                 if (!dojo.hasClass("ebd-body", "mode_3d")) {
                     dojo.addClass("ebd-body", "mode_3d");
                     //dojo.addClass("ebd-body", "enableTransitions");
-                    $("globalaction_3d").innerHTML = "3D"; // controls the upper right button
+                    $("globalaction_3d").innerHTML = "2D"; // controls the upper right button
                     this.control3dxaxis = 30; // rotation in degrees of x axis (it has a limit of 0 to 80 degrees in the frameword so users cannot turn it upsidedown)
                     this.control3dzaxis = 0; // rotation in degrees of z axis
                     this.control3dxpos = -100; // center of screen in pixels
-                    this.control3dypos = -100; // center of screen in pixels
+                    this.control3dypos = -50; // center of screen in pixels
                     this.control3dscale = 1; // zoom level, 1 is default 2 is double normal size,
                     this.control3dmode3d = true; // is the 3d enabled
                     //    transform: rotateX(10deg) translate(-100px, -100px) rotateZ(0deg) scale3d(0.7, 0.7, 0.7);
@@ -206,7 +206,7 @@ define([
                         this.showPossibleSpaces();
                     } else if (stateName == 'building') {
                         this.showPossibleBuilding();
-						
+
                     }
                 }
             },
@@ -218,7 +218,7 @@ define([
                 console.info('Leaving state: ' + stateName);
                 if (stateName == 'tile' || stateName == 'building') {
                     this.clearPossible();
-					dojo.query(".tempbuilding").forEach(dojo.destroy);
+                    dojo.query(".tempbuilding").forEach(dojo.destroy);
                 }
             },
 
@@ -233,12 +233,11 @@ define([
                             this.addActionButton('button_reset', _('Cancel'), 'onClickResetTile');
                             this.addActionButton('button_commit', _('Done'), 'onClickCommitTile');
                         }
-                    } 
-					else if (stateName == 'building') {
-                        
-						this.addActionButton('button_reset', _('Cancel'), 'onClickCancel');
-						this.addActionButton('button_commit', _('Done'), 'onClickCommitBuilding');
-					
+                    } else if (stateName == 'building') {
+
+                        this.addActionButton('button_reset', _('Cancel'), 'onClickCancel');
+                        this.addActionButton('button_commit', _('Done'), 'onClickCommitBuilding');
+
                     }
                 }
             },
@@ -340,22 +339,29 @@ define([
             },
 
             createTile: function(tile) {
+                var face0 = VOLCANO;
                 var face1 = tile.tile_type.charAt(0);
                 var face2 = tile.tile_type.charAt(1);
                 var tileEl = $('tile_' + tile.tile_id);
                 if (tileEl != null) {
                     dojo.destroy(tileEl);
                 }
+                var levelSuffix = '';
+                if (tile.z) {
+                    levelSuffix = ', ' + this.format_string_recursive(_('level ${z}'), {
+                        z: tile.z
+                    });
+                }
                 tileEl = dojo.place(this.format_block('jstpl_tile', {
                     id: tile.tile_id,
                     z: tile.z || 1,
                     rotate: tile.r || 0,
-                    face0: 0,
+                    face0: face0,
                     face1: face1,
                     face2: face2,
-                    title0: _(this.gamedatas.terrain[0]),
-                    title1: _(this.gamedatas.terrain[face1]),
-                    title2: _(this.gamedatas.terrain[face2]),
+                    title0: _(this.gamedatas.terrain[face0]) + levelSuffix,
+                    title1: _(this.gamedatas.terrain[face1]) + levelSuffix,
+                    title2: _(this.gamedatas.terrain[face2]) + levelSuffix,
                 }), 'map_scrollable');
                 return tileEl;
             },
@@ -364,15 +370,14 @@ define([
                 console.log('placeBuilding', building);
                 var hexId = 'hex_' + building.tile_id + '_' + building.subface;
                 var container = $('bldg_' + hexId) || dojo.place('<div id="bldg_' + hexId + '" class="bldg-container"></div>', $(hexId));
-                
-				if (temp == true){
-					building.colorName="tempbuilding";
-				}
-				else{
-					building.colorName = this.gamedatas.players[building.bldg_player_id].colorName ;
-				}
-				
-                for (var i = 0; i < +building.z; i++) { 
+
+                if (temp == true) {
+                    building.colorName = 'tempbuilding';
+                } else {
+                    building.colorName = this.gamedatas.players[building.bldg_player_id].colorName;
+                }
+
+                for (var i = 0; i < +building.z; i++) {
                     var buildingHtml = this.format_block('jstpl_building_' + building.bldg_type, building);
                     console.log('buildingHtml', buildingHtml);
                     var buildingEl = dojo.place(buildingHtml, container);
@@ -389,8 +394,8 @@ define([
             },
 
             getCoords: function(x, y) {
-                var top = this.hexHeight * y -70 ;
-                var left = this.hexWidth * x -35 ;
+                var top = this.hexHeight * y - 70;
+                var left = this.hexWidth * x - 35;
                 if (y % 2 != 0) {
                     left += this.hexWidth / 2;
                 }
@@ -427,13 +432,13 @@ define([
 
             showPossibleSpaces: function() {
                 this.clearPossible();
-				
+
                 for (var i in this.gamedatas.gamestate.args.spaces) {
-					
+
                     var possible = this.gamedatas.gamestate.args.spaces[i];
                     console.log('possibleSpace', possible);
                     var coords = this.getCoords(possible.x, possible.y);
-                   
+
                     var possibleHtml = this.format_block('jstpl_possible', {
                         id: i,
                         z: possible.z,
@@ -444,33 +449,38 @@ define([
                 }
                 dojo.query('.face.possible').connect('onclick', this, 'onClickPossibleSpaces');
             },
-			
-			showPossibleBuilding: function() {
+
+            showPossibleBuilding: function() {
                 this.clearPossible();
-				
-				tile_id =this.gamedatas.gamestate.args.possibleBuildingtypes["0"][1]["0"].tile_id;
-				subface =this.gamedatas.gamestate.args.possibleBuildingtypes["0"][1]["0"].subface;
-				
-				var possibleEl = dojo.place( "<div id='buildPalette' class='palette possible'></div>", "hex_"+tile_id+"_"+subface );
-				dojo.place( "<div id='cancelator' style='transform:rotate(0deg)'><span class='facelabel'> ✗ </span></div>", 'buildPalette' );
-				
-                for (var i in this.gamedatas.gamestate.args.possibleBuildingtypes) {
-                    var possible = this.gamedatas.gamestate.args.possibleBuildingtypes[i];
-                      for (var j in possible){
-						  possibleHtml = this.format_block ("jstpl_building_"+j, { colorName : "tempbuilding" } );
-						  dojo.place( "<div id='rota"+i+""+j+"' class='rotator' style='transform:rotate(0deg)' >"+possibleHtml+"</div>", 'buildPalette' );
-					  } 
+
+                console.log('showPossibleBuilding args', this.gamedatas.gamestate.args);
+
+                var tile_id = this.gamedatas.gamestate.args.tile_id;
+                var subface = this.gamedatas.gamestate.args.subface;
+
+                var possibleEl = dojo.place("<div id='buildPalette' class='palette possible'></div>", "hex_" + tile_id + "_" + subface);
+                dojo.place("<div id='cancelator' style='transform:rotate(0deg)'><span class='facelabel'> ✗ </span></div>", 'buildPalette');
+
+                for (var bldg_type in this.gamedatas.gamestate.args.possible) {
+                    var spaces = this.gamedatas.gamestate.args.possible[bldg_type];
+                    var possibleHtml = '';
+                    for (var i = 0; i < spaces.length; i++) {
+                        possibleHtml += this.format_block('jstpl_building_' + bldg_type, {
+                            colorName: 'tempbuilding'
+                        });
+                    }
+                    dojo.place("<div id='rota" + bldg_type + "' class='rotator' style='transform:rotate(0deg)' >" + possibleHtml + "</div>", 'buildPalette');
                 }
-				var numRotators=  $('buildPalette').childElementCount;
-				
-				for (var k = 0; k < $('buildPalette').children.length ; k++) {
-					//debugger;
-					
-					$('buildPalette').children[k].style.animation = "rotator"+(k+1)+" 1.5s ease forwards 1";
-					
-				}
-				
-               dojo.query('#cancelator').connect('onclick', this, 'onClickCancel'); 
+                var numRotators = $('buildPalette').childElementCount;
+
+                for (var k = 0; k < $('buildPalette').children.length; k++) {
+                    //debugger;
+
+                    $('buildPalette').children[k].style.animation = "rotator" + (k + 1) + " 1.5s ease forwards 1";
+
+                }
+
+                dojo.query('#cancelator').connect('onclick', this, 'onClickCancel');
             },
 
             ///////////////////////////////////////////////////
@@ -514,15 +524,15 @@ define([
                 this.onUpdateActionButtons(this.gamedatas.gamestate.name, this.gamedatas.gamestate.args);
             },
 
-			
-			onClickPossibleSpaces: function(evt) {
+
+            onClickPossibleSpaces: function(evt) {
                 dojo.stopEvent(evt);
                 this.clearPossible();
-                
+
                 var idParts = evt.currentTarget.id.split('_');
                 var possible = this.gamedatas.gamestate.args.spaces[idParts[1]];
                 console.log('onClickPossibleSpaces', possible);
-                
+
                 this.selectSpaceArgs = {
                     x: possible.x,
                     y: possible.y,
@@ -530,9 +540,9 @@ define([
                     tile_id: possible.tile_id,
                     subface: possible.subface
                 };
-				this.doAction("selectSpace", this.selectSpaceArgs )
+                this.doAction("selectSpace", this.selectSpaceArgs)
             },
-			
+
             onClickPossibleBuilding: function(evt) {
                 dojo.stopEvent(evt);
                 this.clearPossible();
@@ -553,7 +563,7 @@ define([
                 };
 
                 // Create hut
-                this.placeBuilding(this.tryBuilding , 1);
+                this.placeBuilding(this.tryBuilding, 1);
 
                 // Create adjacent huts
                 var moreHuts = possible.bldg_types[HUT];
@@ -569,7 +579,7 @@ define([
                         bldg_player_id: this.player_id,
                         possible: possible,
                     };
-                    this.placeBuilding(this.tryBuilding , 1 );
+                    this.placeBuilding(this.tryBuilding, 1);
                 }
 
                 // Create rotator
@@ -588,15 +598,15 @@ define([
 
             onClickSwapBuilding: function(evt) {
                 dojo.query(".tempbuilding").forEach(dojo.destroy);
-				var bt = Object.keys(this.tryBuilding.possible.bldg_types);
+                var bt = Object.keys(this.tryBuilding.possible.bldg_types);
                 var index = bt.indexOf(this.tryBuilding.bldg_type);
                 this.tryBuilding.bldg_type = bt[(index + 1) % bt.length];
-                this.placeBuilding(this.tryBuilding , 1 );
+                this.placeBuilding(this.tryBuilding, 1);
             },
-			
-			onClickCancel: function(evt) {
+
+            onClickCancel: function(evt) {
                 dojo.query(".tempbuilding").forEach(dojo.destroy);
-				this.doAction("cancel");
+                this.doAction("cancel");
             },
 
             onClickRotateTile: function(evt) {

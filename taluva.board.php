@@ -2,7 +2,6 @@
 
 class TaluvaSpace extends APP_GameClass
 {
-    public $new;
     public $x;
     public $y;
     public $z;
@@ -16,12 +15,11 @@ class TaluvaSpace extends APP_GameClass
 
     public function __construct($row)
     {
-        $this->new = false;
         $this->x = (int) $row['x'];
         $this->y = (int) $row['y'];
         $this->z = (int) $row['z'];
         $this->r = (int) $row['r'];
-        $this->face = (int) $row['face'];
+        $this->face = (int) @$row['face'];
         $this->tile_id = (int) @$row['tile_id'];
         $this->subface = (int) @$row['subface'];
         $this->tile_player_id = (int) @$row['tile_player_id'];
@@ -31,24 +29,42 @@ class TaluvaSpace extends APP_GameClass
 
     public function __toString()
     {
-        return $this->x . ',' . $this->y . ',' . $this->z;
+        return '[' . $this->x . ',' . $this->y . ',' . $this->z . ']';
     }
 
-    public function isEmpty()
+    // Does this space exist on the board?
+    // False for imaginary (empty) and pending (not yet saved) spaces
+    public function exists()
     {
-        return $this->new || $this->face === -1;
+        return !!$this->tile_player_id;
+    }
+
+    // Is this space avaialble for placing a new building?
+    public function canBuild()
+    {
+        return $this->exists() && !$this->bldg_type && $this->face !== VOLCANO;
     }
 }
 
 class TaluvaBoard extends APP_GameClass implements JsonSerializable
 {
     private $board = array();
+    private $top = array();
+    private $buildings = array();
 
-    public function __construct($rows)
+    public function __construct()
     {
-        self::warn('CONSTRUCT TaluvaBoard: ' . json_encode($rows));
+        $rows = self::getObjectListFromDB('SELECT x, y, z, r, face, tile_id, subface, tile_player_id, bldg_player_id, bldg_type FROM board ORDER BY z, x, y');
         foreach ($rows as $row) {
-            $this->board[ (int) $row['x'] ][ (int) $row['y'] ][ (int) $row['z'] ] = new TaluvaSpace($row);
+            $space = new TaluvaSpace($row);
+            $x = $space->x;
+            $y = $space->y;
+            $z = $space->z;
+            $this->board[$x][$y][$z] = $space;
+            $this->top[$x][$y] = $z;
+            if ($space->bldg_player_id) {
+                $this->buildings[$space->bldg_player_id][] = $space;
+            }
         }
     }
 
@@ -57,7 +73,7 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
         return $this->getSpaces();
     }
 
-    public function isEmpty()
+    public function empty()
     {
         return empty($this->board);
     }
@@ -80,37 +96,23 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
         if (array_key_exists($x, $this->board) && array_key_exists($y, $this->board[$x]) && array_key_exists($z, $this->board[$x][$y])) {
             return $this->board[$x][$y][$z];
         }
-        $empty = new TaluvaSpace(array(
+
+        // Return an imaginary (empty) space
+        return new TaluvaSpace(array(
             'x' => $x,
             'y' => $y,
             'z' => $z,
             'r' => 0,
-            'face' => -1,
         ));
-        $empty->new = true;
-        return $empty;
     }
-	
-	public function getSpaceOnTop($x, $y)
+
+    public function getSpaceOnTop($x, $y)
     {
-        $sql= "SELECT * FROM board WHERE x=$x AND y=$y ORDER BY Z DESC LIMIT 1";
-		$sqlresult = self::getObjectFromDB($sql);
-		
-		if ( $sqlresult == null ){
-			$tileontop = new TaluvaSpace(array(
-				'x' => $x,
-				'y' => $y,
-				'z' => 0,
-				'r' => 0,
-				'face' => -1,
-			));
-			$tileontop->new = true;
-		}
-        else{ 
-			$tileontop = $this->getSpace($sqlresult["x"] , $sqlresult["y"], $sqlresult["z"]);
-		}	
-		
-		return $tileontop;
+        $z = 1;
+        if (array_key_exists($x, $this->top) && array_key_exists($y, $this->top[$x])) {
+            $z = $this->top[$x][$y];
+        }
+        return $this->getSpace($x, $y, $z);
     }
 
     public function getSpaceBelow($space)
@@ -127,24 +129,11 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
     {
         $xmod = abs($space->y % 2);
         return array(
-            'topLeft' => $this->getSpace($xmod + $space->x - 1, $space->y - 1, $space->z),
-            'topRight' => $this->getSpace($xmod + $space->x, $space->y - 1, $space->z),
-            'right' => $this->getSpace($space->x + 1, $space->y, $space->z),
-            'bottomRight' => $this->getSpace($xmod + $space->x, $space->y + 1, $space->z),
-            'bottomLeft' => $this->getSpace($xmod + $space->x - 1, $space->y + 1, $space->z),
-            'left' => $this->getSpace($space->x - 1, $space->y, $space->z),
-        );
-    }
-	
-	public function getAdjacentsOnTop($space)
-    {
-        $xmod = abs($space->y % 2);
-        return array(
-            'topLeft' => $this->getSpaceOnTop($xmod + $space->x - 1, $space->y - 1 ),
+            'topLeft' => $this->getSpaceOnTop($xmod + $space->x - 1, $space->y - 1),
             'topRight' => $this->getSpaceOnTop($xmod + $space->x, $space->y - 1),
-            'right' => $this->getSpaceOnTop($space->x + 1, $space->y ),
-            'bottomRight' => $this->getSpaceOnTop($xmod + $space->x, $space->y + 1 ),
-            'bottomLeft' => $this->getSpaceOnTop($xmod + $space->x - 1, $space->y + 1 ),
+            'right' => $this->getSpaceOnTop($space->x + 1, $space->y),
+            'bottomRight' => $this->getSpaceOnTop($xmod + $space->x, $space->y + 1),
+            'bottomLeft' => $this->getSpaceOnTop($xmod + $space->x - 1, $space->y + 1),
             'left' => $this->getSpaceOnTop($space->x - 1, $space->y),
         );
     }
@@ -163,43 +152,109 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
         return $rotations;
     }
 
-    public function getSpaceTile($x, $y, $z, $r, $tile_type)
+    // Return the 3 spaces that form this tile
+    public function getSpacesForTile($x, $y, $z, $r, $tile_type)
     {
         list($space0, $space1, $space2) = $this->getSpaceRotations($this->getSpace($x, $y, $z))[$r];
-        $space0->new = true;
         $space0->r = $r;
-        $space0->face = 0;
-        $space1->new = true;
+        $space0->face = VOLCANO;
         $space1->r = $r;
         $space1->face = (int) substr($tile_type, 0, 1);
-        $space2->new = true;
         $space2->r = $r;
         $space2->face = (int) substr($tile_type, 1, 1);
         return array($space0, $space1, $space2);
     }
 
-    public function isConnected($space)
+    public function getSettlements()
+    {
+        $settlements = array();
+        foreach ($this->buildings as $player_id => $spaces) {
+            if (!empty($spaces)) {
+                $first = array_shift($spaces);
+                $settlements[$player_id][] = array($first);
+                foreach ($spaces as $space) {
+                    $existing = false;
+                    foreach ($settlements[$player_id] as $key => $settlement) {
+                        if ($this->isAdjacent($space, $settlement)) {
+                            $settlements[$player_id][$key][] = $space;
+                            $existing = true;
+                            break;
+                        }
+                    }
+                    if (!$existing) {
+                        $settlements[$player_id][] = array($space);
+                    }
+                }
+            }
+        }
+
+        $log = '';
+        foreach ($settlements as $player_id => $ps) {
+            $log .= "\nPlayer $player_id has " . count($ps) . " settlements:";
+            foreach ($ps as $settlement) {
+                $log .= "\n-- A settlement of size " . count($settlement) . ": " . join('  ', $settlement);
+            }
+        }
+        self::warn("Settlements: $log\n / ");
+        return $settlements;
+    }
+
+    // If $another is a single space, answers whether $space is adjacent to it.
+    // If $another is an array, answers whether $space is adjacent to any space in the array.
+    public function isAdjacent($space, $another)
     {
         $adjacents = array_values($this->getSpaceAdjacents($space));
-        foreach ($adjacents as $adj) {
-            if (!$adj->isEmpty()) {
+        if (!is_array($another)) {
+            $another = array($another);
+        }
+        foreach ($another as $test) {
+            foreach ($adjacents as $adj) {
+                if ($adj->exists() && $adj->x == $test->x && $adj->y == $test->y) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public function hasBuilding($building, $spaces)
+    {
+        foreach ($spaces as $space) {
+            if ($space->bldg_type == $building) {
                 return true;
             }
         }
         return false;
     }
 
-    public function isValidPlacement($spaces)
+    public function isConnectedToBoard($space)
+    {
+        $adjacents = array_values($this->getSpaceAdjacents($space));
+        foreach ($adjacents as $adj) {
+            if ($adj->exists()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public function isValidTilePlacement($spaces)
     {
         list($space0, $space1, $space2) = $spaces;
-        self::warn("test isValidPlacement for $space0 and $space1 and $space2 /");
-        // First placement is always allowed
-        if ($this->isEmpty()) {
+        self::warn("test isValidTilePlacement for $space0 and $space1 and $space2 /");
+
+        // First tile placement is always allowed
+        if ($this->empty()) {
             return true;
         }
 
-        // All spaces must be empty
-        if (!$space0->isEmpty() || !$space1->isEmpty() || !$space2->isEmpty()) {
+        // All spaces must be on the same level
+        if ($space0->z != $space1->z || $space0->z != $space2->z) {
+            return false;
+        }
+
+        // All spaces must be empty on the board
+        if ($space0->exists() || $space1->exists() || $space2->exists()) {
             return false;
         }
 
@@ -213,14 +268,14 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
             // Other spaces must be supported
             $below1 = $this->getSpaceBelow($space1);
             $below2 = $this->getSpaceBelow($space2);
-            if ($below1->isEmpty() || $below2->isEmpty()) {
+            if (!$below1->exists() || !$below2->exists()) {
                 return false;
             }
         } else {
-            // One space must be adjacent to the board
-            $connected0 = $this->isConnected($space0);
-            $connected1 = $this->isConnected($space1);
-            $connected2 = $this->isConnected($space2);
+            // One space must be adjacent to rest of the board
+            $connected0 = $this->isConnectedToBoard($space0);
+            $connected1 = $this->isConnectedToBoard($space1);
+            $connected2 = $this->isConnectedToBoard($space2);
             if (!$connected0 && !$connected1 && !$connected2) {
                 return false;
             }
@@ -229,98 +284,57 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
         return true;
     }
 
-    public function settlementAddSpace(&$settlement, $addSpace)
-    {
-        foreach ($settlement as $space) {
-            $adjacents = array_values($this->getSpaceAdjacents($space));
-            self::warn("Check if we can add $addSpace to adjacents /");
-            if (array_search($addSpace, $adjacents) !== false) {
-                self::warn("- Yes we can! /");
-                $settlement[] = $addSpace;
-                return true;
-            }
-            self::warn("- No we cannot! /");
-        }
-        return false;
-    }
-
-    public function settlementHasBuilding($settlement, $bldg_type)
-    {
-        foreach ($settlement as $space) {
-            if ($space->bldg_type === $bldg_type) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public function getBuildingOptions($space, $player_id)
-	
     {
-		
-		/// THERE ARE 4 BUILDING OPTIONS
-		//
-		//  A - Single hut on level 1 tiles not connected to existing settlement
-		//  B - temple on Settlements with at least other 3 buildings and no other temple
-		//  C - Extend a settlement to all spaces of the same terrain connected to a settlement 
-		//  D - Tower on level 3 tiles with no other tower in the settlement
-		//
-		//   ON THE FIRST TURN OF EACH PLAYER IN THE GAME THE BUILDING PHASE IS SKIPPED
-		
-		
-        self::warn("Ask buildings for $space: empty=" . $space->isEmpty() . " bldg_type=" . $space->bldg_type . " face=" . $space->face . " /");
-        $isConnected=false;
-		$adjacents = array_values($this->getAdjacentsOnTop($space));
-		$options = array();
-		foreach ($adjacents as $adj) {
-                //self::warn("-- adj $adj can have a hut? bldg_type={$adj->bldg_type} face={$adj->face} /");
-                if (!$adj->isEmpty() && $adj->bldg_player_id == $player_id ) {
-                   $isConnected = true ;
-				   // $options[HUT][] = $adj;
+        /// THERE ARE 4 BUILDING OPTIONS
+        //  A - Single hut on level 1 tiles not connected to existing settlement
+        //  B - temple on Settlements with at least other 3 buildings and no other temple
+        //  C - Extend a settlement to all spaces of the same terrain connected to a settlement
+        //  D - Tower on level 3 tiles with no other tower in the settlement
+
+        $options = array();
+
+        // Nothing to do if we cannot build here :-)
+        if (!$space->canBuild()) {
+            return $options;
+        }
+
+        // Calculate this player's adjacent settlements
+        $adjacentSettlements = array();
+        $settlements = $this->getSettlements();
+        if (array_key_exists($player_id, $settlements)) {
+            $ownSettlements = $settlements[$player_id];
+            foreach ($ownSettlements as $settlement) {
+                if ($this->isAdjacent($space, $settlement)) {
+                    $adjacentSettlements[] = $settlement;
                 }
             }
-		
-		if (!$isConnected && $space->z == 1 ) {        // Option A
-            self::warn("- Can place a building on $space /");
-            $options[]= array(HUT => array($space));
-			$options[]= array(HUT => array($space));
-		}
-	
+        }
 
-		// Determine settlements
-		$settlements = array();
-		foreach ($adjacents as $adj) {
-			self::warn("Settlements for $space: Check adjacent $adj /");
-			if (!$adj->isEmpty() && $adj->bldg_player_id == $player_id) {
-				$added = false;
-				foreach ($settlements as $settlement) {
-					self::warn("Trying to add $adj to existing settlement /");
-					if ($this->settlementAddSpace($settlement, $adj)) {
-						$added = true;
-						break;
-					}
-				}
-				if (!$added) {
-					self::warn("Creating new settlement with only $adj /");
-					$settlements[] = array($adj);
-				}
-			}
-		}
+        if (!empty($adjacentSettlements)) {
+            foreach ($adjacentSettlements as $settlement) {
+                // OPTION C -- additional hut(s)
+                // TODO: find settlement perimiter
+                $options[HUT] = array($space);
 
-		self::warn("Settlements for $space: Count is " . count($settlements) . " /");
-		foreach ($settlements as $settlement) {
-			// Temple must be adjacent, no other temples, size 3 or larger
-			if (!array_key_exists(TEMPLE, $options) && count($settlement) >= 3 && !$this->settlementHasBuilding($settlement, TEMPLE)) {
-				$options[TEMPLE] = true;
-			}
+                if (count($settlement) >= 3 && !$this->hasBuilding(TEMPLE, $settlement)) {
+                    // OPTION B -- temple
+                    $options[TEMPLE] = array($space);
+                }
+                if ($space->z >= 3 && !$this->hasBuilding(TOWER, $settlement)) {
+                    // OPTION D -- tower
+                    $options[TOWER] = array($space);
+                }
+            }
+        } elseif ($space->z == 1) {
+            // OPTION A -- new hut
+            $options[HUT] = array($space);
+        }
 
-			// Tower must be adjacent, no other towers, level 3 or higher
-			if (!array_key_exists(TOWER, $options) && $space->z >=3  && !$this->settlementHasBuilding($settlement, TOWER)) {
-				$options[TOWER] = true;
-			}
-		}
+        // It's possible there are no valid options at this point
+        // E.g., level 2+ not adjacent to your own settlement
 
-		return $options;
-        
+        self::warn("Options for player $player_id, space $space (adjacentSettlements: " . count($adjacentSettlements) . "): " . json_encode($options) . " /");
+        return $options;
     }
 }
