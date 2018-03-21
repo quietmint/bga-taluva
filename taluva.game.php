@@ -350,7 +350,7 @@ class taluva extends Table
             2 => "({$spaces[2]->x}, {$spaces[2]->y}, $z, $r, {$spaces[2]->face}, $tile_id, 2, $player_id)",
         );
         self::DbQuery("INSERT INTO board (x, y, z, r, face, tile_id, subface, tile_player_id) VALUES " . implode($values, ','));
-
+		
         $player = $this->getPlayer($player_id);
         $tile['x'] = $x;
         $tile['y'] = $y;
@@ -360,6 +360,21 @@ class taluva extends Table
         $tile['face_name'] = $this->terrain[$spaces[1]->face];
         $tile['face_name2'] = $this->terrain[$spaces[2]->face];
         $tile['i18n'] = array('face_name', 'face_name2');
+		
+		// destroy buildings under the tile
+		for ( $i = 1 ; $i <= 2 ; $i++){
+			$spaceBelow=$board->getSpace ( $spaces[$i]->x , $spaces[$i]->y , $spaces[$i]->z -1 );
+			if ( $spaceBelow != null && $spaceBelow->bldg_type > 0){
+				self::DbQuery("UPDATE board SET bldg_type = null, bldg_player_id=null WHERE x = {$spaces[$i]->x} AND y = {$spaces[$i]->y} AND z = ({$spaces[$i]->z} -1)");
+				self::notifyAllPlayers('destroyBuildng', '${player_name} destroys a building with the volcaninc eruption', array(
+					'player_name' =>$player['name'],
+					'tile_id' => $spaceBelow->tile_id,
+                    'subface' => $spaceBelow->subface
+				) );
+			
+			}
+		}
+		
         self::notifyAllPlayers('commitTile', '${player_name} places a tile with ${face_name} and ${face_name2} on level ${z}', $tile);
         if (self::getStat("turns_number", $player_id) <= 1) {
             $newTile = $this->tiles->pickCard('deck', $player_id);
@@ -401,24 +416,24 @@ class taluva extends Table
         }
 
         // Add building at the clicked location
-        self::DbQuery("UPDATE board SET bldg_player_id = $player_id, bldg_type = $bldg_type WHERE x = $x AND y = $y AND z = $z");
+        
         $space->bldg_player_id = $player_id;
         $space->bldg_type = $bldg_type;
-        $buildings = array($space);
-        if ($bldg_type == HUT) {
-            $count = $z;
-            // Add huts on adjacent locations
-            foreach ($options[HUT] as $h) {
-                $count += $h->z;
+        $buildings = array();
+		
+		$count = 0;
+        foreach ($options[$bldg_type] as $h) {
+                if ( $bldg_type == HUT ) {
+					$count += $h->z;}
+				else{
+					$count+=1;
+				}
                 self::DbQuery("UPDATE board SET bldg_player_id = $player_id, bldg_type = $bldg_type WHERE x = {$h->x} AND y = {$h->y} AND z = {$h->z}");
                 $h->bldg_player_id = $player_id;
                 $h->bldg_type = $bldg_type;
                 $buildings[] = $h;
             }
-        } else {
-            $count = 1;
-        }
-
+        
         // Subtract buildings from player
         $columnName = strtolower($this->buildings[$bldg_type]);
         self::DbQuery("UPDATE player SET $columnName = $columnName - $count WHERE player_id = $player_id AND $columnName >= $count");
@@ -454,7 +469,7 @@ class taluva extends Table
                 'remain' => $this->tiles->countCardInLocation('deck'),
             ));
         }
-        $this->gamestate->nextState('');
+        $this->gamestate->nextState('nextPlayer');
     }
 
     //////////////////////////////////////////////////////////////////////////////
@@ -516,6 +531,7 @@ class taluva extends Table
             $tile['remain'] = $this->tiles->countCardInLocation('deck');
             self::notifyAllPlayers('draw', '', $tile);
             self::incStat(1, 'turns_number', $player_id);
+			self::giveExtraTime($player_id);
             $this->gamestate->nextState('tile');
         } else {
             self::notifyAllPlayers('message', 'No tiles remain', array());

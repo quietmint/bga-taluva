@@ -45,15 +45,15 @@
 
   // Hut
   var jstpl_building_1 =
-    '<div class="hut ${colorName}"><div class="hutside"></div><div class="hutroof"></div></div>';
+    '<div class="hut ${colorName}" title="{I18N_Huts}" ><div class="hutside"></div><div class="hutroof"></div></div>';
 
   // Temple
   var jstpl_building_2 =
-    '<div class="temple ${colorName}"><div class="templeside"></div><div class="templeroof"></div></div>';
+    '<div class="temple ${colorName}" title="{I18N_Temples}"><div class="templeside"></div><div class="templeroof"></div></div>';
 
   // Tower
   var jstpl_building_3 =
-    '<div class="tower ${colorName}"><div class="towerside"></div><div class="towerroof"></div></div>';
+    '<div class="tower ${colorName}" title="{I18N_Towers}"><div class="towerside"></div><div class="towerroof"></div></div>';
 </script>
 
 {OVERALL_GAME_FOOTER}

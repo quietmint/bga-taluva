@@ -242,8 +242,9 @@
   line-height: 97px;
   font-size: 55px;
   font-weight: bold;
+  color: #ffffff;
   user-select:  none;
-  text-shadow: 1px 1px 10px black;
+  text-shadow: 1px 1px 10px #23312d;
 }
 
 .face.possible {
@@ -252,6 +253,7 @@
   cursor: pointer;
   animation: 350ms fade-in ease-in-out;
   background: url(img/hexagons.png);
+  opacity:  0.5;
   background-position: -252px -97px;
 }
 
