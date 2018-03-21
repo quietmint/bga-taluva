@@ -371,24 +371,10 @@ class taluva extends Table
 					'tile_id' => $spaceBelow->tile_id,
                     'subface' => $spaceBelow->subface
 				) );
-			
 			}
 		}
-		
         self::notifyAllPlayers('commitTile', '${player_name} places a tile with ${face_name} and ${face_name2} on level ${z}', $tile);
-        if (self::getStat("turns_number", $player_id) <= 1) {
-            $newTile = $this->tiles->pickCard('deck', $player_id);
-            if ($newTile != null) {
-                self::notifyPlayer($player_id, 'draw', '', array(
-                'player_id' => $player_id,
-                'tile_id' => $newTile['id'],
-                'tile_type' => $newTile['type'],
-                'remain' => $this->tiles->countCardInLocation('deck'),
-            ));
-            }
-            $this->gamestate->nextState('firstTurn');
-        } else {
-            $this->gamestate->nextState('normal');
+        $this->gamestate->nextState('');
         }
     }
 
