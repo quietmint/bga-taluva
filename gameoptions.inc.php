@@ -12,9 +12,9 @@
  * gameoptions.inc.php
  *
  * taluva game options description
- * 
+ *
  * In this file, you can define your game options (= game variants).
- *   
+ *
  * Note: If your game has no variant, you don't have to modify this file.
  *
  * Note²: All options defined in this file should have a corresponding "game state labels"
@@ -25,31 +25,16 @@
  */
 
 $game_options = array(
-
-    /* Example of game variant:
-    
-    
-    // note: game variant ID should start at 100 (ie: 100, 101, 102, ...). The maximum is 199.
     100 => array(
-                'name' => totranslate('my game option'),    
-                'values' => array(
-
-                            // A simple value for this option:
-                            1 => array( 'name' => totranslate('option 1') )
-
-                            // A simple value for this option.
-                            // If this value is chosen, the value of "tmdisplay" is displayed in the game lobby
-                            2 => array( 'name' => totranslate('option 2'), 'tmdisplay' => totranslate('option 2') ),
-
-                            // Another value, with other options:
-                            //  beta=true => this option is in beta version right now.
-                            //  nobeginner=true  =>  this option is not recommended for beginners
-                            3 => array( 'name' => totranslate('option 3'),  'beta' => true, 'nobeginner' => true ),) )
-                        )
-            )
-
-    */
-
+        'name' => totranslate('Number of tiles'),
+        'values' => array(
+            0 => array(
+                'name' => '12 tiles per player'
+            ),
+            1 => array(
+                'name' => 'All 48 tiles',
+                'tmdisplay' => totranslate('All 48 tiles')
+            ),
+        ),
+    ),
 );
-
-

@@ -53,17 +53,10 @@ class taluva extends Table
         parent::__construct();
 
         self::initGameStateLabels(array(
-
-               "selection_x" => 10,
-               "selection_y" => 11,
-               "selection_z" => 12,
-
-            //      ...
-            //    "my_first_game_variant" => 100,
-            //    "my_second_game_variant" => 101,
-            //      ...
-
-            // IntlCodePointBreakIterator
+            'selection_x' => 10,
+            'selection_y' => 11,
+            'selection_z' => 12,
+            'variantAllTiles' => 100,
         ));
 
         $this->tiles = self::getNew('module.common.deck');
@@ -126,8 +119,8 @@ class taluva extends Table
         $this->tiles->createCards($tiles, 'deck');
         $this->tiles->shuffle('deck');
 
-        // Remove extra tiles from the game (12 per player)
-        if (count($players) < 4) {
+        // Default variant uses 12 tiles per player
+        if (!self::getGameStateValue('variantAllTiles') && count($players) < 4) {
             $this->tiles->pickCardsForLocation(12 * (4 - count($players)), 'deck', 'box');
         }
 
