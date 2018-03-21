@@ -269,61 +269,58 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
 		
 		
         self::warn("Ask buildings for $space: empty=" . $space->isEmpty() . " bldg_type=" . $space->bldg_type . " face=" . $space->face . " /");
-        
-		if (!$space->isEmpty() && !$space->bldg_type && $space->face !== VOLCANO) {
-            self::warn("- Can place a building on $space /");
-            // Huts always allowed, may place on multiple tiles
-                                           
-            if ( $space->z == 1) {                                     // Option A
-			    $options = array(HUT => array());	
-			}
-				
-			$adjacents = array_values($this->getAdjacentsOnTop($space));
-            
-			/*
-			foreach ($adjacents as $adj) {
+        $isConnected=false;
+		$adjacents = array_values($this->getAdjacentsOnTop($space));
+		$options = array();
+		foreach ($adjacents as $adj) {
                 //self::warn("-- adj $adj can have a hut? bldg_type={$adj->bldg_type} face={$adj->face} /");
-                if (!$adj->isEmpty() && !$adj->bldg_type && $adj->face === $space->face) {
-                    $options[HUT][] = $adj;
+                if (!$adj->isEmpty() && $adj->bldg_player_id == $player_id ) {
+                   $isConnected = true ;
+				   // $options[HUT][] = $adj;
                 }
             }
-			*/
+		
+		if (!$isConnected && $space->z == 1 ) {        // Option A
+            self::warn("- Can place a building on $space /");
+            $options[]= array(HUT => array($space));
+			$options[]= array(HUT => array($space));
+		}
+	
 
-            // Determine settlements
-            $settlements = array();
-            foreach ($adjacents as $adj) {
-                self::warn("Settlements for $space: Check adjacent $adj /");
-                if (!$adj->isEmpty() && $adj->bldg_player_id == $player_id) {
-                    $added = false;
-                    foreach ($settlements as $settlement) {
-                        self::warn("Trying to add $adj to existing settlement /");
-                        if ($this->settlementAddSpace($settlement, $adj)) {
-                            $added = true;
-                            break;
-                        }
-                    }
-                    if (!$added) {
-                        self::warn("Creating new settlement with only $adj /");
-                        $settlements[] = array($adj);
-                    }
-                }
-            }
+		// Determine settlements
+		$settlements = array();
+		foreach ($adjacents as $adj) {
+			self::warn("Settlements for $space: Check adjacent $adj /");
+			if (!$adj->isEmpty() && $adj->bldg_player_id == $player_id) {
+				$added = false;
+				foreach ($settlements as $settlement) {
+					self::warn("Trying to add $adj to existing settlement /");
+					if ($this->settlementAddSpace($settlement, $adj)) {
+						$added = true;
+						break;
+					}
+				}
+				if (!$added) {
+					self::warn("Creating new settlement with only $adj /");
+					$settlements[] = array($adj);
+				}
+			}
+		}
 
-            self::warn("Settlements for $space: Count is " . count($settlements) . " /");
-            foreach ($settlements as $settlement) {
-                // Temple must be adjacent, no other temples, size 3 or larger
-                if (!array_key_exists(TEMPLE, $options) && count($settlement) >= 3 && !$this->settlementHasBuilding($settlement, TEMPLE)) {
-                    $options[TEMPLE] = true;
-                }
+		self::warn("Settlements for $space: Count is " . count($settlements) . " /");
+		foreach ($settlements as $settlement) {
+			// Temple must be adjacent, no other temples, size 3 or larger
+			if (!array_key_exists(TEMPLE, $options) && count($settlement) >= 3 && !$this->settlementHasBuilding($settlement, TEMPLE)) {
+				$options[TEMPLE] = true;
+			}
 
-                // Tower must be adjacent, no other towers, level 3 or higher
-                if (!array_key_exists(TOWER, $options) && $space->z >=3  && !$this->settlementHasBuilding($settlement, TOWER)) {
-                    $options[TOWER] = true;
-                }
-            }
+			// Tower must be adjacent, no other towers, level 3 or higher
+			if (!array_key_exists(TOWER, $options) && $space->z >=3  && !$this->settlementHasBuilding($settlement, TOWER)) {
+				$options[TOWER] = true;
+			}
+		}
 
-            return $options;
-        }
-        return null;
+		return $options;
+        
     }
 }
