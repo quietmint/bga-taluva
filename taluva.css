@@ -471,6 +471,7 @@
     width: 32px;
     height: 32px;
     transform-style: preserve-3d;
+    box-shadow: inset 0px 0px 0px 16px rgba(0, 0, 0, 0.65), 0px 0px 6px 2px rgba(0, 0, 0, 0.65);
 }
 
 .hutside {
@@ -520,6 +521,7 @@
     width: 40px;
     height: 40px;
     transform-style: preserve-3d;
+    box-shadow: inset 0px 0px 0px 20px rgba(0, 0, 0, 0.65), 0px 0px 6px 2px rgba(0, 0, 0, 0.65);
 }
 
 .templeside {
@@ -576,6 +578,8 @@ position: absolute;
     width: 40px;
     height: 40px;
     transform-style: preserve-3d;
+    border-radius:50%;
+    box-shadow: inset 0px 0px 0px 20px rgba(0, 0, 0, 0.53), 0px 0px 6px 2px rgba(0, 0, 0, 0.65);
 }
 
 .towerside {
@@ -624,6 +628,7 @@ position: absolute;
     transform-origin: center center ;
     transform: translatez(-20px);
     box-shadow: inset 0px 0px 2px 3px rgba(0, 0, 0, 0.78);
+    
 }
 
 .towerroof:before {

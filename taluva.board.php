@@ -409,12 +409,12 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
 
                 // OPTION B -- temple
                 if ($player['temples'] > 0 && count($settlement) >= 3 && !$this->hasBuilding(TEMPLE, $settlement)) {
-                    $options[TEMPLE* 10 + $sc] = array($space);
+                    $options[TEMPLE* 10 ] = array($space);
                 }
 
                 // OPTION D -- tower
                 if ($player['towers'] > 0 && $space->z >= 3 && !$this->hasBuilding(TOWER, $settlement)) {
-                    $options[TOWER * 10 + $sc] = array($space);
+                    $options[TOWER * 10 ] = array($space);
                 }
             }
         } elseif ($player['huts'] > 0 && $space->z == 1) {

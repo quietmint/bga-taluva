@@ -378,8 +378,14 @@ define([
                 } else {
                     building.colorName = this.gamedatas.players[building.bldg_player_id].colorName;
                 }
-
-                for (var i = 0; i < +building.z; i++) {
+				
+                if ( building.bldg_type == 1 ) {
+					var numbuildings = 0 + building.z ;
+				} 
+				else {
+					var numbuildings = 1 ;
+				}
+				for (var i = 1; i <= numbuildings ; i++) {
                     var buildingHtml = this.format_block('jstpl_building_' + building.bldg_type, building);
                     console.log('buildingHtml', buildingHtml);
                     var buildingEl = dojo.place(buildingHtml, container);
