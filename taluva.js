@@ -481,8 +481,9 @@ define([
                         possibleHtml = this.format_block('jstpl_building_' + bldg_type, {
                             colorName: 'tempbuilding'
                         });
-						possibleHtml +="<span class='facelabel'>"+String.fromCharCode(64 + ( bldgoption % 10 ))+ "</span>";
-
+						if (bldg_type == 1 ) {
+							possibleHtml +="<span class='facelabel'>"+String.fromCharCode(64 + ( bldgoption % 10 ))+ "</span>";
+						}
                         dojo.place("<div id='rota_" + bldgoption + "' class='rotator' style='transform:rotate(0deg)' >" + possibleHtml + "</div>", 'buildPalette');
                         dojo.query('#rota_' + bldgoption).connect('onclick', this, 'onClickPossibleBuilding');
                     }

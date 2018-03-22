@@ -17,6 +17,14 @@
 
 /** Remaining tile counter **/
 
+.mode_3d #game_play_area_wrap {
+    transform-style: preserve-3d;
+    -webkit-transform-style: preserve-3d;
+    transform-origin: center center;
+    pointer-events: none
+}
+
+
 #playArea {
     margin: 15px;
     height: 850px;
@@ -27,6 +35,7 @@
     background-image: url('img/background2.jpg');
     border-radius: 10px;
     box-shadow: 6px 6px 2px 0px rgba(0, 0, 0, 0.65);
+	pointer-events: visible
 }
 
 #playArea div {
