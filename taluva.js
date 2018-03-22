@@ -284,7 +284,8 @@ define([
                 e = e || window.event;
                 if (e.which == 3) {
                     dojo.stopEvent(e);
-                    this.dragging_3dhandler = dojo.connect($("ebd-body"), "mousemove", this, "elementDrag3d");
+                    //this.dragging_3dhandler = dojo.connect($("ebd-body"), "mousemove", this, "elementDrag3d");
+					$("ebd-body").onmousemove= dojo.hitch( this , this.elementDrag3d); 
                 }
             },
 
@@ -302,7 +303,8 @@ define([
                     if(evt.stopPropagation != undefined)
                     	evt.stopPropagation();*/
                     dojo.stopEvent(evt);
-                    dojo.disconnect(this.dragging_3dhandler);
+					$("ebd-body").onmousemove=null;
+                    //dojo.disconnect(this.dragging_3dhandler);
                 }
             },
 
@@ -412,6 +414,7 @@ define([
                 this.removeActionButtons();
                 this.onUpdateActionButtons(this.gamedatas.gamestate.name, this.gamedatas.gamestate.args);
                 dojo.query('.possible').forEach(dojo.destroy);
+				dojo.query('.tempbuilding').forEach(dojo.destroy);
             },
 
             showPossibleTile: function() {
@@ -575,6 +578,8 @@ define([
                     // Create temp building
                     this.placeBuilding(this.tryBuilding, 1);
                 }
+				
+				dojo.query('.tempbuilding').connect('onclick', this, 'showPossibleBuilding');
 
             },
 

@@ -354,18 +354,22 @@
   background: url(img/hexagons.png);
   background-position: -168px -97px;
   transform: translateZ(-17px);
+  z-index:-2;
 }
 
 #playArea .side1 {
    transform: translatez(-0.5px) rotatez(90deg) translatex(31px) translatey(6px) rotatex(90deg);
+   z-index:-1;
 }
 
 #playArea .side2 {
   transform:  translatez(-0.5px) rotatez(90deg) translatex(31px) translatey(6px) rotatex(90deg) rotatey(-60deg);
+  z-index:-1;
 }
 
 #playArea .side3 {
   transform: translatez(-0.5px) rotatez(90deg) translatex(31px) translatey(6px) rotatex(90deg) rotatey(60deg);
+  z-index:-1;
 }
 
 

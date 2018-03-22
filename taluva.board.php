@@ -229,7 +229,7 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
                 $log .= "\n-- settlement size " . count($settlement) . ": " . join('  ', $settlement);
             }
         }
-        self::warn("$log\n / ");
+       // self::warn("$log\n / ");
         return $settlements;
     }
 
