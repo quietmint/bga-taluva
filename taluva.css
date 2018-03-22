@@ -252,7 +252,13 @@
   font-size: 55px;
   font-weight: bold;
   color: #ffffff;
-  user-select:  none;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
   text-shadow: 1px 1px 10px #23312d;
 }
 
@@ -457,6 +463,11 @@
   float: left;
   line-height: 32px;
   width: 100px;
+  font-family: "Roboto", Arial, sans-serif;
+  font-size: 19px;
+  font-weight: bold;
+  text-align:  center;
+  margin: 0 auto;
 }
 
 .counters .mdi {
@@ -464,14 +475,14 @@
 }
 
 .preview {
-  zoom: .62;
+  transform: scale3d(0.6,0.6,0.6);
   width: 168px;
   height: 168px;
   line-height: 168px;
   text-align: center;
   font-size: 80px;
   color: rgba(0, 0, 0, 0.25);
-  margin: 0 auto;
+  margin: -30px auto;
   padding-left: 100px;
 }
 
