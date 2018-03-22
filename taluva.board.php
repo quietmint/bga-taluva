@@ -200,11 +200,13 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
     {
         $settlements = array();
         foreach ($this->buildings as $player_id => $spaces) {
-            $log = "\nBuildings for player $player_id (" . count($spaces) . "): ";
+            /* DEBUG
+			$log = "\nBuildings for player $player_id (" . count($spaces) . "): ";
             foreach ($spaces as $space) {
                 $log .= "\n-- type $space->bldg_type at $space ";
             }
             self::warn("$log\n / ");
+			*/
 
             $first = array_shift($spaces);
             $settlements[$player_id][] = array($first);
@@ -222,14 +224,15 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
                 }
             }
         }
-
+        
+		/*		DEBUG
         foreach ($settlements as $player_id => $pSettlements) {
             $log = "\nSettlements for player $player_id (" . count($pSettlements) . "): ";
             foreach ($pSettlements as $settlement) {
                 $log .= "\n-- settlement size " . count($settlement) . ": " . join('  ', $settlement);
             }
         }
-       // self::warn("$log\n / ");
+        self::warn("$log\n / "); */
         return $settlements;
     }
 
@@ -379,10 +382,13 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
                 }
             }
         }
-
+		
+		
         if (!empty($adjacentSettlements)) {
-            foreach ($adjacentSettlements as $settlement) {
+			$sc = 0 ;    // settlement counter iterations
+			foreach ($adjacentSettlements as $settlement) {
                 // OPTION C -- extend huts
+				$sc += 1;
                 if ($player['huts'] > 0) {
                     $huts = array();
                     foreach ($settlement as $sSpace) {
@@ -393,27 +399,27 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
                             }
                         }
                     }
-                    $count = array_reduce($huts, function ($sum, $adj) {
+                    /* $count = array_reduce($huts, function ($sum, $adj) {
                         return $sum + $adj->z;
                     });
-                    if ($count > 0 && $player['huts'] > $count) {
-                        $options[HUT] = $huts;
-                    }
+                    if ($count > 0 && $player['huts'] > $count) { */
+                        $options[HUT * 10 + $sc] = $huts;
+                    // }
                 }
 
                 // OPTION B -- temple
                 if ($player['temples'] > 0 && count($settlement) >= 3 && !$this->hasBuilding(TEMPLE, $settlement)) {
-                    $options[TEMPLE] = array($space);
+                    $options[TEMPLE* 10 + $sc] = array($space);
                 }
 
                 // OPTION D -- tower
                 if ($player['towers'] > 0 && $space->z >= 3 && !$this->hasBuilding(TOWER, $settlement)) {
-                    $options[TOWER] = array($space);
+                    $options[TOWER * 10 + $sc] = array($space);
                 }
             }
         } elseif ($player['huts'] > 0 && $space->z == 1) {
             // OPTION A -- new hut
-            $options[HUT] = array($space);
+            $options[HUT*10] = array($space);
         }
 
         // It's possible there are no valid options at this point

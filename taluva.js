@@ -465,18 +465,20 @@ define([
                 dojo.place("<div id='cancelator' style='transform:rotate(0deg)'><span class='facelabel'> ✗ </span></div>", 'buildPalette');
 
                 if (Object.keys(this.gamedatas.gamestate.args.possible).length == 1) {
-                    bldg_type = Object.keys(this.gamedatas.gamestate.args.possible)[0];
-                    this.onClickPossibleBuilding(null, bldg_type)
+                    bldgoption = Object.keys(this.gamedatas.gamestate.args.possible)[0];
+					
+                    this.onClickPossibleBuilding(null, bldgoption);
                 } else {
-                    for (var bldg_type in this.gamedatas.gamestate.args.possible) {
-                        var spaces = this.gamedatas.gamestate.args.possible[bldg_type];
-
+                    for (var bldgoption in this.gamedatas.gamestate.args.possible) {
+                        var spaces = this.gamedatas.gamestate.args.possible[bldgoption];
+						bldg_type = Math.floor ( bldgoption / 10 );
                         possibleHtml = this.format_block('jstpl_building_' + bldg_type, {
                             colorName: 'tempbuilding'
                         });
+						possibleHtml +="<span class='facelabel'>"+String.fromCharCode(64 + ( bldgoption % 10 ))+ "</span>";
 
-                        dojo.place("<div id='rota_" + bldg_type + "' class='rotator' style='transform:rotate(0deg)' >" + possibleHtml + "</div>", 'buildPalette');
-                        dojo.query('#rota_' + bldg_type).connect('onclick', this, 'onClickPossibleBuilding');
+                        dojo.place("<div id='rota_" + bldgoption + "' class='rotator' style='transform:rotate(0deg)' >" + possibleHtml + "</div>", 'buildPalette');
+                        dojo.query('#rota_' + bldgoption).connect('onclick', this, 'onClickPossibleBuilding');
                     }
                     var numRotators = $('buildPalette').childElementCount;
 
@@ -552,13 +554,14 @@ define([
             onClickPossibleBuilding: function(evt, single_type) {
                 this.clearPossible();
                 if (single_type != null) {
-                    var bldg_type = single_type;
+                    var bldgoption = single_type;
                 } else {
                     dojo.stopEvent(evt);
                     var idParts = evt.currentTarget.id.split('_');
-                    var bldg_type = idParts[1];
+                    var bldgoption = idParts[1];
                 }
-                var possibleBuildings = this.gamedatas.gamestate.args.possible[bldg_type]
+				bldg_type = Math.floor ( bldgoption / 10);
+                var possibleBuildings = this.gamedatas.gamestate.args.possible[bldgoption]
                 console.log('onClickPossibleBuilding', possibleBuildings);
 
                 for (var b in possibleBuildings) {
@@ -571,6 +574,7 @@ define([
                         tile_id: possible.tile_id,
                         subface: possible.subface,
                         bldg_type: bldg_type,
+						bldgoption : bldgoption,
                         bldg_player_id: this.player_id,
                         possible: possible,
                     };

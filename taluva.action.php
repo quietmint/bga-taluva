@@ -70,8 +70,9 @@ class action_taluva extends APP_GameAction
         $x = (int) self::getArg('x', AT_int, true);
         $y = (int) self::getArg('y', AT_int, true);
         $z = (int) self::getArg('z', AT_posint, true);
-        $bldg_type = (int) self::getArg('bldg_type', AT_posint, true);
-        $this->game->actionCommitBuilding($x, $y, $z, $bldg_type);
+        $bldgoption = (int) self::getArg('bldgoption', AT_posint, true);
+		$bldg_type = (int) self::getArg('bldg_type', AT_posint, true);
+        $this->game->actionCommitBuilding($x, $y, $z, $bldgoption, $bldg_type);
         self::ajaxResponse();
     }
 }

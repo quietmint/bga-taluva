@@ -392,25 +392,26 @@ class taluva extends Table
         $this->gamestate->nextState('cancel');
     }
 
-    public function actionCommitBuilding($x, $y, $z, $bldg_type)
+    public function actionCommitBuilding($x, $y, $z, $bldgoption , $bldg_type)
     {
         $player_id = self::getActivePlayerId();
         $player = $this->getPlayer($player_id);
         $board = new TaluvaBoard();
         $space = $board->getSpace($x, $y, $z);
         $options = $board->getBuildingOptions($space, $player);
-        if (!array_key_exists($bldg_type, $options)) {
-            die('Invalid building placement!');
+        if (!array_key_exists($bldgoption, $options)) {
+            var_dump( $bldgoption );
         }
 
         // Add building at the clicked location
-
+		
+		
         $space->bldg_player_id = $player_id;
         $space->bldg_type = $bldg_type;
         $buildings = array();
-
+		//var_dump( $options );
         $count = 0;
-        foreach ($options[$bldg_type] as $h) {
+        foreach ($options[$bldgoption] as $h) {
             if ($bldg_type == HUT) {
                 $count += $h->z;
             } else {
