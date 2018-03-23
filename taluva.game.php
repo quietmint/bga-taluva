@@ -36,8 +36,9 @@ define('TOWER', 3);
 define('ST_GAME_BEGIN', 1);
 define('ST_NEXT_PLAYER', 2);
 define('ST_TILE', 3);
-define('ST_SELECT_SPACE', 4);
-define('ST_BUILDING', 5);
+define('ST_ELIMINATE', 5);
+define('ST_SELECT_SPACE', 6);
+define('ST_BUILDING', 7);
 define('ST_GAME_END', 99);
 
 class taluva extends Table
@@ -166,7 +167,7 @@ class taluva extends Table
     {
         $player_id = self::getCurrentPlayerId();
         $result = array();
-        $result['players'] = self::getCollectionFromDb('SELECT player_id id, player_score score, temples, towers, huts, player_color color FROM player');
+        $result['players'] = $this->getPlayers();
         foreach ($result['players'] as $id => $player) {
             if ($id == $player_id || $id == self::getActivePlayerId()) {
                 $result['players'][$id]['preview'] = $this->getTileInHand($id);
@@ -201,9 +202,14 @@ class taluva extends Table
     //////////// Utility functions
     ////////////
 
+    public function getPlayers()
+    {
+        return self::getCollectionFromDb('SELECT player_id id, player_color color, player_name name, player_score score, player_zombie zombie, player_eliminated eliminated, temples, towers, huts FROM player');
+    }
+
     public function getPlayer($player_id)
     {
-        return self::getNonEmptyObjectFromDB("SELECT player_id id, player_color color, player_name name, player_score score, temples, towers, huts FROM player WHERE player_id = $player_id");
+        return self::getNonEmptyObjectFromDB("SELECT player_id id, player_color color, player_name name, player_score score, player_zombie zombie, player_eliminated eliminated, temples, towers, huts FROM player WHERE player_id = $player_id");
     }
 
     public function getTiles()
@@ -370,13 +376,13 @@ class taluva extends Table
 
         $msg = clienttranslate('${player_name} places a tile with ${face_name} and ${face_name2} on level ${z}');
         if ($destroyCount > 0) {
-            $msg = clienttranslate('${player_name} places a tile with ${face_name} and ${face_name2} on level ${z}. The volcanic eruption destroys ${count} ${bldg_name}.');
+            $msg = clienttranslate('${player_name} places a tile with ${face_name} and ${face_name2} on level ${z}, destroying ${count} ${bldg_name}.');
             $tile['i18n'][] = 'bldg_name';
             $tile['bldg_name'] = $this->buildings[HUT];
             $tile['count'] = $destroyCount;
         }
         self::notifyAllPlayers('commitTile', $msg, $tile);
-        $this->gamestate->nextState('');
+        $this->gamestate->nextState('eliminate');
     }
 
     public function actionSelectSpace($x, $y, $z)
@@ -384,7 +390,7 @@ class taluva extends Table
         self::setGameStateValue('selection_x', $x);
         self::setGameStateValue('selection_y', $y);
         self::setGameStateValue('selection_z', $z);
-        $this->gamestate->nextState();
+        $this->gamestate->nextState('building');
     }
 
     public function actionCancel()
@@ -392,7 +398,7 @@ class taluva extends Table
         $this->gamestate->nextState('cancel');
     }
 
-    public function actionCommitBuilding($x, $y, $z, $bldgoption , $bldg_type)
+    public function actionCommitBuilding($x, $y, $z, $bldgoption, $bldg_type)
     {
         $player_id = self::getActivePlayerId();
         $player = $this->getPlayer($player_id);
@@ -400,16 +406,13 @@ class taluva extends Table
         $space = $board->getSpace($x, $y, $z);
         $options = $board->getBuildingOptions($space, $player);
         if (!array_key_exists($bldgoption, $options)) {
-            var_dump( $bldgoption );
+            var_dump($bldgoption);
         }
 
         // Add building at the clicked location
-		
-		
         $space->bldg_player_id = $player_id;
         $space->bldg_type = $bldg_type;
         $buildings = array();
-		//var_dump( $options );
         $count = 0;
         foreach ($options[$bldgoption] as $h) {
             if ($bldg_type == HUT) {
@@ -435,7 +438,7 @@ class taluva extends Table
         self::incStat($count, 'buildings_' . $bldg_type, $player_id);
         self::incStat($count, 'buildings_' . $bldg_type);
 
-// Update player building counts
+        // Update player building counts
         $player = $this->getPlayer($player_id);
         $args = array(
             'i18n' => array('bldg_name', 'face_name'),
@@ -520,17 +523,77 @@ class taluva extends Table
     public function stNextPlayer()
     {
         $this->activeNextPlayer();
+
+        // You win if you place all of two types of buildings
+        $players = $this->getPlayers();
+        $weights = array();
+        foreach ($players as $player_id => $player) {
+            if (($player['huts'] == 0 && $player['temples'] == 0) || ($player['huts'] == 0 && $player['towers'] == 0) || ($player['temples'] == 0 && $player['towers'] == 0)) {
+                self::notifyAllPlayers('win', clienttranslate('${player_name} has placed all of two types of buildings!'), array(
+                    'player_id' => array($player_id),
+                    'player_name' => $player['name'],
+                ));
+                self::DbQuery("UPDATE player SET player_score = 1 WHERE player_id = {$player['id']}");
+                $this->gamestate->nextState('gameEnd');
+                return;
+            }
+            if (!$player['eliminated'] && !$player['zombie']) {
+                // Compute weight of temples > towers > huts (lowest wins)
+                $weights[$player_id] = $player['huts'] + $player['towers'] * 100 + $player['temples'] * 1000;
+            }
+        }
+
+        // You win if you are the only player remaining
+        if (count($weights) == 1) {
+            reset($weights);
+            $player_id = key($weights);
+            self::notifyAllPlayers('win', '', array('player_ids' => array($player_id)));
+            self::DbQuery("UPDATE player SET player_score = 1 WHERE player_id = $player_id");
+            $this->gamestate->nextState('gameEnd');
+            return;
+        }
+
         $player_id = self::getActivePlayerId();
         $tile = $this->getTileInHand($player_id);
-        if ($tile != null) {
-            $tile['remain'] = $this->tiles->countCardInLocation('deck');
-            self::notifyAllPlayers('draw', '', $tile);
-            self::incStat(1, 'turns_number', $player_id);
-            self::giveExtraTime($player_id);
-            $this->gamestate->nextState('tile');
-        } else {
-            self::notifyAllPlayers('message', clienttranslate('No tiles remain.'), array());
+        if ($tile == null) {
+            // You win if you place the most temples, then towers, then huts
+            asort($weights);
+            $best = reset($weights);
+            $winners = array();
+            foreach ($weights as $id => $weight) {
+                if ($weight == $best) {
+                    $winners[] = $id;
+                } else {
+                    break;
+                }
+            }
+            self::notifyAllPlayers('win', '', array('player_ids' => $winners));
+            self::DbQuery('UPDATE player SET player_score = 1 WHERE player_id IN (' . implode(',', $winners) . ')');
             $this->gamestate->nextState('gameEnd');
+            return;
+        }
+
+        $tile['remain'] = $this->tiles->countCardInLocation('deck');
+        self::notifyAllPlayers('draw', '', $tile);
+        self::incStat(1, 'turns_number', $player_id);
+        self::giveExtraTime($player_id);
+        $this->gamestate->nextState('tile');
+    }
+
+    public function stEliminate()
+    {
+        // Check for player elimination
+        $player_id = self::getActivePlayerId();
+        $player = $this->getPlayer($player_id);
+        if (empty($this->getPossibleSpaces($player))) {
+            self::notifyAllPlayers('eliminate', clienttranslate('${player_name} cannot place a building!'), array(
+                'player_id' => $player_id,
+                'player_name' => $player['name'],
+            ));
+            self::eliminatePlayer($player['id']);
+            $this->gamestate->nextState('nextPlayer');
+        } else {
+            $this->gamestate->nextState('selectSpace');
         }
     }
 

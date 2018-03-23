@@ -68,7 +68,7 @@ $machinestates = array(
         'action' => 'stNextPlayer',
         'transitions' => array(
             'tile' => ST_TILE,
-            'gameEnd' => ST_GAME_END
+            'gameEnd' => ST_GAME_END,
         ),
         'updateGameProgression' => true,
     ),
@@ -81,11 +81,24 @@ $machinestates = array(
         'args' => 'argTile',
         'possibleactions' => array( 'commitTile' ),
         'transitions' => array(
-            '' => ST_SELECT_SPACE			
+            'zombiePass' => ST_ELIMINATE,
+            'eliminate' => ST_ELIMINATE,
         ),
     ),
-	
-	ST_SELECT_SPACE => array(
+
+    ST_ELIMINATE => array(
+        'name' => 'eliminate',
+        'description' => '',
+        'type' => 'game',
+        'action' => 'stEliminate',
+        'transitions' => array(
+            'selectSpace' => ST_SELECT_SPACE,
+            'nextPlayer' => ST_NEXT_PLAYER,
+        ),
+        'updateGameProgression' => true,
+    ),
+
+    ST_SELECT_SPACE => array(
         'name' => 'selectSpace',
         'description' => clienttranslate('${actplayer} must select a space to build'),
         'descriptionmyturn' => clienttranslate('${you} must select a space to build'),
@@ -93,7 +106,8 @@ $machinestates = array(
         'args' => 'argBuildingSpaces',
         'possibleactions' => array( 'selectSpace' ),
         'transitions' => array(
-            '' => ST_BUILDING,
+            'zombiePass' => ST_NEXT_PLAYER,
+            'building' => ST_BUILDING,
         ),
     ),
 
@@ -105,8 +119,9 @@ $machinestates = array(
         'args' => 'argBuildingTypes',
         'possibleactions' => array( 'commitBuilding' , 'cancel' ),
         'transitions' => array(
+            'zombiePass' => ST_NEXT_PLAYER,
             'nextPlayer' => ST_NEXT_PLAYER,
-			'cancel' => ST_SELECT_SPACE,
+            'cancel' => ST_SELECT_SPACE,
         ),
     ),
 
