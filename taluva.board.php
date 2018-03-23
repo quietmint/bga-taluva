@@ -8,6 +8,10 @@ define('RIGHT_BOTTOM', 4);
 define('LEFT_BOTTOM', 5);
 define('LEFT_MIDDLE', 6);
 
+// Contain mode constants
+define('CONTAINS_ALL', 1);
+define('CONTAINS_ANY', 2);
+
 class TaluvaSpace extends APP_GameClass
 {
     public $x;
@@ -200,39 +204,30 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
     {
         $settlements = array();
         foreach ($this->buildings as $player_id => $spaces) {
-            /* DEBUG
-			$log = "\nBuildings for player $player_id (" . count($spaces) . "): ";
-            foreach ($spaces as $space) {
-                $log .= "\n-- type $space->bldg_type at $space ";
-            }
-            self::warn("$log\n / ");
-			*/
+            // Start with each space in its own settlement group
+            $groups = array_map(function ($space) {
+                return array($space);
+            }, $spaces);
 
-            $first = array_shift($spaces);
-            $settlements[$player_id][] = array($first);
-            foreach ($spaces as $space) {
-                $existing = false;
-                foreach ($settlements[$player_id] as $key => $settlement) {
-                    if ($this->isAdjacent($space, $settlement)) {
-                        $settlements[$player_id][$key][] = $space;
-                        $existing = true;
-                        break;
+            // Combine adjacent groups
+            do {
+                $changed = false;
+                foreach ($groups as $a => $groupA) {
+                    $container = $this->allAdjacents($groupA);
+                    foreach ($groups as $b => $groupB) {
+                        if ($a != $b && $this->containsXY($container, $groupB, CONTAINS_ANY)) {
+                            // Merge settlements A and B
+                            $groups[$a] = array_merge($groups[$a], $groups[$b]);
+                            unset($groups[$b]);
+                            // Restart combine algorithm
+                            $changed = true;
+                            break 2;
+                        }
                     }
                 }
-                if (!$existing) {
-                    $settlements[$player_id][] = array($space);
-                }
-            }
+            } while ($changed);
+            $settlements[$player_id] = $groups;
         }
-        
-		/*		DEBUG
-        foreach ($settlements as $player_id => $pSettlements) {
-            $log = "\nSettlements for player $player_id (" . count($pSettlements) . "): ";
-            foreach ($pSettlements as $settlement) {
-                $log .= "\n-- settlement size " . count($settlement) . ": " . join('  ', $settlement);
-            }
-        }
-        self::warn("$log\n / "); */
         return $settlements;
     }
 
@@ -254,11 +249,27 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
         return false;
     }
 
-    // Answers whether [x,y] coordinates for ALL settlement spaces are contained in this array
-    public function containsAllXY($container, $settlement)
+    public function allAdjacents($settlement)
     {
+        $all = array();
+        foreach ($settlement as $space) {
+            $all += array_values($this->getAdjacentsOnTop($space));
+        }
+        return array_unique($all);
+    }
+
+    // Answers whether [x,y] coordinates for settlement spaces are contained in this array
+    // With CONTAINS_ALL, returns true if all settlement spaces are in the container
+    // With CONTAINS_ANY, returns true if one or more settlement spaces is in the container
+    public function containsXY($container, $settlement, $mode)
+    {
+        // Empty always false
+        if (empty($settlement) || empty($container)) {
+            return false;
+        }
+
         // The settlement cannot be contained if it is larger
-        if (count($settlement) > count($container)) {
+        if ($mode == CONTAINS_ALL && count($settlement) > count($container)) {
             return false;
         }
 
@@ -269,9 +280,19 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
         $containerXY = array_map($xy, $container);
         $settlementXY = array_map($xy, $settlement);
 
-        // Compute the difference
-        $ousideContainer = array_diff($settlementXY, $containerXY);
-        return empty($ousideContainer);
+        switch ($mode) {
+            case CONTAINS_ALL:
+                // Compute difference
+                // (are ALL settlement spaces in the container?)
+                $uncontained = array_diff($settlementXY, $containerXY);
+                return empty($uncontained);
+
+            case CONTAINS_ANY:
+                // Compute intersection
+                // (is ANY settlement space in the container?)
+                $contained = array_intersect($settlementXY, $containerXY);
+                return !empty($contained);
+        }
     }
 
     public function hasBuilding($building, $spaces)
@@ -338,7 +359,7 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
             $container = array($space1, $space2);
             foreach ($settlements as $player_id => $pSettlements) {
                 foreach ($pSettlements as $settlement) {
-                    if ($this->containsAllXY($container, $settlement)) {
+                    if ($this->containsXY($container, $settlement, CONTAINS_ALL)) {
                         return false;
                     }
                 }
@@ -382,13 +403,11 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
                 }
             }
         }
-		
-		
+
         if (!empty($adjacentSettlements)) {
-			$sc = 0 ;    // settlement counter iterations
-			foreach ($adjacentSettlements as $settlement) {
+            $hutOptions = array();
+            foreach ($adjacentSettlements as $settlement) {
                 // OPTION C -- extend huts
-				$sc += 1;
                 if ($player['huts'] > 0) {
                     $huts = array();
                     foreach ($settlement as $sSpace) {
@@ -399,33 +418,34 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
                             }
                         }
                     }
-                    /* $count = array_reduce($huts, function ($sum, $adj) {
+                    $count = array_reduce($huts, function ($sum, $adj) {
                         return $sum + $adj->z;
                     });
-                    if ($count > 0 && $player['huts'] > $count) { */
-                        $options[HUT * 10 + $sc] = $huts;
-                    // }
+                    if ($count > 0 && $player['huts'] > $count) {
+                        sort($huts, SORT_STRING);
+                        $hutOptions[] = $huts;
+                    }
                 }
 
                 // OPTION B -- temple
                 if ($player['temples'] > 0 && count($settlement) >= 3 && !$this->hasBuilding(TEMPLE, $settlement)) {
-                    $options[TEMPLE* 10 ] = array($space);
+                    $options[TEMPLE * 10] = array($space);
                 }
 
                 // OPTION D -- tower
                 if ($player['towers'] > 0 && $space->z >= 3 && !$this->hasBuilding(TOWER, $settlement)) {
-                    $options[TOWER * 10 ] = array($space);
+                    $options[TOWER * 10] = array($space);
                 }
+            }
+            $hutOptions = array_unique($hutOptions, SORT_REGULAR);
+            $i = 0;
+            foreach ($hutOptions as $huts) {
+                $options[HUT * 10 + $i++] = $huts;
             }
         } elseif ($player['huts'] > 0 && $space->z == 1) {
             // OPTION A -- new hut
-            $options[HUT*10] = array($space);
+            $options[HUT * 10] = array($space);
         }
-
-        // It's possible there are no valid options at this point
-        // E.g., level 2+ not adjacent to your own settlement
-
-        self::warn("Options for player {$player['id']} at $space with adjacentSettlements=" . count($adjacentSettlements) . " (" . count($options) . "): " . json_encode($options) . " /");
         return $options;
     }
 }

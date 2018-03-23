@@ -378,16 +378,10 @@ define([
                 } else {
                     building.colorName = this.gamedatas.players[building.bldg_player_id].colorName;
                 }
-				
-                if ( building.bldg_type == 1 ) {
-					var numbuildings = 0 + building.z ;
-				} 
-				else {
-					var numbuildings = 1 ;
-				}
-				for (var i = 1; i <= numbuildings ; i++) {
+
+                var numbuildings = building.bldg_type == HUT ? +building.z : 1;
+                for (var i = 1; i <= numbuildings; i++) {
                     var buildingHtml = this.format_block('jstpl_building_' + building.bldg_type, building);
-                    console.log('buildingHtml', buildingHtml);
                     var buildingEl = dojo.place(buildingHtml, container);
                 }
             },
@@ -477,13 +471,16 @@ define([
                 } else {
                     for (var bldgoption in this.gamedatas.gamestate.args.possible) {
                         var spaces = this.gamedatas.gamestate.args.possible[bldgoption];
-						bldg_type = Math.floor ( bldgoption / 10 );
-                        possibleHtml = this.format_block('jstpl_building_' + bldg_type, {
+                        var bldg_type = Math.floor(bldgoption / 10);
+                        var possibleHtml = this.format_block('jstpl_building_' + bldg_type, {
                             colorName: 'tempbuilding'
                         });
-						if (bldg_type == 1 ) {
-							possibleHtml +="<span class='facelabel'>"+String.fromCharCode(64 + ( bldgoption % 10 ))+ "</span>";
-						}
+                        if (bldg_type == HUT) {
+                            var hutCount = spaces.reduce(function(sum, space) {
+                                return sum + space.z;
+                            }, 0);
+                            possibleHtml += "<span class='facelabel'>" + hutCount + "</span>";
+                        }
                         dojo.place("<div id='rota_" + bldgoption + "' class='rotator' style='transform:rotate(0deg)' >" + possibleHtml + "</div>", 'buildPalette');
                         dojo.query('#rota_' + bldgoption).connect('onclick', this, 'onClickPossibleBuilding');
                     }
