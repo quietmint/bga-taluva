@@ -275,7 +275,8 @@
   transform: translateZ(1px) scale(0.8);
   cursor: pointer;
   animation: 350ms fade-in ease-in-out;
-  background: url(img/hexagons.png);
+  background: url(img/hexagons-hd.png);
+  background-size:400% 300%;
   background-position: -252px -97px;
 }
 
@@ -286,48 +287,54 @@
 /* Volcano */
 
 .face.face-6 {
-  background: url(img/hexagons.png);
+  background: url(img/hexagons-hd.png);
+    background-size:400% 300%;
     background-repeat:no-repeat;
 }
 
 /* Jungle */
 
 .face.face-1 {
-  background: url(img/hexagons.png);
+  background: url(img/hexagons-hd.png);
   background-position: -84px -0px;
     background-repeat:no-repeat;
+    background-size:400% 300%;
 }
 
 /* Grass */
 
 .face.face-2 {
-  background: url(img/hexagons.png);
+  background: url(img/hexagons-hd.png);
   background-position: -168px -0px;
     background-repeat:no-repeat;
+    background-size:400% 300%;
 }
 
 /* Sand */
 
 .face.face-3 {
-  background: url(img/hexagons.png);
+  background: url(img/hexagons-hd.png);
   background-position: -252px -0px;
     background-repeat:no-repeat;
+    background-size:400% 300%;
 }
 
 /* Rock */
 
 .face.face-4 {
-  background: url(img/hexagons.png);
+  background: url(img/hexagons-hd.png);
   background-position: -0px -97px;
     background-repeat:no-repeat;
+    background-size:400% 300%;
 }
 
 /* Lake */
 
 .face.face-5 {
-  background: url(img/hexagons.png);
+  background: url(img/hexagons-hd.png);
   background-position: -84px -97px;
-    background-repeat:no-repeat;
+  background-size:400% 300%;
+  background-repeat:no-repeat;
 }
 
 .level1 .face , .bldg-container.level1 {
@@ -374,7 +381,8 @@
   position: absolute;
   width: 84px;
   height: 97px;
-  background: url(img/hexagons.png);
+  background: url(img/hexagons-hd.png);
+  background-size:400% 300%;
   background-position: -168px -97px;
   transform: translateZ(-17px);
   z-index:-2;
@@ -452,16 +460,16 @@
 
 .tile .face.subface0 {
   top: 0;
-  left: 25%;
+  left: 42px;
 }
 
 .tile .face.subface1 {
-  top: 71px;
+  top: 72px;
   left: 0;
 }
 
 .tile .face.subface2 {
-  top: 71px;
+  top: 72px;
   right: 0;
 }
 
@@ -506,9 +514,9 @@
     position: absolute;
     width: 32px;
     height: 34px;
-    background-image: url(img/sides.png);
-    /* background-repeat: no-repeat; */
-    background-position: 147px -36px;
+    background-image: url(img/sides-hd.png);
+    background-size: 116.5px 350px;
+    background-position: 149px -36px;
     transform-style: preserve-3d;
     transform: translateZ(17px) rotateX(-90deg) translateZ(16px);
 }
@@ -518,9 +526,9 @@
     position: absolute;
     width: 32px;
     height: 34px;
-    background-image: url(img/sides.png);
-    /* background-repeat: no-repeat; */
-    background-position: 147px -36px;
+    background-image: url(img/sides-hd.png);
+    background-size: 116.5px 350px;
+    background-position: 149px -36px;
     transform-style: preserve-3d;
     transform: translateZ(-34px) ;
 }
@@ -552,26 +560,25 @@
     box-shadow: inset 0px 0px 0px 20px rgba(0, 0, 0, 0.65), 0px 0px 6px 2px rgba(0, 0, 0, 0.65);
 }
 
-.templeside {
-position: absolute;
-    width: 40px;
-    height: 50px;
-    background-image: url(img/sides.png);
-    /* background-repeat: no-repeat; */
-    background-position: 72px -22px;
-    transform-style: preserve-3d;
-    transform-origin: bottom center;
-    transform: translateY(-10px) rotateX(-90deg) ;
-}
+.templeside {position: absolute;
+width: 40px;
+height: 50px;
+background-image: url(img/sides-hd.png);
+ background-size: 116.5px 350px;
+ background-position: 73px -22px;
+ transform-style: preserve-3d;
+ transform-origin: bottom center;
+ transform: translateY(-10px) rotateX(-90deg);
+ }
 
 .templeside:after {
    content:"";
    position: absolute;
    width: 40px;
    height: 50px;
-   background-image: url(img/sides.png);
-   /* background-repeat: no-repeat; */
-   background-position: 72px -22px;
+   background-image: url(img/sides-hd.png);
+   background-size: 116.5px 350px;
+   background-position: 73px -22px;
    transform-style: preserve-3d;
    transform-origin: bottom center;
    transform: translateZ(-40px);
@@ -614,9 +621,9 @@ position: absolute;
     position: absolute;
     width: 40px;
     height: 70px;
-    background-image: url(img/sides.png);
-    /* background-repeat: no-repeat; */
-    background-position: 0px 0px;
+    background-image: url(img/sides-hd.png);
+    background-size: 116.5px 350px;
+    background-position: -1px 0px;
     transform-style: preserve-3d;
     transform-origin: bottom center;
     transform: translateY(-50px) rotateX(-90deg);
@@ -627,9 +634,9 @@ position: absolute;
     position: absolute;
     width: 40px;
     height: 70px;
-    background-image: url(img/sides.png);
-    /* background-repeat: no-repeat; */
-    background-position: 0px 0px;
+    background-image: url(img/sides-hd.png);
+    background-size: 116.5px 350px;
+    background-position: -1px 0px;
     transform-style: preserve-3d;
     transform-origin: bottom center;
     transform: rotateY(-90deg);
@@ -673,10 +680,10 @@ position: absolute;
 }
 
 .brown>.hutside{
-  background-position: 147px -106px;
+  background-position: 149px -106px;
 }
 .brown>.hutside:after{
-  background-position: 147px -106px;
+  background-position: 149px -106px;
 }
 .brown>.hutroof{
   background: #b1634f;
@@ -686,10 +693,10 @@ position: absolute;
 }
 
 .brown>.templeside{
-  background-position: 72px -92px;
+  background-position: 73px -92px;
 }
 .brown>.templeside:after{
-  background-position: 72px -92px;
+  background-position: 73px -92px;
 }
 
 .brown>.templeroof{
@@ -700,10 +707,10 @@ position: absolute;
 }
 
 .brown>.towerside{
-  background-position: 0px -70px;
+  background-position: -1px -70px;
 }
 .brown>.towerside:after{
-  background-position: 0px -70px;
+  background-position: -1px -70px;
 }
 .brown>.towerroof{
   background: #b1634f;
@@ -717,10 +724,10 @@ position: absolute;
 }
 
 .brown>.hutside{
-  background-position: 147px -106px;
+  background-position: 149px -106px;
 }
 .brown>.hutside:after{
-  background-position: 147px -106px;
+  background-position: 149px -106px;
 }
 .brown>.hutroof{
   background: #b1634f;
@@ -731,55 +738,55 @@ position: absolute;
 
 
 .red>.hutside{
-  background-position: 147px -246px;
+  background-position: 149px -246px;
 }
 .red>.hutside:after{
-  background-position: 147px -246px;
+  background-position: 149px -246px;
 }
 .red>.hutroof{
-  background: #ff3c42;
+  background: #ff0000;
 }
 .red>.hutroof:after{
-  background: #ff3c42;
+  background: #ff0000;
 }
 
 .red>.templeside{
-  background-position: 72px -232px;
+  background-position: 73px -232px;
 }
 .red>.templeside:after{
-  background-position: 72px -232px;
+  background-position: 73px -232px;
 }
 
 .red>.templeroof{
-  background: linear-gradient( #ff3c42,  #ff3c42, #ff3c42,  #ff3c42 , #202020 , #ff3c42,  #ff3c42 , #202020 ,#ff3c42,  #ff3c42 , #202020, #ff3c42,  #ff3c42 ,#ff3c42,  #ff3c42);
+  background: linear-gradient( #ff0000,  #ff0000, #ff0000,  #ff0000 , #202020 , #ff0000,  #ff0000 , #202020 ,#ff0000,  #ff0000 , #202020, #ff0000,  #ff0000 ,#ff0000,  #ff0000);
 }
 .red>.templeroof:after{
-      background: linear-gradient( #ff3c42,  #ff3c42, #ff3c42,  #ff3c42 , #202020 , #ff3c42,  #ff3c42 , #202020 ,#ff3c42,  #ff3c42 , #202020, #ff3c42,  #ff3c42 ,#ff3c42,  #ff3c42);
+      background: linear-gradient( #ff0000,  #ff0000, #ff0000,  #ff0000 , #202020 , #ff0000,  #ff0000 , #202020 ,#ff0000,  #ff0000 , #202020, #ff0000,  #ff0000 ,#ff0000,  #ff0000);
 }
 
 .red>.towerside{
-  background-position: 0px -210px;
+  background-position: -1px -210px;
 }
 .red>.towerside:after{
-  background-position: 0px -210px;
+  background-position: -1px -210px;
 }
 .red>.towerroof{
-  background: #ff3c42;
+  background: #ff0000;
 }
 .red>.towerroof:after{
-  background: #ff3c42;
+  background: #ff0000;
 }
 
 .red>.towerroof:before{
-  background: #ff3c42;
+  background: #ff0000;
 }
 
 
 .white>.hutside{
-  background-position: 147px -176px;
+  background-position: 149px -176px;
 }
 .white>.hutside:after{
-  background-position: 147px -176px;
+  background-position: 149px -176px;
 }
 .white>.hutroof{
   background: #f5f5f5;
@@ -789,10 +796,10 @@ position: absolute;
 }
 
 .white>.templeside{
-  background-position: 72px -162px;
+  background-position: 73px -162px;
 }
 .white>.templeside:after{
-  background-position: 72px -162px;
+  background-position: 73px -162px;
 }
 
 .white>.templeroof{
@@ -803,56 +810,61 @@ position: absolute;
 }
 
 .white>.towerside{
-  background-position: 0px -140px;
+  background-position: -1px -140px;
 }
 .white>.towerside:after{
-  background-position: 0px -140px;
+  background-position: -1px -140px;
 }
 .white>.towerroof{
-  background: #f5f5f5;
+  background: #ffffff;
 }
 .white>.towerroof:after{
-  background: #f5f5f5;
+  background: #ffffff;
 }
 
 .white>.towerroof:before{
-  background: #f5f5f5;
+  background: #ffffff;
 }
 
 
 .tempbuilding>.hutside{
-  background-position: 147px -317px;
+  background-position: 149px -317px;
 }
 .tempbuilding>.hutside:after{
-  background-position: 147px -317px;
+  background-position: 149px -317px;
 }
 .tempbuilding>.hutroof{
-  background: #b3f1a88c;
+  background: #cfffab80;
+  box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83);
 }
 .tempbuilding>.hutroof:after{
-  background: #b3f1a88c;
+  background: #cfffab80;
   box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83);
 }
 
 .tempbuilding>.templeside{
-  background-position: 72px -302px;
+  background-position: 73px -302px;
 }
 .tempbuilding>.templeside:after{
-  background-position: 72px -302px;
+  background-position: 73px -302px;
 }
 
 .tempbuilding>.templeroof{
   background: linear-gradient( #b3f1a88c,  #b3f1a88c, #b3f1a88c,  #b3f1a88c , rgb(99, 127, 83) , #b3f1a88c,  #b3f1a88c , rgb(99, 127, 83) ,#b3f1a88c,  #b3f1a88c , rgb(99, 127, 83), #b3f1a88c,  #b3f1a88c ,#b3f1a88c,  #b3f1a88c);
+  box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83) ;
+
 }
 .tempbuilding>.templeroof:after{
   background: linear-gradient( #b3f1a88c,  #b3f1a88c, #b3f1a88c,  #b3f1a88c , rgb(99, 127, 83) , #b3f1a88c,  #b3f1a88c , rgb(99, 127, 83) ,#b3f1a88c,  #b3f1a88c , rgb(99, 127, 83), #b3f1a88c,  #b3f1a88c ,#b3f1a88c,  #b3f1a88c);
+    box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83) ;
+
 }
 
 .tempbuilding>.towerside{
-  background-position: 0px -280px;
+  background-position: -1px -280px;
 }
 .tempbuilding>.towerside:after{
-  background-position: 0px -280px;
+  background-position: -1px -280px;
 }
 .tempbuilding>.towerroof{
   background: #b3f1a88c;
@@ -874,7 +886,8 @@ position: absolute;
   height:97px;
   position:absolute;
   opacity:0.33;
-  background: url(img/hexagons.png);
+  background: url(img/hexagons-hd.png);
+  background-size:400% 300%;
   background-position: -252px -97px;
   transform: translateZ(1px) !important;
   pointer-events: none;
@@ -1002,7 +1015,8 @@ margin:auto;
   height:97px;
   position:absolute;
   font-size:40px !important;
-  background: url(img/hexagons.png);
+  background: url(img/hexagons-hd.png);
+  background-size:400% 300%;
   background-position: -252px -97px;
   transform: translateX(-10px) scale(0.5) !important;
   transform-origin:top center;
@@ -1016,7 +1030,8 @@ margin:auto;
   height:97px;
   position:absolute;
   font-size:40px !important;
-  background: url(img/hexagons.png);
+  background: url(img/hexagons-hd.png);
+  background-size:400% 300%;
   background-position: -252px -97px;
   transform: translateX(-50px) scale(0.25) !important;
   transform-origin:top center;
