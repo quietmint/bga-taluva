@@ -204,31 +204,31 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
     {
         $settlements = array();
         foreach ($this->buildings as $player_id => $spaces) {
-            // Start with each space in its own settlement group
-            $groups = array_map(function ($space) {
-                return array($space);
-            }, $spaces);
-
-            // Combine adjacent groups
-            do {
-                $changed = false;
-                foreach ($groups as $a => $groupA) {
-                    $container = $this->allAdjacents($groupA);
-                    foreach ($groups as $b => $groupB) {
-                        if ($a != $b && $this->containsXY($container, $groupB, CONTAINS_ANY)) {
-                            // Merge settlements A and B
-                            $groups[$a] = array_merge($groups[$a], $groups[$b]);
-                            unset($groups[$b]);
-                            // Restart combine algorithm
-                            $changed = true;
-                            break 2;
-                        }
-                    }
-                }
-            } while ($changed);
-            $settlements[$player_id] = $groups;
+            $playerSettlements = array();
+            $remaining = $spaces;
+            while (!empty($remaining)) {
+                // Begin a new settlement with the next building
+                $settlement = array(array_shift($remaining));
+                $this->chainSettlement($settlement, $remaining);
+                $playerSettlements[] = $settlement;
+            }
+            $settlements[$player_id] = $playerSettlements;
         }
         return $settlements;
+    }
+
+    private function chainSettlement(&$settlement, &$remaining)
+    {
+        $end = end($settlement);
+        $adjacents = $this->getAdjacentsOnTop($end);
+        foreach ($remaining as $key => $r) {
+            if ($this->containsXY($adjacents, array($r), CONTAINS_ANY)) {
+                // Put this building into the settlement and recurse again
+                unset($remaining[$key]);
+                $settlement[] = $r;
+                $this->chainSettlement($settlement, $remaining);
+            }
+        }
     }
 
     // If $another is a single space, answers whether $space is adjacent to it.
