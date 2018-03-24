@@ -1,7 +1,7 @@
 {OVERALL_GAME_HEADER}
 <div id="playareascaler">
   <div id="playArea">
-    <div id="remain" class="whiteblock"><span id="count_remain">{count_remain}</span> {I18N_Remain} &#11042;<sup>&#11042;</sup>&#11042;</div>
+    <div id="remain" class="whiteblock"><span id="count_remain">{count_remain}</span></div>
 
     <div id="map_container">
       <div id="map_scrollable"></div>
