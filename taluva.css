@@ -502,6 +502,9 @@
   padding-left: 100px;
 }
 
+/*          ==========================  BUILDINGS  ============================                    */
+
+
 .hut {
     position: absolute;
     width: 32px;
@@ -514,7 +517,7 @@
     position: absolute;
     width: 32px;
     height: 34px;
-    background-image: url(img/sides-hd.png);
+    background-image: url(img/sides-hd-w.png);
     background-size: 116.5px 350px;
     background-position: 149px -36px;
     transform-style: preserve-3d;
@@ -526,7 +529,7 @@
     position: absolute;
     width: 32px;
     height: 34px;
-    background-image: url(img/sides-hd.png);
+    background-image: url(img/sides-hd-w.png);
     background-size: 116.5px 350px;
     background-position: 149px -36px;
     transform-style: preserve-3d;
@@ -539,7 +542,7 @@
     background: #fdd72d;
     transform-style: preserve-3d;
     transform: rotateZ(90deg) translateZ(15px) rotateX(-58deg) translateZ(7px);
-    box-shadow: inset 0px 0px 1px 2px rgba(0, 0, 0, 0.78);
+    box-shadow: inset 0px 7px 5px 0px rgba(245, 245 , 245, 0.78);
 }
 .hutroof:after {
    content:"";
@@ -549,7 +552,7 @@
    background: #fdd72d;
    transform-style: preserve-3d;
    transform: translateZ(-6px) rotateX(-62deg) translateZ(-6px);
-   box-shadow: inset 0px 0px 1px 2px rgba(0, 0, 0, 0.78);
+   box-shadow: inset 0px 7px 5px 0px rgba(245, 245 , 245, 0.78);
 }
 
 .temple {
@@ -563,7 +566,7 @@
 .templeside {position: absolute;
 width: 40px;
 height: 50px;
-background-image: url(img/sides-hd.png);
+background-image: url(img/sides-hd-w.png);
  background-size: 116.5px 350px;
  background-position: 73px -22px;
  transform-style: preserve-3d;
@@ -576,7 +579,7 @@ background-image: url(img/sides-hd.png);
    position: absolute;
    width: 40px;
    height: 50px;
-   background-image: url(img/sides-hd.png);
+   background-image: url(img/sides-hd-w.png);
    background-size: 116.5px 350px;
    background-position: 73px -22px;
    transform-style: preserve-3d;
@@ -587,24 +590,24 @@ background-image: url(img/sides-hd.png);
     position: absolute;
     width: 40px;
     height: 50px;
-    background: linear-gradient( #fdd72d,  #fdd72d, #fdd72d,  #fdd72d , #202020 ,#fdd72d,  #fdd72d , #202020 ,#fdd72d,  #fdd72d , #202020, #fdd72d,  #fdd72d ,#fdd72d,  #fdd72d);
+    background: linear-gradient( #fdd72d,  #fdd72d, #fdd72d,  #fdd72d , #f5f5f5 ,#fdd72d,  #fdd72d , #f5f5f5 ,#fdd72d,  #fdd72d , #f5f5f5, #fdd72d,  #fdd72d ,#fdd72d,  #fdd72d);
     transform-style: preserve-3d;
 
     transform-origin: bottom center ;
     transform: translatey(-30px) rotatez(-90deg) translatey(17px) rotateX(-69deg) ;
-    box-shadow: inset 0px 0px 1px 2px rgba(0, 0, 0, 0.78);
+    box-shadow: inset 0px 7px 5px 0px rgba(245, 245 , 245, 0.78);
 }
 .templeroof:after {
     content:"";
     position: absolute;
     width: 40px;
     height: 50px;
-    background: linear-gradient( #fdd72d,  #fdd72d, #fdd72d,  #fdd72d , #202020 ,#fdd72d,  #fdd72d , #202020 ,#fdd72d,  #fdd72d , #202020, #fdd72d,  #fdd72d ,#fdd72d,  #fdd72d);
+    background: linear-gradient( #fdd72d,  #fdd72d, #fdd72d,  #fdd72d , #f5f5f5 ,#fdd72d,  #fdd72d , #f5f5f5 ,#fdd72d,  #fdd72d , #f5f5f5, #fdd72d,  #fdd72d ,#fdd72d,  #fdd72d);
     transform-style: preserve-3d;
 
     transform-origin: top center ;
     transform:translatez(4px) rotateX(-42deg)   ;
-    box-shadow: inset 0px 0px 1px 2px rgba(0, 0, 0, 0.78);
+    box-shadow: inset 0px 7px 5px 0px rgba(245, 245 , 245, 0.78);
 }
 
 
@@ -621,7 +624,7 @@ background-image: url(img/sides-hd.png);
     position: absolute;
     width: 40px;
     height: 70px;
-    background-image: url(img/sides-hd.png);
+    background-image: url(img/sides-hd-w.png);
     background-size: 116.5px 350px;
     background-position: -1px 0px;
     transform-style: preserve-3d;
@@ -634,7 +637,7 @@ background-image: url(img/sides-hd.png);
     position: absolute;
     width: 40px;
     height: 70px;
-    background-image: url(img/sides-hd.png);
+    background-image: url(img/sides-hd-w.png);
     background-size: 116.5px 350px;
     background-position: -1px 0px;
     transform-style: preserve-3d;
@@ -650,7 +653,7 @@ background-image: url(img/sides-hd.png);
     transform-style: preserve-3d;
     transform-origin: center center ;
     transform: translatez(25px);
-    box-shadow: inset 0px 0px 2px 3px rgba(0, 0, 0, 0.78);
+    box-shadow: inset 0px 0px 4px 4px rgba(245, 245 , 245, 0.78);
 }
 .towerroof:after {
    content:"";
@@ -662,7 +665,7 @@ background-image: url(img/sides-hd.png);
     transform-style: preserve-3d;
     transform-origin: center center ;
     transform: translatez(-20px);
-    box-shadow: inset 0px 0px 2px 3px rgba(0, 0, 0, 0.78);
+    box-shadow: inset 0px 0px 2px 3px rgba(245, 245 , 245, 0.78);
     
 }
 
@@ -676,7 +679,7 @@ background-image: url(img/sides-hd.png);
     transform-style: preserve-3d;
     transform-origin: center center ;
     transform: translate3D(2px, 2px,19px);
-    box-shadow: inset 0px 0px 2px 3px rgba(0, 0, 0, 0.78);
+    box-shadow: inset 0px 0px 2px 3px rgba(245, 245 , 245, 0.78);
 }
 
 .brown>.hutside{
@@ -700,10 +703,10 @@ background-image: url(img/sides-hd.png);
 }
 
 .brown>.templeroof{
-  background: linear-gradient( #b1634f,  #b1634f, #b1634f,  #b1634f , #202020 , #b1634f,  #b1634f , #202020 ,#b1634f,  #b1634f , #202020, #b1634f,  #b1634f ,#b1634f,  #b1634f);
+  background: linear-gradient( #b1634f,  #b1634f, #b1634f,  #b1634f , #f5f5f5 , #b1634f,  #b1634f , #f5f5f5 ,#b1634f,  #b1634f , #f5f5f5, #b1634f,  #b1634f ,#b1634f,  #b1634f);
 }
 .brown>.templeroof:after{
-      background: linear-gradient( #b1634f,  #b1634f, #b1634f,  #b1634f , #202020 , #b1634f,  #b1634f , #202020 ,#b1634f,  #b1634f , #202020, #b1634f,  #b1634f ,#b1634f,  #b1634f);
+      background: linear-gradient( #b1634f,  #b1634f, #b1634f,  #b1634f , #f5f5f5 , #b1634f,  #b1634f , #f5f5f5 ,#b1634f,  #b1634f , #f5f5f5, #b1634f,  #b1634f ,#b1634f,  #b1634f);
 }
 
 .brown>.towerside{
@@ -758,10 +761,10 @@ background-image: url(img/sides-hd.png);
 }
 
 .red>.templeroof{
-  background: linear-gradient( #ff0000,  #ff0000, #ff0000,  #ff0000 , #202020 , #ff0000,  #ff0000 , #202020 ,#ff0000,  #ff0000 , #202020, #ff0000,  #ff0000 ,#ff0000,  #ff0000);
+  background: linear-gradient( #ff0000,  #ff0000, #ff0000,  #ff0000 , #f5f5f5 , #ff0000,  #ff0000 , #f5f5f5 ,#ff0000,  #ff0000 , #f5f5f5, #ff0000,  #ff0000 ,#ff0000,  #ff0000);
 }
 .red>.templeroof:after{
-      background: linear-gradient( #ff0000,  #ff0000, #ff0000,  #ff0000 , #202020 , #ff0000,  #ff0000 , #202020 ,#ff0000,  #ff0000 , #202020, #ff0000,  #ff0000 ,#ff0000,  #ff0000);
+      background: linear-gradient( #ff0000,  #ff0000, #ff0000,  #ff0000 , #f5f5f5 , #ff0000,  #ff0000 , #f5f5f5 ,#ff0000,  #ff0000 , #f5f5f5, #ff0000,  #ff0000 ,#ff0000,  #ff0000);
 }
 
 .red>.towerside{
@@ -803,10 +806,10 @@ background-image: url(img/sides-hd.png);
 }
 
 .white>.templeroof{
-  background: linear-gradient( #f5f5f5,  #f5f5f5, #f5f5f5,  #f5f5f5 , #202020 , #f5f5f5,  #f5f5f5 , #202020 ,#f5f5f5,  #f5f5f5 , #202020, #f5f5f5,  #f5f5f5 ,#f5f5f5,  #f5f5f5);
+  background: linear-gradient( #f5f5f5,  #f5f5f5, #f5f5f5,  #f5f5f5 , #f5f5f5 , #f5f5f5,  #f5f5f5 , #f5f5f5 ,#f5f5f5,  #f5f5f5 , #f5f5f5, #f5f5f5,  #f5f5f5 ,#f5f5f5,  #f5f5f5);
 }
 .white>.templeroof:after{
-      background: linear-gradient( #f5f5f5,  #f5f5f5, #f5f5f5,  #f5f5f5 , #202020 , #f5f5f5,  #f5f5f5 , #202020 ,#f5f5f5,  #f5f5f5 , #202020, #f5f5f5,  #f5f5f5 ,#f5f5f5,  #f5f5f5);
+      background: linear-gradient( #f5f5f5,  #f5f5f5, #f5f5f5,  #f5f5f5 , #f5f5f5 , #f5f5f5,  #f5f5f5 , #f5f5f5 ,#f5f5f5,  #f5f5f5 , #f5f5f5, #f5f5f5,  #f5f5f5 ,#f5f5f5,  #f5f5f5);
 }
 
 .white>.towerside{
@@ -879,6 +882,10 @@ background-image: url(img/sides-hd.png);
   background: #b3f1a88c;
   box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83);
 }
+
+
+
+/*   =============================== END BUILDINGS  =============================================== */
 
 #playArea .tile:hover .face:before{
   content:"";
