@@ -31,7 +31,7 @@
       <span id="count_huts_${id}">0</span>\
     </div>\
 </div>\
-<div id="preview_${id}" class="preview">?</div>';
+<div id="preview_${id}" class="preview"></div>';
 
   var jstpl_tile =
     '<div id="tile_${id}" class="tile rotate${rotate} level${z}">\

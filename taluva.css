@@ -491,15 +491,17 @@
 }
 
 .preview {
-  transform: scale3d(0.6,0.6,0.6);
-  width: 168px;
-  height: 168px;
-  line-height: 168px;
-  text-align: center;
-  font-size: 80px;
-  color: rgba(0, 0, 0, 0.25);
-  margin: -30px auto;
-  padding-left: 100px;
+  height: 100px;
+  margin-left: 70px;
+}
+
+.preview.unknown {
+  background: url(img/tile-back.png) 50% 50% no-repeat;
+}
+
+.preview .tile {
+  transform: scale3d(0.6, 0.6, 0.6);
+  transform-origin: 50% 0;
 }
 
 /*          ==========================  BUILDINGS  ============================                    */

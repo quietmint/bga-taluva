@@ -100,10 +100,18 @@ define([
                     dojo.place(this.format_block('jstpl_player_board', player), 'player_board_' + player_id);
                     this.updatePlayerCounters(player);
                     if (player.preview) {
+                        // Show a tile preview
                         player.preview.player_id = player_id;
                         player.preview.remain = gamedatas.remain;
                         this.notif_draw({
                             args: player.preview
+                        });
+                    } else if (player.unknownPreview) {
+                        // Show an unknown tile preview
+                        this.notif_draw({
+                            args: {
+                                player_id: player_id
+                            }
                         });
                     }
                 }
@@ -230,14 +238,12 @@ define([
                 if (this.isCurrentPlayerActive()) {
                     if (stateName == 'tile') {
                         if (this.tryTile) {
-                            this.addActionButton('button_reset', _('Cancel'), 'onClickResetTile');
+                            this.addActionButton('button_reset', _('Cancel'), 'onClickCancelTile');
                             this.addActionButton('button_commit', _('Done'), 'onClickCommitTile');
                         }
                     } else if (stateName == 'building') {
-
-                        this.addActionButton('button_reset', _('Cancel'), 'onClickCancel');
+                        this.addActionButton('button_reset', _('Cancel'), 'onClickCancelBuilding');
                         this.addActionButton('button_commit', _('Done'), 'onClickCommitBuilding');
-
                     }
                 }
             },
@@ -285,7 +291,7 @@ define([
                 if (e.which == 3) {
                     dojo.stopEvent(e);
                     //this.dragging_3dhandler = dojo.connect($("ebd-body"), "mousemove", this, "elementDrag3d");
-					$("ebd-body").onmousemove= dojo.hitch( this , this.elementDrag3d); 
+                    $("ebd-body").onmousemove = dojo.hitch(this, this.elementDrag3d);
                 }
             },
 
@@ -303,7 +309,7 @@ define([
                     if(evt.stopPropagation != undefined)
                     	evt.stopPropagation();*/
                     dojo.stopEvent(evt);
-					$("ebd-body").onmousemove=null;
+                    $("ebd-body").onmousemove = null;
                     //dojo.disconnect(this.dragging_3dhandler);
                 }
             },
@@ -312,7 +318,7 @@ define([
             //// Utility methods
             doAction: function(action, args) {
                 if (this.checkAction(action)) {
-                    console.info('Taking action: ' + action, args);;
+                    console.info('Taking action: ' + action, args);
                     args = args || {};
                     //args.lock = true;
                     this.ajaxcall('/taluva/taluva/' + action + '.html', args, this, function(result) {});
@@ -368,20 +374,17 @@ define([
                 return tileEl;
             },
 
-            placeBuilding: function(building, temp) {
-                console.log('placeBuilding', building);
+            placeBuilding: function(building) {
                 var hexId = 'hex_' + building.tile_id + '_' + building.subface;
                 var container = $('bldg_' + hexId) || dojo.place('<div id="bldg_' + hexId + '" class="bldg-container"></div>', $(hexId));
-
-                if (temp == true) {
-                    building.colorName = 'tempbuilding';
-                } else {
+                if (building.bldg_player_id) {
                     building.colorName = this.gamedatas.players[building.bldg_player_id].colorName;
+                } else {
+                    building.colorName = 'tempbuilding';
                 }
-
-                var numbuildings = building.bldg_type == HUT ? +building.z : 1;
-                for (var i = 1; i <= numbuildings; i++) {
-                    var buildingHtml = this.format_block('jstpl_building_' + building.bldg_type, building);
+                var buildingHtml = this.format_block('jstpl_building_' + building.bldg_type, building);
+                var buildingCount = building.bldg_type == HUT ? +building.z : 1;
+                for (var i = 1; i <= buildingCount; i++) {
                     var buildingEl = dojo.place(buildingHtml, container);
                 }
             },
@@ -414,7 +417,7 @@ define([
                 this.removeActionButtons();
                 this.onUpdateActionButtons(this.gamedatas.gamestate.name, this.gamedatas.gamestate.args);
                 dojo.query('.possible').forEach(dojo.destroy);
-				dojo.query('.tempbuilding').forEach(dojo.destroy);
+                dojo.query('.tempbuilding').forEach(dojo.destroy);
             },
 
             showPossibleTile: function() {
@@ -435,18 +438,14 @@ define([
 
             showPossibleSpaces: function() {
                 this.clearPossible();
-
                 for (var i in this.gamedatas.gamestate.args.spaces) {
-
                     var possible = this.gamedatas.gamestate.args.spaces[i];
-                    console.log('possibleSpace', possible);
                     var coords = this.getCoords(possible.x, possible.y);
-
                     var possibleHtml = this.format_block('jstpl_possible', {
                         id: i,
                         z: possible.z,
                         style: coords.style,
-                        label: "",
+                        label: '',
                     });
                     var possibleEl = dojo.place(possibleHtml, 'map_scrollable_oversurface');
                 }
@@ -455,23 +454,21 @@ define([
 
             showPossibleBuilding: function() {
                 this.clearPossible();
-
-                console.log('showPossibleBuilding args', this.gamedatas.gamestate.args);
-
+                var options = this.gamedatas.gamestate.args.options;
                 var tile_id = this.gamedatas.gamestate.args.tile_id;
                 var subface = this.gamedatas.gamestate.args.subface;
 
                 var possibleEl = dojo.place("<div id='buildPalette' class='palette possible'></div>", "hex_" + tile_id + "_" + subface);
                 dojo.place("<div id='cancelator' style='transform:rotate(0deg)'><span class='facelabel'> ✗ </span></div>", 'buildPalette');
 
-                if (Object.keys(this.gamedatas.gamestate.args.possible).length == 1) {
-                    bldgoption = Object.keys(this.gamedatas.gamestate.args.possible)[0];
-					
-                    this.onClickPossibleBuilding(null, bldgoption);
+                var option_keys = Object.keys(options);
+                if (option_keys.length == 1) {
+                    var option_nbr = option_keys[0];
+                    this.onClickPossibleBuilding(null, option_nbr);
                 } else {
-                    for (var bldgoption in this.gamedatas.gamestate.args.possible) {
-                        var spaces = this.gamedatas.gamestate.args.possible[bldgoption];
-                        var bldg_type = Math.floor(bldgoption / 10);
+                    for (var option_nbr in options) {
+                        var spaces = options[option_nbr];
+                        var bldg_type = Math.floor(option_nbr / 10);
                         var possibleHtml = this.format_block('jstpl_building_' + bldg_type, {
                             colorName: 'tempbuilding'
                         });
@@ -481,21 +478,23 @@ define([
                             }, 0);
                             possibleHtml += "<span class='facelabel'>" + hutCount + "</span>";
                         }
-                        dojo.place("<div id='rota_" + bldgoption + "' class='rotator' style='transform:rotate(0deg)' >" + possibleHtml + "</div>", 'buildPalette');
-                        dojo.query('#rota_' + bldgoption).connect('onclick', this, 'onClickPossibleBuilding');
+                        dojo.place("<div id='rota_" + option_nbr + "' class='rotator' style='transform:rotate(0deg)' >" + possibleHtml + "</div>", 'buildPalette');
+                        dojo.query('#rota_' + option_nbr).connect('onclick', this, 'onClickPossibleBuilding');
                     }
-                    var numRotators = $('buildPalette').childElementCount;
 
                     for (var k = 0; k < $('buildPalette').children.length; k++) {
                         $('buildPalette').children[k].style.animation = "rotator" + (k + 1) + " 1.5s ease forwards 1";
                     }
-                    dojo.query('#cancelator').connect('onclick', this, 'onClickCancel');
+                    dojo.query('#cancelator').connect('onclick', this, 'onClickCancelBuilding');
                 }
-
             },
 
             ///////////////////////////////////////////////////
             //// Player's action
+
+            /////
+            // Tile actions
+            /////
 
             onClickPossibleTile: function(evt) {
                 dojo.stopEvent(evt);
@@ -513,7 +512,7 @@ define([
                     r: possible.r[0],
                     possible: possible,
                 };
-                console.log('Trying tile at [' + possible.x + ',' + possible.y + ',' + possible.z + ']');
+                console.log('Trying tile ' + this.tryTile.tile_id + ' at [' + possible.x + ',' + possible.y + ',' + possible.z + ']');
 
                 // Create tile
                 var tileEl = this.createTile(this.tryTile);
@@ -536,74 +535,6 @@ define([
                 this.onUpdateActionButtons(this.gamedatas.gamestate.name, this.gamedatas.gamestate.args);
             },
 
-
-            onClickPossibleSpaces: function(evt) {
-                dojo.stopEvent(evt);
-                this.clearPossible();
-
-                var idParts = evt.currentTarget.id.split('_');
-                var possible = this.gamedatas.gamestate.args.spaces[idParts[1]];
-                console.log('onClickPossibleSpaces', possible);
-
-                this.selectSpaceArgs = {
-                    x: possible.x,
-                    y: possible.y,
-                    z: possible.z,
-                    tile_id: possible.tile_id,
-                    subface: possible.subface
-                };
-                this.doAction("selectSpace", this.selectSpaceArgs)
-            },
-
-            onClickPossibleBuilding: function(evt, single_type) {
-                this.clearPossible();
-                if (single_type != null) {
-                    var bldgoption = single_type;
-                } else {
-                    dojo.stopEvent(evt);
-                    var idParts = evt.currentTarget.id.split('_');
-                    var bldgoption = idParts[1];
-                }
-				bldg_type = Math.floor ( bldgoption / 10);
-                var possibleBuildings = this.gamedatas.gamestate.args.possible[bldgoption]
-                console.log('onClickPossibleBuilding', possibleBuildings);
-
-                for (var b in possibleBuildings) {
-                    possible = possibleBuildings[b];
-                    var coords = this.getCoords(possible.x, possible.y);
-                    this.tryBuilding = {
-                        x: possible.x,
-                        y: possible.y,
-                        z: possible.z,
-                        tile_id: possible.tile_id,
-                        subface: possible.subface,
-                        bldg_type: bldg_type,
-						bldgoption : bldgoption,
-                        bldg_player_id: this.player_id,
-                        possible: possible,
-                    };
-
-                    // Create temp building
-                    this.placeBuilding(this.tryBuilding, 1);
-                }
-				
-				dojo.query('.tempbuilding').connect('onclick', this, 'showPossibleBuilding');
-
-            },
-
-            onClickSwapBuilding: function(evt) {
-                dojo.query(".tempbuilding").forEach(dojo.destroy);
-                var bt = Object.keys(this.tryBuilding.possible.bldg_types);
-                var index = bt.indexOf(this.tryBuilding.bldg_type);
-                this.tryBuilding.bldg_type = bt[(index + 1) % bt.length];
-                this.placeBuilding(this.tryBuilding, 1);
-            },
-
-            onClickCancel: function(evt) {
-                dojo.query(".tempbuilding").forEach(dojo.destroy);
-                this.doAction("cancel");
-            },
-
             onClickRotateTile: function(evt) {
                 dojo.stopEvent(evt);
 
@@ -619,7 +550,7 @@ define([
                 dojo.addClass(tileEl, 'rotate' + this.tryTile.r);
             },
 
-            onClickResetTile: function(evt) {
+            onClickCancelTile: function(evt) {
                 dojo.stopEvent(evt);
                 if (this.tryTile != null) {
                     var player_id = this.getActivePlayerId();
@@ -638,13 +569,61 @@ define([
                 this.doAction('commitTile', this.tryTile);
             },
 
-            onClickResetBuilding: function(evt) {
+            /////
+            // Building actions
+            /////
+
+            onClickPossibleSpaces: function(evt) {
                 dojo.stopEvent(evt);
-                if (this.tryBuilding != null) {
-                    var bldgContainer = $('bldg_hex_' + this.tryBuilding.tile_id + '_' + this.tryBuilding.subface);
-                    this.removeTile(bldgContainer);
-                    this.showPossibleBuilding();
+                this.clearPossible();
+
+                var idParts = evt.currentTarget.id.split('_');
+                var possible = this.gamedatas.gamestate.args.spaces[idParts[1]];
+                console.log('Select space [' + possible.x + ',' + possible.y + ',' + possible.z + ']');
+                this.doAction('selectSpace', {
+                    x: possible.x,
+                    y: possible.y,
+                    z: possible.z,
+                    tile_id: possible.tile_id,
+                    subface: possible.subface
+                })
+            },
+
+            onClickPossibleBuilding: function(evt, option_nbr) {
+                this.clearPossible();
+                if (option_nbr == null) {
+                    dojo.stopEvent(evt);
+                    var idParts = evt.currentTarget.id.split('_');
+                    option_nbr = idParts[1];
                 }
+                this.tryBuilding = {
+                    x: this.gamedatas.gamestate.args.x,
+                    y: this.gamedatas.gamestate.args.y,
+                    z: this.gamedatas.gamestate.args.z,
+                    option_nbr: +option_nbr,
+                };
+                var bldg_type = Math.floor(option_nbr / 10);
+                var spaces = this.gamedatas.gamestate.args.options[option_nbr];
+                console.log('Trying building option ' + option_nbr + ' at [' + this.tryBuilding.x + ',' + this.tryBuilding.y + ',' + this.tryBuilding.z + ']');
+
+                // Create temp buildings
+                for (var b in spaces) {
+                    var possible = spaces[b];
+                    this.placeBuilding({
+                        x: possible.x,
+                        y: possible.y,
+                        z: possible.z,
+                        tile_id: possible.tile_id,
+                        subface: possible.subface,
+                        bldg_type: bldg_type,
+                    });
+                }
+                dojo.query('.tempbuilding').connect('onclick', this, 'showPossibleBuilding');
+            },
+
+            onClickCancelBuilding: function(evt) {
+                dojo.query(".tempbuilding").forEach(dojo.destroy);
+                this.doAction("cancel");
             },
 
             onClickCommitBuilding: function(evt) {
@@ -678,16 +657,25 @@ define([
 
             notif_draw: function(n) {
                 console.log('notif_draw', n.args);
+
                 // Show preview tile
                 var player_id = n.args.player_id;
-                var tileEl = this.createTile({
-                    tile_id: 'p_' + player_id,
-                    tile_type: n.args.tile_type
-                });
-                dojo.place(tileEl, 'preview_' + player_id, 'only');
+                if (n.args.tile_type) {
+                    var tileEl = this.createTile({
+                        tile_id: 'p_' + player_id,
+                        tile_type: n.args.tile_type
+                    });
+                    dojo.place(tileEl, 'preview_' + player_id, 'only');
+                    dojo.removeClass('preview_' + player_id, 'unknown');
+                } else {
+                    $('preview_' + player_id).innerHTML = '';
+                    dojo.addClass('preview_' + player_id, 'unknown');
+                }
 
                 // Update remaining tile counter
-                $('count_remain').innerText = n.args.remain;
+                if (n.args.remain != null) {
+                    $('count_remain').innerText = n.args.remain;
+                }
             },
 
             notif_tile: function(n) {
