@@ -102,7 +102,7 @@
   font-size: 25px;
   font-weight: bold;
   text-align:  center;
-  text-shadow: 1px 1px 10px #23312d;
+  text-shadow: 1px 1px 10px rgba(0,0,0,0.8);
 }
 
 /** Scrollable area **/
@@ -548,17 +548,17 @@
     position: absolute;
     width: 33px;
     height: 33px;
-    background: #eac411;
+     background: linear-gradient( rgb(234, 196, 17) 40%, rgb(234, 196, 17) 17%, rgba(240,223,221,1) 63%, rgb(234, 196, 17) 80%);
     transform-style: preserve-3d;
     transform: rotateZ(90deg) translateZ(15px) rotateX(-58deg) translateZ(7px);
-    box-shadow: inset 0px 7px 5px 0px rgba(245, 245 , 245, 0.78);
+    box-shadow: inset 0px 5px 5px 0px rgba(245, 245 , 245, 0.78);
 }
 .hutroof:after {
    content:"";
    position: absolute;
    width: 33px;
    height: 33px;
-   background: #eac411;
+    background: linear-gradient( rgb(234, 196, 17) 40%, rgb(234, 196, 17) 17%, rgba(240,223,221,1) 63%, rgb(234, 196, 17) 80%);
    transform-style: preserve-3d;
    transform: translateZ(-6px) rotateX(-62deg) translateZ(-6px);
    box-shadow: inset 0px 7px 5px 0px rgba(245, 245 , 245, 0.78);
@@ -691,19 +691,6 @@ background-image: url(img/sides-hd-w.png);
     box-shadow: inset 0px 0px 2px 3px rgba(245, 245 , 245, 0.78);
 }
 
-.brown>.hutside{
-  background-position: 149px -106px;
-}
-.brown>.hutside:after{
-  background-position: 149px -106px;
-}
-.brown>.hutroof{
-  background: #b1634f;
-}
-.brown>.hutroof:after{
-  background: #b1634f;
-}
-
 .brown>.templeside{
   background-position: 73px -92px;
 }
@@ -742,10 +729,10 @@ background-image: url(img/sides-hd-w.png);
   background-position: 149px -106px;
 }
 .brown>.hutroof{
-  background: #b1634f;
+   background: linear-gradient( rgb(177, 99, 79) 40%, rgb(177, 99, 79) 17%, rgba(240,223,221,1) 63%, rgb(177, 99, 79) 80%);
 }
 .brown>.hutroof:after{
-  background: #b1634f;
+   background: linear-gradient( rgb(177, 99, 79) 40%, rgb(177, 99, 79) 17%, rgba(240,223,221,1) 63%, rgb(177, 99, 79) 80%);
 }
 
 
@@ -756,10 +743,10 @@ background-image: url(img/sides-hd-w.png);
   background-position: 149px -246px;
 }
 .red>.hutroof{
-  background: #ff0000;
+  background: linear-gradient( rgb(255, 0, 0) 40%, rgb(255, 0, 0) 17%, rgba(240,223,221,1) 63%, rgb(255, 0, 0) 80%);
 }
 .red>.hutroof:after{
-  background: #ff0000;
+  background: linear-gradient( rgb(255, 0, 0) 40%, rgb(255, 0, 0) 17%, rgba(240,223,221,1) 63%, rgb(255, 0, 0) 80%);
 }
 
 .red>.templeside{
@@ -801,10 +788,10 @@ background-image: url(img/sides-hd-w.png);
   background-position: 149px -176px;
 }
 .white>.hutroof{
-  background: #f5f5f5;
+  background: linear-gradient( rgb(255, 255, 255) 40%, rgb(255, 255, 255) 17%, rgb(231, 231, 230) 63%, rgb(246, 246, 246) 80%);
 }
 .white>.hutroof:after{
-  background: #f5f5f5;
+  background: linear-gradient( rgb(255, 255, 255) 40%, rgb(255, 255, 255) 17%, rgb(231, 231, 230) 63%, rgb(246, 246, 246) 80%);
 }
 
 .white>.templeside{
