@@ -167,7 +167,7 @@ class taluva extends Table
             $tile = $this->getTileInHand($id);
             if ($id == $player_id || $id == self::getActivePlayerId()) {
                 $result['players'][$id]['preview'] = $tile;
-            } else if ($tile != null) {
+            } elseif ($tile != null) {
                 $result['players'][$id]['unknownPreview'] = true;
             }
         }
@@ -530,10 +530,21 @@ class taluva extends Table
         $players = $this->getPlayers();
         $weights = array();
         foreach ($players as $player_id => $player) {
-            if (($player['huts'] == 0 && $player['temples'] == 0) || ($player['huts'] == 0 && $player['towers'] == 0) || ($player['temples'] == 0 && $player['towers'] == 0)) {
-                self::notifyAllPlayers('win', clienttranslate('${player_name} has placed all of two types of buildings!'), array(
+            $counts = array(
+                $this->buildings[HUT] => $player['huts'],
+                $this->buildings[TEMPLE] => $player['temples'],
+                $this->buildings[TOWER] => $player['towers'],
+            );
+            asort($counts);
+            $bldg_counts = array_values($counts);
+            $bldg_names = array_keys($counts);
+            if ($bldg_counts[0] == 0 && $bldg_counts[1] == 0) {
+                self::notifyAllPlayers('win', clienttranslate('${player_name} has placed all ${bldg_name} and ${bldg_name2}!'), array(
+                    'i18n' => array('bldg_name', 'bldg_name2'),
                     'player_id' => array($player_id),
                     'player_name' => $player['name'],
+                    'bldg_name' => $bldg_names[0],
+                    'bldg_name2' => $bldg_names[1],
                 ));
                 self::DbQuery("UPDATE player SET player_score = 1 WHERE player_id = {$player['id']}");
                 $this->gamestate->nextState('gameEnd');
