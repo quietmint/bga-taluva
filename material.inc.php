@@ -22,16 +22,16 @@
 $this->rotations = array( 0, 60, 120, 180, 240, 300 );
 
 $this->terrain = array(
-    VOLCANO => clienttranslate('Volcano'),
-    JUNGLE => clienttranslate('Jungle'),
-    GRASS => clienttranslate('Clearing'),
-    SAND => clienttranslate('Sand'),
-    ROCK => clienttranslate('Rock'),
-    LAKE => clienttranslate('Lake'),
+    VOLCANO => clienttranslate('volcano'),
+    JUNGLE => clienttranslate('jungle'),
+    GRASS => clienttranslate('clearing'),
+    SAND => clienttranslate('sand'),
+    ROCK => clienttranslate('rock'),
+    LAKE => clienttranslate('lake'),
 );
 
 $this->buildings = array(
-    HUT => clienttranslate('Huts'),
-    TEMPLE => clienttranslate('Temples'),
-    TOWER => clienttranslate('Towers'),
+    HUT => clienttranslate('huts'),
+    TEMPLE => clienttranslate('temples'),
+    TOWER => clienttranslate('towers'),
 );

@@ -40,10 +40,10 @@
           $template = self::getGameName() . '_' . self::getGameName();
 
           // Translations for static text
-          $this->tpl['I18N_Remain'] = self::_('tiles remain');
-          $this->tpl['I18N_Temples'] = self::_($this->game->buildings[TEMPLE]);
-          $this->tpl['I18N_Towers'] = self::_($this->game->buildings[TOWER]);
-          $this->tpl['I18N_Huts'] = self::_($this->game->buildings[HUT]);
+          $this->tpl['I18N_Remain'] = self::_('Tiles remaining');
+          $this->tpl['I18N_Temples'] = ucfirst(self::_($this->game->buildings[TEMPLE]));
+          $this->tpl['I18N_Towers'] = ucfirst(self::_($this->game->buildings[TOWER]));
+          $this->tpl['I18N_Huts'] = ucfirst(self::_($this->game->buildings[HUT]));
 
           // Remaining tile counter
           $this->tpl['count_remain'] = $this->game->tiles->countCardInLocation('deck');

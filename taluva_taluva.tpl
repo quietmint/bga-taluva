@@ -1,7 +1,7 @@
 {OVERALL_GAME_HEADER}
 <div id="playareascaler">
   <div id="playArea">
-    <div id="remain" class="whiteblock"><span id="count_remain">{count_remain}</span></div>
+    <div id="count_remain" title="{I18N_Remain}">{count_remain}</div>
 
     <div id="map_container">
       <div id="map_scrollable"></div>
@@ -19,15 +19,15 @@
   var jstpl_player_board =
     '<div class="counters">\
     <div title="{I18N_Temples}">\
-      <div id="icon_temples_${id}" class="templeicon color_${color}"></div>\
+      <div id="icon_temples_${id}" class="pieceicon templeicon ${colorName}"></div>\
       <span id="count_temples_${id}">0</span>\
     </div>\
     <div title="{I18N_Towers}">\
-      <div id="icon_towers_${id}" class="towericon color_${color}"></div>\
+      <div id="icon_towers_${id}" class="pieceicon towericon ${colorName}"></div>\
       <span id="count_towers_${id}">0</span>\
     </div>\
     <div title="{I18N_Huts}">\
-      <div id="icon_huts_${id}" class="huticon color_${color}"></div>\
+      <div id="icon_huts_${id}" class="pieceicon huticon ${colorName}"></div>\
       <span id="count_huts_${id}">0</span>\
     </div>\
 </div>\
@@ -45,15 +45,15 @@
 
   // Hut
   var jstpl_building_1 =
-    '<div class="hut ${colorName}" title="{I18N_Huts}" ><div class="hutside"></div><div class="hutroof"></div></div>';
+    '<div class="hut ${colorName}"><div class="hutside"></div><div class="hutroof"></div></div>';
 
   // Temple
   var jstpl_building_2 =
-    '<div class="temple ${colorName}" title="{I18N_Temples}"><div class="templeside"></div><div class="templeroof"></div></div>';
+    '<div class="temple ${colorName}"><div class="templeside"></div><div class="templeroof"></div></div>';
 
   // Tower
   var jstpl_building_3 =
-    '<div class="tower ${colorName}" title="{I18N_Towers}"><div class="towerside"></div><div class="towerroof"></div></div>';
+    '<div class="tower ${colorName}"><div class="towerside"></div><div class="towerroof"></div></div>';
 </script>
 
 {OVERALL_GAME_FOOTER}

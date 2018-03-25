@@ -49,7 +49,7 @@ define([
                     dojo.addClass("ebd-body", "mode_3d");
                     //dojo.addClass("ebd-body", "enableTransitions");
                     $("globalaction_3d").innerHTML = "2D"; // controls the upper right button
-                    this.control3dxaxis = 30; // rotation in degrees of x axis (it has a limit of 0 to 80 degrees in the frameword so users cannot turn it upsidedown)
+                    this.control3dxaxis = 40; // rotation in degrees of x axis (it has a limit of 0 to 80 degrees in the frameword so users cannot turn it upsidedown)
                     this.control3dzaxis = 0; // rotation in degrees of z axis
                     this.control3dxpos = -100; // center of screen in pixels
                     this.control3dypos = -50; // center of screen in pixels
@@ -85,7 +85,7 @@ define([
                 this.dragElement3d($("pagesection_gameview"));
 
                 // Setup remaining tile counter
-                dojo.place($('remain'), 'game_play_area_wrap', 'first');
+                dojo.place($('count_remain'), 'game_play_area_wrap', 'first');
 
                 // Setup player boards
                 colorNames = {
