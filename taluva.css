@@ -208,6 +208,26 @@
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome and Opera */
   text-shadow: 1px 1px 10px #23312d;
+  transform: translateZ(1px);
+  transition: transform 350ms ease-in-out;
+}
+.has-bldg .facelabel {
+  display: none;
+}
+.rotate60 .facelabel {
+  transform: rotate(-60deg) translateZ(1px);
+}
+.rotate120 .facelabel {
+  transform: rotate(-120deg) translateZ(1px);
+}
+.rotate180 .facelabel {
+  transform: rotate(-180deg) translateZ(1px);
+}
+.rotate240 .facelabel {
+  transform: rotate(-240deg) translateZ(1px);
+}
+.rotate300 .facelabel {
+  transform: rotate(-300deg) translateZ(1px);
 }
 
 .face.possible {

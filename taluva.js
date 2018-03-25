@@ -214,11 +214,11 @@ define([
                 if (this.isCurrentPlayerActive()) {
                     if (stateName == 'tile') {
                         if (this.tryTile) {
-                            this.addActionButton('button_reset', _('Cancel'), 'onClickCancelTile');
+                            this.addActionButton('button_reset', _('Cancel'), 'onClickCancelTile', null, false, 'gray');
                             this.addActionButton('button_commit', _('Done'), 'onClickCommitTile');
                         }
                     } else if (stateName == 'building') {
-                        this.addActionButton('button_reset', _('Cancel'), 'onClickCancelBuilding');
+                        this.addActionButton('button_reset', _('Cancel'), 'onClickCancelBuilding', null, false, 'gray');
                         this.addActionButton('button_commit', _('Done'), 'onClickCommitBuilding');
                     }
                 }
@@ -338,7 +338,7 @@ define([
                 }
                 tileEl = dojo.place(this.format_block('jstpl_tile', {
                     id: tile.tile_id,
-                    z: tile.z || 1,
+                    z: tile.z || '',
                     rotate: tile.r || 0,
                     face0: face0,
                     face1: face1,
@@ -355,6 +355,7 @@ define([
                 var container = $('bldg_' + hexId) || dojo.place('<div id="bldg_' + hexId + '" class="bldg-container"></div>', $(hexId));
                 if (building.bldg_player_id) {
                     building.colorName = this.gamedatas.players[building.bldg_player_id].colorName;
+                    dojo.addClass(hexId, 'has-bldg');
                 } else {
                     building.colorName = 'tempbuilding';
                 }
