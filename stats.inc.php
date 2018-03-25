@@ -50,48 +50,28 @@
 $stats_type = array(
     // Statistics global to table
     'table' => array(
-        'turns_number' => array(
-            'id'=> 10,
-            'name' => totranslate('Number of turns'),
-            'type' => 'int'
-        ),
-        'buildings_2' => array(
-            'id'=> 22,
-            'name' => totranslate('Number of Temples'),
-            'type' => 'int'
-        ),
-        'buildings_3' => array(
-            'id'=> 23,
-            'name' => totranslate('Number of Towers'),
-            'type' => 'int'
-        ),
-        'buildings_1' => array(
-            'id'=> 21,
-            'name' => totranslate('Number of Huts'),
-            'type' => 'int'
-        ),
     ),
 
     // Statistics existing for each player
     'player' => array(
         'turns_number' => array(
-            'id'=> 10,
-            'name' => totranslate('Number of turns'),
+            'id' => 10,
+            'name' => totranslate('Tiles placed'),
             'type' => 'int'
         ),
         'buildings_2' => array(
-            'id'=> 22,
-            'name' => totranslate('Number of Temples'),
+            'id' => 22,
+            'name' => totranslate('Temples placed'),
             'type' => 'int'
         ),
         'buildings_3' => array(
-            'id'=> 23,
-            'name' => totranslate('Number of Towers'),
+            'id' => 23,
+            'name' => totranslate('Towers placed'),
             'type' => 'int'
         ),
         'buildings_1' => array(
-            'id'=> 21,
-            'name' => totranslate('Number of Huts'),
+            'id' => 21,
+            'name' => totranslate('Huts placed'),
             'type' => 'int'
         ),
     )

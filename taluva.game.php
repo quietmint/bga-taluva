@@ -147,11 +147,6 @@ class taluva extends Table
         self::DbQuery($sql . implode($values, ','));
         self::reattributeColorsBasedOnPreferences($players, $gameinfos['player_colors']);
         self::reloadPlayersBasicInfos();
-
-        self::initStat('table', 'turns_number', 1);
-        self::initStat('table', 'buildings_' . HUT, 0, $player_id);
-        self::initStat('table', 'buildings_' . TEMPLE, 0, $player_id);
-        self::initStat('table', 'buildings_' . TOWER, 0, $player_id);
     }
 
     /*
@@ -438,7 +433,6 @@ class taluva extends Table
 
         // Increment statistics
         self::incStat($count, 'buildings_' . $bldg_type, $player_id);
-        self::incStat($count, 'buildings_' . $bldg_type);
 
         // Update player building counts
         $player = $this->getPlayer($player_id);
