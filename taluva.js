@@ -36,6 +36,10 @@ define([
         const TEMPLE = 2;
         const TOWER = 3;
 
+        // Zoom limits
+        const ZOOM_MIN = 0.4;
+        const ZOOM_MAX = 4;
+
         return declare("bgagame.taluva", ebg.core.gamegui, {
             constructor: function() {
                 // Scrollable area
@@ -53,7 +57,7 @@ define([
                     this.control3dzaxis = 0; // rotation in degrees of z axis
                     this.control3dxpos = -100; // center of screen in pixels
                     this.control3dypos = -50; // center of screen in pixels
-                    this.control3dscale = 1; // zoom level, 1 is default 2 is double normal size,
+                    this.control3dscale = 0.8; // zoom level, 1 is default 2 is double normal size,
                     this.control3dmode3d = true; // is the 3d enabled
                     //    transform: rotateX(10deg) translate(-100px, -100px) rotateZ(0deg) scale3d(0.7, 0.7, 0.7);
                     $("game_play_area").style.transform = "rotatex(" + this.control3dxaxis + "deg) translate(" + this.control3dypos + "px," + this.control3dxpos + "px) rotateZ(" + this.control3dzaxis + "deg) scale3d(" + this.control3dscale + "," + this.control3dscale + "," + this.control3dscale + ")";
@@ -150,54 +154,26 @@ define([
                 this.setupNotifications();
             },
 
-            /* change3d: function(_dc2, xpos, ypos, _dc3, _dc4, _dc5, _dc6) {
+            change3d: function(_dc2, xpos, ypos, _dc3, _dc4, _dc5, _dc6) {
+                this.control3dscale = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, this.control3dscale));
+                if ((arguments[4] < 0 && this.control3dscale <= ZOOM_MIN) || (arguments[4] > 0 && this.control3dscale >= ZOOM_MAX)) {
+                    arguments[4] = 0;
+                }
                 var isModeChange = arguments[5] === false;
                 if (isModeChange) {
-                    newMode = !this.control3dmode3d;
-                    console.log('3D mode change, new value=' + newMode);
-                    if (newMode) {
+                    newMode3D = !this.control3dmode3d;
+                    if (newMode3D) {
                         this.setZoom(1);
-                        var max_x = 0;
-                        var min_x = 0;
-                        var max_y = 0;
-                        var min_y = 0;
-                        var _1027 = "#map_scrollable > *";
-                        dojo.query(_1027).forEach(dojo.hitch(this, function(node) {
-                            max_x = Math.max(max_x, dojo.style(node, "left") + dojo.style(node, "width"));
-                            min_x = Math.min(min_x, dojo.style(node, "left"));
-                            max_y = Math.max(max_y, dojo.style(node, "top") + dojo.style(node, "height"));
-                            min_y = Math.min(min_y, dojo.style(node, "top"));
-                        }));
-                        var _1027 = "#map_scrollable_oversurface > *";
-                        dojo.query(_1027).forEach(dojo.hitch(this, function(node) {
-                            max_x = Math.max(max_x, dojo.style(node, "left") + dojo.style(node, "width"));
-                            min_x = Math.min(min_x, dojo.style(node, "left"));
-                            max_y = Math.max(max_y, dojo.style(node, "top") + dojo.style(node, "height"));
-                            min_y = Math.min(min_y, dojo.style(node, "top"));
-                        }));
-                        console.log('max_x', max_x, 'min_x', min_x, 'max_y', max_y, 'min_y', min_y);
-                        //$('game_play_area').style.width = (max_x - min_x) + 'px';
-                        $('map_container').style.height = (max_y - min_y) + 'px';
-                        dojo.style('map_scrollable', {
-                            left: (min_x * -1) + 'px',
-                            top: (min_y * -1) + 'px'
-                        });
-                        dojo.style('map_scrollable_oversurface', {
-                            left: (min_x * -1) + 'px',
-                            top: (min_y * -1) + 'px'
-                        });
+                        this.scrollmap.scrollToCenter();
                         this.scrollmap.disableScrolling();
-
                     } else {
-                     //   $('game_play_area').style.width = null;
-                        $('map_container').style.height = null;
+                        this.setZoom(this.control3dscale);
                         this.scrollmap.enableScrolling();
                         this.scrollmap.scrollToCenter();
                     }
                 }
                 return this.inherited(arguments);
-            },*/
-
+            },
 
             ///////////////////////////////////////////////////
             //// Game & client states
@@ -333,7 +309,7 @@ define([
             },
 
             setZoom: function(newZoom) {
-                var newZoom = Math.max(0.5, Math.min(1.5, newZoom));
+                var newZoom = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, newZoom));
                 if (this.zoom != newZoom) {
                     this.zoom = newZoom;
                     var zoomStyle = 'scale(' + this.zoom + ')';
