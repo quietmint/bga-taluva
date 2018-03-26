@@ -963,11 +963,11 @@ html, .mode_3d #game_play_area_background {
 }
 
 .black>.hutroof {
-  background: linear-gradient( rgb(44, 44, 44) 40%, rgb(44, 44, 44) 17%, #c3c0c0 63%, rgb(44, 44, 44) 80%);
+  background: linear-gradient( rgb(44, 44, 44) 40%, rgb(44, 44, 44) 17%, #b1aeae 63%, rgb(44, 44, 44) 80%);
 }
 
 .black>.hutroof:after {
-  background: linear-gradient( rgb(44, 44, 44) 40%, rgb(44, 44, 44) 17%, #c3c0c0 63%, rgb(44, 44, 44) 80%);
+  background: linear-gradient( rgb(44, 44, 44) 40%, rgb(44, 44, 44) 17%, #b1aeae 63%, rgb(44, 44, 44) 80%);
 }
 
 .black>.templeside {
@@ -979,11 +979,11 @@ html, .mode_3d #game_play_area_background {
 }
 
 .black>.templeroof {
-  background: linear-gradient( #2c2c2c, #2c2c2c, #2c2c2c, #2c2c2c, #f5f5f5, #2c2c2c, #2c2c2c, #f5f5f5, #2c2c2c, #2c2c2c, #f5f5f5, #2c2c2c, #2c2c2c, #2c2c2c, #2c2c2c);
+  background: linear-gradient( #2c2c2c, #2c2c2c, #2c2c2c, #2c2c2c, #b1aeae, #2c2c2c, #2c2c2c, #b1aeae, #2c2c2c, #2c2c2c, #b1aeae, #2c2c2c, #2c2c2c, #2c2c2c, #2c2c2c);
 }
 
 .black>.templeroof:after {
- background: linear-gradient( #2c2c2c, #2c2c2c, #2c2c2c, #2c2c2c, #f5f5f5, #2c2c2c, #2c2c2c, #f5f5f5, #2c2c2c, #2c2c2c, #f5f5f5, #2c2c2c, #2c2c2c, #2c2c2c, #2c2c2c);
+ background: linear-gradient( #2c2c2c, #2c2c2c, #2c2c2c, #2c2c2c, #b1aeae, #2c2c2c, #2c2c2c, #b1aeae, #2c2c2c, #2c2c2c, #b1aeae, #2c2c2c, #2c2c2c, #2c2c2c, #2c2c2c);
 }
 
 .black>.towerside {
@@ -996,17 +996,17 @@ html, .mode_3d #game_play_area_background {
 
 .black>.towerroof {
   background: rgb(44, 44, 44);
-  box-shadow: inset 0px 0px 4px 4px #656565;
+  box-shadow: inset 0px 0px 3px 2px #b1aeae;
 }
 
 .black>.towerroof:after {
   background: rgb(44, 44, 44);
-  box-shadow: inset 0px 0px 4px 4px #656565;
+  box-shadow: inset 0px 0px 3px 2px #b1aeae;
 }
 
 .black>.towerroof:before {
   background: rgb(44, 44, 44);
-  box-shadow: inset 0px 0px 4px 4px #656565;
+  box-shadow: inset 0px 0px 3px 2px #b1aeae;
 }
 
 
