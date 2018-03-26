@@ -37,7 +37,7 @@ define([
         const TOWER = 3;
 
         // Zoom limits
-        const ZOOM_MIN = 0.4;
+        const ZOOM_MIN = 0.1;
         const ZOOM_MAX = 4;
 
         return declare("bgagame.taluva", ebg.core.gamegui, {

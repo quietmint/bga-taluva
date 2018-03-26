@@ -109,6 +109,8 @@ $gameinfos = array(
     'max' => null
 ),
 
+'enable_3d' => false, 
+
 // Games categories
 //  You can attribute a maximum of FIVE "tags" for your game.
 //  Each tag has a specific ID (ex: 22 for the category "Prototype", 101 for the tag "Science-fiction theme game")
