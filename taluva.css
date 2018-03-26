@@ -16,6 +16,9 @@
 @import url(../../../css/csslayer.css);
 /** Remaining tile counter **/
 
+html {
+  background: #206cc2;
+}
 .mode_3d #game_play_area_wrap {
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
@@ -23,17 +26,33 @@
   pointer-events: none
 }
 
+.mode_3d {
+  background: linear-gradient(to bottom, rgb(119, 202, 229) 0%, #dff1f0 6% ); 
+}
+
+.mode_3d #game_play_area_background {
+    display: block;
+    position: absolute;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    min-height: 1000px;
+    height: 300%;
+   background:#2073c4;
+  background-image: url(img/bg2.jpg);
+  background-size:cover;
+  border-radius:200px;
+}
+
 #playArea {
   margin: 15px;
   height: 850px;
   width: 100%;
   display: block;
-  background-size: 100% 100%;
+  background-position: center;
   background-repeat: no-repeat;
-  background-image: url(img/background2.jpg);
-  border-radius: 10px;
-  box-shadow: 6px 6px 2px 0px rgba(0, 0, 0, 0.65);
-  pointer-events: visible
+  /* background-image: url(img/bg2.jpg); */ 
+  pointer-events: visible;
 }
 
 #playArea div {
@@ -41,6 +60,7 @@
   -webkit-transform-style: preserve-3d;
 }
 
+/*
 @media screen and (min-width: 1920px) {
   #playareascaler {
     transform: scale3d(0.9, 0.9, 0.9);
@@ -75,6 +95,7 @@
     width: 820px;
   }
 }
+*/
 
 #count_remain {
   position: absolute;
@@ -137,6 +158,10 @@
   background-image: url(../../../img/common/arrows.png);
   width: 32px;
   height: 32px;
+}
+
+.mode_3d #map_container .move {
+  display: none;
 }
 
 #map_container .movetop {
