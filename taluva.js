@@ -120,34 +120,39 @@ define([
                     }
                 }
 
-                // Setup scrollable map & tiles
+                // Setup scrollable map
                 var mapContainer = $('map_container');
                 this.scrollmap.onMouseDown = this.myonMouseDown;
                 this.scrollmap.create(mapContainer, $('map_scrollable'), $('map_surface'), $('map_scrollable_oversurface'));
-
-                this.scrollmap.setupOnScreenArrows(this.hexWidth * 3);
                 if (dojo.isFF) {
-                    dojo.connect($("pagesection_gameview"), 'DOMMouseScroll', this, 'onMouseWheel');
+                    dojo.connect($('pagesection_gameview'), 'DOMMouseScroll', this, 'onMouseWheel');
                 } else {
-                    dojo.connect($("pagesection_gameview"), 'mousewheel', this, 'onMouseWheel');
-                }
-                var prior_tile = {};
-                for (var tile_id in gamedatas.tiles) {
-                    var tile = gamedatas.tiles[tile_id];
-                    prior_tile[tile.tile_player_id] = tile.tile_id;
-                    var coords = this.getCoords(tile.x, tile.y);
-                    var tileEl = this.createTile(tile);
-                    this.positionTile(tileEl, coords);
-                }
-                for (var player_id in prior_tile) {
-                    var player = this.gamedatas.players[player_id];
-                    dojo.addClass('tile_' + prior_tile[player_id], 'prior-move-' + player.colorName);
+                    dojo.connect($('pagesection_gameview'), 'mousewheel', this, 'onMouseWheel');
                 }
 
-                // Setup buildings
-                for (var b in gamedatas.buildings) {
-                    var building = gamedatas.buildings[b];
-                    this.placeBuilding(building);
+                // Setup tiles and buildings
+                if (Array.isArray(gamedatas.spaces)) {
+                    var prior_tile = {};
+                    // Sort by play order to create tiles before buildings
+                    gamedatas.spaces.sort(function(a, b) {
+                        return a.id - b.id;
+                    });
+                    for (var s in gamedatas.spaces) {
+                        var space = gamedatas.spaces[s];
+                        if (space.subface == 0) {
+                            // Create a tile for each volcano
+                            var coords = this.getCoords(space.x, space.y);
+                            var tileEl = this.createTile(space);
+                            this.positionTile(tileEl, coords);
+                            prior_tile[space.tile_player_id] = space.tile_id;
+                        } else if (space.bldg_player_id) {
+                            this.placeBuilding(space);
+                        }
+                    }
+                    for (var player_id in prior_tile) {
+                        var player = this.gamedatas.players[player_id];
+                        dojo.addClass('tile_' + prior_tile[player_id], 'prior-move-' + player.colorName);
+                    }
                 }
 
                 // Setup game notifications
@@ -185,7 +190,12 @@ define([
                 console.log('Entering state: ' + stateName, args.args);
                 if (this.isCurrentPlayerActive()) {
                     if (stateName == 'tile') {
-                        this.showPossibleTile();
+                        if (args.args.possible.length == 1) {
+                            // Auto-choose only option
+                            this.onClickPossibleTile(null, 0);
+                        } else {
+                            this.showPossibleTile();
+                        }
                     } else if (stateName == 'selectSpace') {
                         this.showPossibleSpaces();
                     } else if (stateName == 'building') {
@@ -406,7 +416,7 @@ define([
                         id: i,
                         z: possible.z - 1,
                         style: coords.style,
-                        label: (possible.z > 1 ? possible.z : ''),
+                        label: '',
                     });
                     var possibleEl = dojo.place(possibleHtml, 'map_scrollable_oversurface');
                 }
@@ -473,12 +483,14 @@ define([
             // Tile actions
             /////
 
-            onClickPossibleTile: function(evt) {
-                dojo.stopEvent(evt);
+            onClickPossibleTile: function(evt, possible_nbr) {
                 this.clearPossible();
-
-                var idParts = evt.currentTarget.id.split('_');
-                var possible = this.gamedatas.gamestate.args.possible[idParts[1]];
+                if (possible_nbr == null) {
+                    dojo.stopEvent(evt);
+                    var idParts = evt.currentTarget.id.split('_');
+                    possible_nbr = idParts[1];
+                }
+                var possible = this.gamedatas.gamestate.args.possible[possible_nbr];
                 var coords = this.getCoords(possible.x, possible.y);
                 this.tryTile = {
                     tile_id: this.gamedatas.gamestate.args.tile_id,

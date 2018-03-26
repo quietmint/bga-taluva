@@ -16,9 +16,14 @@
 @import url(../../../css/csslayer.css);
 /** Remaining tile counter **/
 
-html {
-  background: #206cc2;
+html, .mode_3d #game_play_area_background {
+  background: #2073c4;
 }
+
+.mode_3d {
+  background: linear-gradient(to bottom, rgb(119, 202, 229) 0%, #dff1f0 6%);
+}
+
 .mode_3d #game_play_area_wrap {
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
@@ -26,22 +31,24 @@ html {
   pointer-events: none
 }
 
-.mode_3d {
-  background: linear-gradient(to bottom, rgb(119, 202, 229) 0%, #dff1f0 6% ); 
+.mode_3d #game_play_area_background {
+  display: block;
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  min-height: 1000px;
+  height: 300%;
+  border-radius: 200px;
 }
 
-.mode_3d #game_play_area_background {
-    display: block;
-    position: absolute;
-    top: -100%;
-    left: -100%;
-    width: 300%;
-    min-height: 1000px;
-    height: 300%;
-   background:#2073c4;
-  background-image: url(img/bg2.jpg);
-  background-size:cover;
-  border-radius:200px;
+#bg-anchor {
+  position: absolute;
+  background: url(img/bg.jpg) no-repeat;
+  width: 1024px;
+  height: 825px;
+  top: -439px;
+  left: -506px;
 }
 
 #playArea {
@@ -51,7 +58,6 @@ html {
   display: block;
   background-position: center;
   background-repeat: no-repeat;
-  /* background-image: url(img/bg2.jpg); */ 
   pointer-events: visible;
 }
 
@@ -149,45 +155,6 @@ html {
 #map_footer {
   text-align: center;
 }
-
-/** Move arrows **/
-
-#map_container .move {
-  display: block;
-  position: absolute;
-  background-image: url(../../../img/common/arrows.png);
-  width: 32px;
-  height: 32px;
-}
-
-.mode_3d #map_container .move {
-  display: none;
-}
-
-#map_container .movetop {
-  top: 0px;
-  left: 50%;
-  background-position: 0px 32px;
-}
-
-#map_container .movedown {
-  bottom: 0px;
-  left: 50%;
-  background-position: 32px 32px;
-}
-
-#map_container .moveleft {
-  top: 50%;
-  left: 0px;
-  background-position: 32px 0px;
-}
-
-#map_container .moveright {
-  top: 50%;
-  right: 0px;
-  background-position: 0px 0px;
-}
-
 
 /** Faces **/
 

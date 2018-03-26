@@ -4,13 +4,11 @@
     <div id="count_remain" title="{I18N_Remain}">{count_remain}</div>
 
     <div id="map_container">
-      <div id="map_scrollable"></div>
+      <div id="map_scrollable">
+        <div id="bg-anchor"></div>
+      </div>
       <div id="map_surface"></div>
       <div id="map_scrollable_oversurface"></div>
-      <a class="move movetop" href="#"></a>
-      <a class="move moveleft" href="#"></a>
-      <a class="move moveright" href="#"></a>
-      <a class="move movedown" href="#"></a>
     </div>
   </div>
 </div>

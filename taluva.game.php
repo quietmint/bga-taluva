@@ -164,6 +164,7 @@ class taluva extends Table
     protected function getAllDatas()
     {
         $player_id = self::getCurrentPlayerId();
+        $board = new TaluvaBoard();
         $result = array();
         $result['players'] = $this->getPlayers();
         foreach ($result['players'] as $id => $player) {
@@ -175,8 +176,7 @@ class taluva extends Table
             }
         }
         $result['terrain'] = $this->terrain;
-        $result['tiles'] = $this->getTiles();
-        $result['buildings'] = $this->getBuildings();
+        $result['spaces'] = $board->getSpaces();
         $result['remain'] = $this->tiles->countCardInLocation('deck');
         return $result;
     }
@@ -211,18 +211,6 @@ class taluva extends Table
     public function getPlayer($player_id)
     {
         return self::getNonEmptyObjectFromDB("SELECT player_id id, player_color color, player_name name, player_score score, player_zombie zombie, player_eliminated eliminated, temples, towers, huts FROM player WHERE player_id = $player_id");
-    }
-
-    public function getTiles()
-    {
-        $tiles = self::getObjectListFromDB('SELECT card_id tile_id, card_type tile_type, x, y, z, r, tile_player_id, bldg_player_id, bldg_type FROM tile JOIN board ON (tile.card_location = "board" AND tile.card_location_arg = board.id) ORDER BY board.id');
-        return $tiles;
-    }
-
-    public function getBuildings()
-    {
-        $buildings = self::getObjectListFromDB('SELECT tile_id, subface, z, bldg_type, bldg_player_id FROM board WHERE bldg_type IS NOT NULL') ;
-        return $buildings;
     }
 
     public function getTileInHand($player_id)

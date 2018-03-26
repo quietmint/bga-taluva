@@ -14,6 +14,7 @@ define('CONTAINS_ANY', 2);
 
 class TaluvaSpace extends APP_GameClass
 {
+    public $id;
     public $x;
     public $y;
     public $z;
@@ -22,11 +23,13 @@ class TaluvaSpace extends APP_GameClass
     public $tile_id;
     public $subface;
     public $tile_player_id;
+    public $tile_type;
     public $bldg_player_id;
     public $bldg_type;
 
     public function __construct($row)
     {
+        $this->id = (int) @$row['id'];
         $this->x = (int) $row['x'];
         $this->y = (int) $row['y'];
         $this->z = (int) $row['z'];
@@ -35,6 +38,7 @@ class TaluvaSpace extends APP_GameClass
         $this->tile_id = (int) @$row['tile_id'];
         $this->subface = (int) @$row['subface'];
         $this->tile_player_id = (int) @$row['tile_player_id'];
+        $this->tile_type = @$row['tile_type'];
         $this->bldg_player_id = (int) @$row['bldg_player_id'];
         $this->bldg_type = (int) @$row['bldg_type'];
     }
@@ -76,7 +80,7 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
 
     public function __construct()
     {
-        $rows = self::getObjectListFromDB('SELECT x, y, z, r, face, tile_id, subface, tile_player_id, bldg_player_id, bldg_type FROM board ORDER BY x, y, z');
+        $rows = self::getObjectListFromDB('SELECT id, x, y, z, r, face, tile_id, subface, tile_player_id, t.card_type AS tile_type, bldg_player_id, bldg_type FROM board b LEFT OUTER JOIN tile t ON (b.subface = 0 AND b.tile_id = t.card_id) ORDER BY x, y, z');
         foreach ($rows as $row) {
             $space = new TaluvaSpace($row);
             $x = $space->x;
