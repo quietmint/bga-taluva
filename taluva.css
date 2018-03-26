@@ -380,6 +380,39 @@ html, .mode_3d #game_play_area_background {
   animation: fade-in 350ms ease-in-out;
 }
 
+.tile::after {
+  content: "";
+  background: no-repeat url(img/tile-mask.png);
+  background-size: cover;
+  position: absolute;
+  width: 168px;
+  height: 168px;
+  transform: translateZ(1px);
+  opacity: 0.4;
+}
+.tile:hover::after {
+  background-position: 100% 0;
+  opacity: 0.8;
+}
+.tile.level1::after {
+  transform: translateZ(21px);
+}
+.tile.level2::after {
+  transform: translateZ(41px);
+}
+.tile.level3::after {
+  transform: translateZ(61px);
+}
+.tile.level4::after {
+  transform: translateZ(81px);
+}
+.tile.level5::after {
+  transform: translateZ(101px);
+}
+.tile.level6::after {
+  transform: translateZ(121px);
+}
+
 .tile.rotate60 {
   transform: translate(-43px, -25px) rotate(60deg);
 }
@@ -898,19 +931,6 @@ html, .mode_3d #game_play_area_background {
 }
 
 /*   =============================== END BUILDINGS  =============================================== */
-
-#playArea .tile:hover .face:before {
-  content: "";
-  width: 84px;
-  height: 97px;
-  position: absolute;
-  opacity: 0.45;
-  background: url(img/hexagons-hd.png);
-  background-size: 400% 300%;
-  background-position: -252px -97px;
-  transform: translateZ(1px) !important;
-  pointer-events: none;
-}
 
 .tile.prior-move-white .face:after {
   background-position: -252px -194px !important;
