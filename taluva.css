@@ -342,6 +342,7 @@ html, .mode_3d #game_play_area_background {
   transform: translateZ(-17px);
   backface-visibility: hidden;
   z-index: -200;
+  border-radius:20%
 }
 
 #playArea .side1 {
@@ -401,7 +402,8 @@ html, .mode_3d #game_play_area_background {
   height: 168px;
   transform: translateZ(0.1px);
   opacity: 0.4;
-  backface-visibility: hidden
+  backface-visibility: hidden;
+  pointer-events:none;
 }
 .tile:hover::after {
   background-position: 100% 0;
@@ -481,7 +483,7 @@ html, .mode_3d #game_play_area_background {
   background-size: 66px;
   display: inline-block;
   height: 40px;
-  width: 23px;
+  width: 24px;
   margin-right: 5px;
 }
 
@@ -498,7 +500,7 @@ html, .mode_3d #game_play_area_background {
   background-position: 0 60%;
 }
 .pieceicon.towericon.black {
-  background-position: 0 100%;
+  background-position: 0px 39.5px;
 }
 
 .pieceicon.templeicon {
@@ -516,7 +518,7 @@ html, .mode_3d #game_play_area_background {
   background-position: -26px 60%;
 }
 .pieceicon.templeicon.black {
-  background-position: -26px 100%;
+  background-position: -26px 101%;
 }
 
 .pieceicon.huticon {
@@ -534,7 +536,7 @@ html, .mode_3d #game_play_area_background {
   background-position: -48px 60%;
 }
 .pieceicon.huticon.black {
-  background-position: -48px 101%;
+  background-position: -48px 100%;
 }
 
 .preview {
@@ -1039,7 +1041,7 @@ html, .mode_3d #game_play_area_background {
 }
 
 .tile.prior-move-brown .side {
-  background: linear-gradient(to right, #b1634f 0%, #c0523e 2%, #c0523e 98%, #b1634f 100%) !important;
+  background: linear-gradient(to right, #be5440 0%, #b1634f 2%, #b1634f 98%, #be5440 100%) !important;
 }
 
 .bldg-container .tower {
