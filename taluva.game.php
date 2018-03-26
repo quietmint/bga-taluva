@@ -139,14 +139,17 @@ class taluva extends Table
             $tile = $this->tiles->pickCard('deck', $player_id);
             $tile['remain'] = $this->tiles->countCardInLocation('deck');
             self::notifyPlayer($player_id, 'draw', '', $tile);
-            self::initStat('player', 'turns_number', 0, $player_id);
+            self::initStat('player', 'tiles', 0, $player_id);
             self::initStat('player', 'buildings_' . HUT, 0, $player_id);
             self::initStat('player', 'buildings_' . TEMPLE, 0, $player_id);
             self::initStat('player', 'buildings_' . TOWER, 0, $player_id);
+            self::initStat('player', 'destroy', 0, $player_id);
         }
         self::DbQuery($sql . implode($values, ','));
         self::reattributeColorsBasedOnPreferences($players, $gameinfos['player_colors']);
         self::reloadPlayersBasicInfos();
+        self::initStat('table', 'tiles', 0);
+        self::initStat('table', 'z', 0);
     }
 
     /*
@@ -347,6 +350,10 @@ class taluva extends Table
             2 => "({$spaces[2]->x}, {$spaces[2]->y}, $z, $r, {$spaces[2]->face}, $tile_id, 2, $player_id)",
         );
         self::DbQuery("INSERT INTO board (x, y, z, r, face, tile_id, subface, tile_player_id) VALUES " . implode($values, ','));
+        $highest = self::getStat('z');
+        if ($z > $highest) {
+            self::setStat($z, 'z');
+        }
 
         $player = $this->getPlayer($player_id);
         $tile['i18n'] = array('face_name', 'face_name2');
@@ -370,6 +377,9 @@ class taluva extends Table
                     'subface' => $spaceBelow->subface,
                 ));
             }
+        }
+        if ($destroyCount > 0) {
+            self::incStat($destroyCount, 'destroy', $player_id);
         }
 
         $msg = clienttranslate('${player_name} places a tile with ${face_name} and ${face_name2} on level ${z}');
@@ -408,7 +418,7 @@ class taluva extends Table
         }
         $bldg_type = intdiv($option_nbr, 10);
 
-        // Add buildings_
+        // Add buildings
         $buildings = array();
         $count = 0;
         foreach ($options[$option_nbr] as $h) {
@@ -588,7 +598,8 @@ class taluva extends Table
 
         $tile['remain'] = $this->tiles->countCardInLocation('deck');
         self::notifyAllPlayers('draw', '', $tile);
-        self::incStat(1, 'turns_number', $player_id);
+        self::incStat(1, 'tiles');
+        self::incStat(1, 'tiles', $player_id);
         self::giveExtraTime($player_id);
         $this->gamestate->nextState('tile');
     }
