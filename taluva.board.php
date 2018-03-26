@@ -421,7 +421,7 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
                     $count = array_reduce($huts, function ($sum, $adj) {
                         return $sum + $adj->z;
                     });
-                    if ($count > 0 && $player['huts'] > $count) {
+                    if ($count > 0 && $player['huts'] >= $count) {
                         sort($huts, SORT_STRING);
                         $hutOptions[] = $huts;
                     }
