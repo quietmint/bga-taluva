@@ -38,7 +38,7 @@ define([
 
         // Zoom limits
         const ZOOM_MIN = 0.1;
-        const ZOOM_MAX = 4;
+        const ZOOM_MAX = 3;
 
         return declare("bgagame.taluva", ebg.core.gamegui, {
             constructor: function() {
@@ -96,7 +96,8 @@ define([
                     'ff0000': 'red',
                     'ffa500': 'yellow',
                     'ffffff': 'white',
-                    'b1634f': 'brown'
+                    'b1634f': 'brown',
+					'000000': 'black'
                 };
                 for (var player_id in gamedatas.players) {
                     var player = gamedatas.players[player_id];
@@ -416,7 +417,7 @@ define([
                         id: i,
                         z: possible.z - 1,
                         style: coords.style,
-                        label: '',
+                        label: possible.z ,
                     });
                     var possibleEl = dojo.place(possibleHtml, 'map_scrollable_oversurface');
                 }
@@ -432,7 +433,7 @@ define([
                         id: i,
                         z: possible.z,
                         style: coords.style,
-                        label: '',
+                        label: possible.z,
                     });
                     var possibleEl = dojo.place(possibleHtml, 'map_scrollable_oversurface');
                 }

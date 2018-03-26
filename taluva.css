@@ -17,7 +17,7 @@
 /** Remaining tile counter **/
 
 html, .mode_3d #game_play_area_background {
-  background: #2073c4;
+  background: radial-gradient(#1d6bbd 20%, #437cb6, #023887 70%);
 }
 
 .mode_3d {
@@ -39,7 +39,7 @@ html, .mode_3d #game_play_area_background {
   width: 300%;
   min-height: 1000px;
   height: 300%;
-  border-radius: 200px;
+  border-radius: 50%;
 }
 
 #bg-anchor {
@@ -181,6 +181,9 @@ html, .mode_3d #game_play_area_background {
   background: url(img/hexagons-hd.png);
   background-size: 400% 300%;
   background-repeat: no-repeat;
+  /*box-shadow: 0px 0px 2px 2px red;*/
+  border-radius:35% ;
+  backface-visibility: hidden
 }
 
 .facelabel {
@@ -189,7 +192,7 @@ html, .mode_3d #game_play_area_background {
   right: 0;
   text-align: center;
   line-height: 97px;
-  font-size: 55px;
+  font-size: 30px;
   font-weight: bold;
   color: #ffffff;
   -webkit-touch-callout: none; /* iOS Safari */
@@ -202,10 +205,16 @@ html, .mode_3d #game_play_area_background {
   text-shadow: 1px 1px 10px #23312d;
   transform: translateZ(1px);
   transition: transform 350ms ease-in-out;
-}
-.has-bldg .facelabel {
   display: none;
 }
+.possible .facelabel {
+  display: block;
+}
+
+.possible.facelabel {
+  display: block;
+}
+
 .rotate60 .facelabel {
   transform: rotate(-60deg) translateZ(1px);
 }
@@ -331,22 +340,23 @@ html, .mode_3d #game_play_area_background {
   background-size: 400% 300%;
   background-position: -168px -97px;
   transform: translateZ(-17px);
-  z-index: -2;
+  backface-visibility: hidden;
+  z-index: -200;
 }
 
 #playArea .side1 {
   transform: translatez(-0.5px) rotatez(90deg) translatex(31px) translatey(6px) rotatex(90deg);
-  z-index: -1;
+  z-index: -100;
 }
 
 #playArea .side2 {
   transform: translatez(-0.5px) rotatez(90deg) translatex(31px) translatey(6px) rotatex(90deg) rotatey(-60deg);
-  z-index: -1;
+  z-index: -100;
 }
 
 #playArea .side3 {
   transform: translatez(-0.5px) rotatez(90deg) translatex(31px) translatey(6px) rotatex(90deg) rotatey(60deg);
-  z-index: -1;
+  z-index: -100;
 }
 
 /** 3D Sides */
@@ -378,6 +388,8 @@ html, .mode_3d #game_play_area_background {
   transform-origin: 84px 97px;
   transition: transform 350ms ease-in-out;
   animation: fade-in 350ms ease-in-out;
+  /* box-shadow: 0px 0px 2px 2px red; */
+  border-radius: 50% 50% 35% 35%;
 }
 
 .tile::after {
@@ -387,12 +399,13 @@ html, .mode_3d #game_play_area_background {
   position: absolute;
   width: 168px;
   height: 168px;
-  transform: translateZ(1px);
+  transform: translateZ(0.1px);
   opacity: 0.4;
+  backface-visibility: hidden
 }
 .tile:hover::after {
   background-position: 100% 0;
-  opacity: 0.8;
+  opacity: 0.6;
 }
 .tile.level1::after {
   transform: translateZ(21px);
@@ -476,13 +489,16 @@ html, .mode_3d #game_play_area_background {
   background-position: 0 0;
 }
 .pieceicon.towericon.brown {
-  background-position: 0 25%;
+  background-position: 0 20%;
 }
 .pieceicon.towericon.white {
-  background-position: 0 50%;
+  background-position: 0 40%;
 }
 .pieceicon.towericon.red {
-  background-position: 0 75%;
+  background-position: 0 60%;
+}
+.pieceicon.towericon.black {
+  background-position: 0 100%;
 }
 
 .pieceicon.templeicon {
@@ -491,13 +507,16 @@ html, .mode_3d #game_play_area_background {
   margin-top: -13px;
 }
 .pieceicon.templeicon.brown {
-  background-position: -26px 25%;
+  background-position: -26px 20%;
 }
 .pieceicon.templeicon.white {
-  background-position: -26px 50%;
+  background-position: -26px 40%;
 }
 .pieceicon.templeicon.red {
-  background-position: -26px 75%;
+  background-position: -26px 60%;
+}
+.pieceicon.templeicon.black {
+  background-position: -26px 100%;
 }
 
 .pieceicon.huticon {
@@ -506,13 +525,16 @@ html, .mode_3d #game_play_area_background {
   margin-top: -20px;
 }
 .pieceicon.huticon.brown {
-  background-position: -48px 25%;
+  background-position: -48px 20%;
 }
 .pieceicon.huticon.white {
-  background-position: -48px 50%;
+  background-position: -48px 40%;
 }
 .pieceicon.huticon.red {
-  background-position: -48px 75%;
+  background-position: -48px 60%;
+}
+.pieceicon.huticon.black {
+  background-position: -48px 101%;
 }
 
 .preview {
@@ -545,7 +567,7 @@ html, .mode_3d #game_play_area_background {
   width: 32px;
   height: 34px;
   background-image: url(img/sides-hd-w.png);
-  background-size: 116.5px 350px;
+  background-size: 116.5px 420px;
   background-position: 149px -36px;
   transform-style: preserve-3d;
   transform: translateZ(18px) rotateX(-90deg) translateZ(16.5px);
@@ -557,7 +579,7 @@ html, .mode_3d #game_play_area_background {
   width: 32px;
   height: 34px;
   background-image: url(img/sides-hd-w.png);
-  background-size: 116.5px 350px;
+  background-size: 116.5px 420px;
   background-position: 149px -36px;
   transform-style: preserve-3d;
   transform: translateZ(-34px);
@@ -597,7 +619,7 @@ html, .mode_3d #game_play_area_background {
   width: 40px;
   height: 50px;
   background-image: url(img/sides-hd-w.png);
-  background-size: 116.5px 350px;
+  background-size: 116.5px 420px;
   background-position: 73px -22px;
   transform-style: preserve-3d;
   transform-origin: bottom center;
@@ -610,7 +632,7 @@ html, .mode_3d #game_play_area_background {
   width: 40px;
   height: 50px;
   background-image: url(img/sides-hd-w.png);
-  background-size: 116.5px 350px;
+  background-size: 116.5px 420px;
   background-position: 73px -22px;
   transform-style: preserve-3d;
   transform-origin: bottom center;
@@ -636,7 +658,7 @@ html, .mode_3d #game_play_area_background {
   background: linear-gradient( #eac411, #eac411, #eac411, #eac411, #f5f5f5, #eac411, #eac411, #f5f5f5, #eac411, #eac411, #f5f5f5, #eac411, #eac411, #eac411, #eac411);
   transform-style: preserve-3d;
   transform-origin: top center;
-  transform: translatez(4px) rotateX(-46deg) translatey(2px);
+  transform: translatez(4px) rotateX(-44deg) translatey(2px);
   box-shadow: inset 0px 7px 5px 0px rgba(245, 245, 245, 0.78);
 }
 
@@ -654,7 +676,7 @@ html, .mode_3d #game_play_area_background {
   width: 40px;
   height: 70px;
   background-image: url(img/sides-hd-w.png);
-  background-size: 116.5px 350px;
+  background-size: 116.5px 420px;
   background-position: -1px 0px;
   transform-style: preserve-3d;
   transform-origin: bottom center;
@@ -667,7 +689,7 @@ html, .mode_3d #game_play_area_background {
   width: 40px;
   height: 70px;
   background-image: url(img/sides-hd-w.png);
-  background-size: 116.5px 350px;
+  background-size: 116.5px 420px;
   background-position: -1px 0px;
   transform-style: preserve-3d;
   transform-origin: bottom center;
@@ -765,11 +787,11 @@ html, .mode_3d #game_play_area_background {
 }
 
 .red>.hutside {
-  background-position: 149px -246px;
+  background-position: 149px 174px;
 }
 
 .red>.hutside:after {
-  background-position: 149px -246px;
+  background-position: 149px 174px;
 }
 
 .red>.hutroof {
@@ -781,7 +803,7 @@ html, .mode_3d #game_play_area_background {
 }
 
 .red>.templeside {
-  background-position: 73px -232px;
+  background-position: 73px 60%;
 }
 
 .red>.templeside:after {
@@ -841,11 +863,11 @@ html, .mode_3d #game_play_area_background {
 }
 
 .white>.templeroof {
-  background: linear-gradient( #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5);
+ background: linear-gradient( #fff, #fff, #fff, #fff, #c3c0c0, #fff, #fff, #c3c0c0, #fff, #fff, #c3c0c0, #fff, #fff, #fff, #fff);
 }
 
 .white>.templeroof:after {
-  background: linear-gradient( #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5, #f5f5f5);
+ background: linear-gradient( #fff, #fff, #fff, #fff, #c3c0c0, #fff, #fff, #c3c0c0, #fff, #fff, #c3c0c0, #fff, #fff, #fff, #fff);
 }
 
 .white>.towerside {
@@ -857,17 +879,17 @@ html, .mode_3d #game_play_area_background {
 }
 
 .white>.towerroof {
-  background: #f5f5f5;
+  background: #fff;
   box-shadow: inset 0px 0px 4px 4px rgba(0, 0, 0, 0.2);
 }
 
 .white>.towerroof:after {
-  background: #f5f5f5;
+  background: #fff;
   box-shadow: inset 0px 0px 4px 4px rgba(0, 0, 0, 0.2);
 }
 
 .white>.towerroof:before {
-  background: #f5f5f5;
+  background: #fff;
   box-shadow: inset 0px 0px 4px 4px rgba(0, 0, 0, 0.2);
 }
 
@@ -929,6 +951,62 @@ html, .mode_3d #game_play_area_background {
   background: #b3f1a88c;
   box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83);
 }
+
+.black>.hutside {
+  background-position: 149px 34px;
+}
+
+.black>.hutside:after {
+  background-position: 149px 34px;
+}
+
+.black>.hutroof {
+  background: linear-gradient( rgb(44, 44, 44) 40%, rgb(44, 44, 44) 17%, #c3c0c0 63%, rgb(44, 44, 44) 80%);
+}
+
+.black>.hutroof:after {
+  background: linear-gradient( rgb(44, 44, 44) 40%, rgb(44, 44, 44) 17%, #c3c0c0 63%, rgb(44, 44, 44) 80%);
+}
+
+.black>.templeside {
+  background-position: 73px 50px;
+}
+
+.black>.templeside:after {
+  background-position: 73px 50px;
+}
+
+.black>.templeroof {
+  background: linear-gradient( #2c2c2c, #2c2c2c, #2c2c2c, #2c2c2c, #f5f5f5, #2c2c2c, #2c2c2c, #f5f5f5, #2c2c2c, #2c2c2c, #f5f5f5, #2c2c2c, #2c2c2c, #2c2c2c, #2c2c2c);
+}
+
+.black>.templeroof:after {
+ background: linear-gradient( #2c2c2c, #2c2c2c, #2c2c2c, #2c2c2c, #f5f5f5, #2c2c2c, #2c2c2c, #f5f5f5, #2c2c2c, #2c2c2c, #f5f5f5, #2c2c2c, #2c2c2c, #2c2c2c, #2c2c2c);
+}
+
+.black>.towerside {
+  background-position: -1px 70px;
+}
+
+.black>.towerside:after {
+  background-position: -1px 70px;
+}
+
+.black>.towerroof {
+  background: rgb(44, 44, 44);
+  box-shadow: inset 0px 0px 4px 4px #656565;
+}
+
+.black>.towerroof:after {
+  background: rgb(44, 44, 44);
+  box-shadow: inset 0px 0px 4px 4px #656565;
+}
+
+.black>.towerroof:before {
+  background: rgb(44, 44, 44);
+  box-shadow: inset 0px 0px 4px 4px #656565;
+}
+
 
 /*   =============================== END BUILDINGS  =============================================== */
 
