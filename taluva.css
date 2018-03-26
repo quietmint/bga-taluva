@@ -179,11 +179,11 @@ html, .mode_3d #game_play_area_background {
   width: 84px;
   height: 97px;
   background: url(img/hexagons-hd.png);
-  background-size: 400% 300%;
-  background-repeat: no-repeat;
+  background-size: 100% 1300%;
+  /* background-repeat: no-repeat; */
   /*box-shadow: 0px 0px 2px 2px red;*/
-  border-radius:35% ;
-  backface-visibility: hidden
+  border-radius:35%;
+  backface-visibility: hidden;
 }
 
 .facelabel {
@@ -236,7 +236,7 @@ html, .mode_3d #game_play_area_background {
   transform: translateZ(1px) scale(0.8);
   cursor: pointer;
   animation: 350ms fade-in ease-in-out;
-  background-position: -252px -97px;
+  background-position: -0px 582px;
 }
 
 .face.rotate {
@@ -250,31 +250,31 @@ html, .mode_3d #game_play_area_background {
 /* Jungle */
 
 .face.face-1 {
-  background-position: -84px -0px;
+  background-position: 0px -97px;
 }
 
 /* Grass */
 
 .face.face-2 {
-  background-position: -168px -0px;
+  background-position: 0px -194px;
 }
 
 /* Sand */
 
 .face.face-3 {
-  background-position: -252px -0px;
+  background-position: 0px -291px;
 }
 
 /* Rock */
 
 .face.face-4 {
-  background-position: -0px -97px;
+  background-position: -0px -388px;
 }
 
 /* Lake */
 
 .face.face-5 {
-  background-position: -84px -97px;
+  background-position: 0px -485px;
 }
 
 .level1 .face,
@@ -337,12 +337,12 @@ html, .mode_3d #game_play_area_background {
   width: 84px;
   height: 97px;
   background: url(img/hexagons-hd.png);
-  background-size: 400% 300%;
-  background-position: -168px -97px;
+  background-size: 100% 1300%;
+  background-position: -0px 679px;
   transform: translateZ(-17px);
   backface-visibility: hidden;
   z-index: -200;
-  border-radius:20%
+  border-radius:20%;
 }
 
 #playArea .side1 {
@@ -1013,7 +1013,7 @@ html, .mode_3d #game_play_area_background {
 /*   =============================== END BUILDINGS  =============================================== */
 
 .tile.prior-move-white .face:after {
-  background-position: -252px -194px !important;
+  background-position: -0px -1068px !important;
 }
 
 .tile.prior-move-white .side {
@@ -1021,7 +1021,7 @@ html, .mode_3d #game_play_area_background {
 }
 
 .tile.prior-move-yellow .face:after {
-  background-position: -168px -194px !important;
+  background-position: -0px 291px !important;
 }
 
 .tile.prior-move-yellow .side {
@@ -1029,7 +1029,7 @@ html, .mode_3d #game_play_area_background {
 }
 
 .tile.prior-move-red .face:after {
-  background-position: -0px -194px !important;
+  background-position: 0px 484px !important;
 }
 
 .tile.prior-move-red .side {
@@ -1037,12 +1037,21 @@ html, .mode_3d #game_play_area_background {
 }
 
 .tile.prior-move-brown .face:after {
-  background-position: -84px -194px !important;
+  background-position: 0px 386px !important;
 }
 
 .tile.prior-move-brown .side {
   background: linear-gradient(to right, #be5440 0%, #b1634f 2%, #b1634f 98%, #be5440 100%) !important;
 }
+
+.tile.prior-move-black .face:after {
+  background-position: 0px -1165px !important;
+}
+
+.tile.prior-move-black .side {
+  background: linear-gradient(to right, #656565 0%, #2c2c2c 2%, #2c2c2c 98%, #656565 100%) !important;
+}
+
 
 .bldg-container .tower {
   top: 30px !important;

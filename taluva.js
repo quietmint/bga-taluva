@@ -415,7 +415,7 @@ define([
                     var coords = this.getCoords(possible.x, possible.y);
                     var possibleHtml = this.format_block('jstpl_possible', {
                         id: i,
-                        z: possible.z - 1,
+                        z: possible.z  /* - 1 */ ,
                         style: coords.style,
                         label: possible.z ,
                     });
