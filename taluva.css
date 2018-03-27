@@ -177,6 +177,26 @@ html,
   font-size: 60px;
 }
 
+.face-1 .facelabel {
+  color: #689b34
+}
+
+.face-2 .facelabel {
+  color: #abd62d
+}
+
+.face-3 .facelabel {
+  color: #eee5b2
+}
+
+.face-4 .facelabel {
+  color: #b7cbd1
+}
+
+.face-5 .facelabel {
+  color: #94eaea
+}
+
 .rotate60 .facelabel {
   transform: rotate(-60deg) translateZ(1px);
 }
@@ -1123,22 +1143,27 @@ html,
   user-select: none;
 }
 
-#buildPalette > :nth-child(1) {
+#buildPalette> :nth-child(1) {
   animation: rotator1 1.5s ease forwards 1;
 }
-#buildPalette > :nth-child(2) {
+
+#buildPalette> :nth-child(2) {
   animation: rotator2 1.5s ease forwards 1;
 }
-#buildPalette > :nth-child(3) {
+
+#buildPalette> :nth-child(3) {
   animation: rotator3 1.5s ease forwards 1;
 }
-#buildPalette > :nth-child(4) {
+
+#buildPalette> :nth-child(4) {
   animation: rotator4 1.5s ease forwards 1;
 }
-#buildPalette > :nth-child(5) {
+
+#buildPalette> :nth-child(5) {
   animation: rotator5 1.5s ease forwards 1;
 }
-#buildPalette > :nth-child(6) {
+
+#buildPalette> :nth-child(6) {
   animation: rotator6 1.5s ease forwards 1;
 }
 
