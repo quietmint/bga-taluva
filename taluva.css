@@ -221,6 +221,22 @@ html, .mode_3d #game_play_area_background {
   display: block !important;
 }
 
+.face-1 .facelabel{
+  color:#689b34
+}
+.face-2 .facelabel{
+  color:#abd62d
+}
+.face-3 .facelabel{
+  color:#eee5b2
+}
+.face-4 .facelabel{
+  color:#b7cbd1
+}
+.face-5 .facelabel{
+  color:#94eaea
+}
+
 .rotate60 .facelabel {
   transform: rotate(-60deg) translateZ(1px);
 }
@@ -244,17 +260,6 @@ html, .mode_3d #game_play_area_background {
   animation: 350ms fade-in ease-in-out;
   background-position: -0px 582px;
 }
-
-/* #map_scrollable_oversurface .face.possible:after{
-  content:"";
-  width:84px;
-  height:97px;
-  position: absolute;
-  transform: translateZ(-10px);
-  background: url(img/hexagons-hd.png);
-  background-size:100% 1300%;
-  background-position: -0px 582px;
-} */
 
 .face.rotate {
   font-size: 100px;
