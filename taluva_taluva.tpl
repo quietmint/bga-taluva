@@ -13,15 +13,15 @@
 <script type="text/javascript">
   var jstpl_player_board =
     '<div class="counters">\
-    <div title="{I18N_Temples}">\
+    <div id="{I18N_Temples} ${colorName}" class="templeBoard">\
       <div id="icon_temples_${id}" class="pieceicon templeicon ${colorName}"></div>\
       <span id="count_temples_${id}">0</span>\
     </div>\
-    <div title="{I18N_Towers}">\
+    <div id="{I18N_Towers} ${colorName}" class="towerBoard">\
       <div id="icon_towers_${id}" class="pieceicon towericon ${colorName}"></div>\
       <span id="count_towers_${id}">0</span>\
     </div>\
-    <div title="{I18N_Huts}">\
+    <div id="{I18N_Huts} ${colorName}" class="hutBoard">\
       <div id="icon_huts_${id}" class="pieceicon huticon ${colorName}"></div>\
       <span id="count_huts_${id}">0</span>\
     </div>\

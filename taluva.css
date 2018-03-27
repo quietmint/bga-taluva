@@ -490,6 +490,7 @@
 
 .pieceicon.towericon.red {
   background-position: 0 60%;
+  z-index:  30;
 }
 
 .pieceicon.towericon.black {
@@ -500,6 +501,7 @@
   background-position: -26px 0;
   width: 21px;
   margin-top: -13px;
+  z-index:  40;
 }
 
 .pieceicon.templeicon.brown {
@@ -522,6 +524,7 @@
   background-position: -48px 0;
   width: 18px;
   margin-top: -20px;
+  z-index: 10;
 }
 
 .pieceicon.huticon.brown {

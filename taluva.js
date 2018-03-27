@@ -117,7 +117,28 @@ define([
                         });
                     }
                 }
-
+				
+				this.addTooltipToClass("templeBoard",  "<div class='pieceicon templeicon'></div>" + 
+				                                      _(" <b>TEMPLE:</b><hr>It must be adjacent to your existing Settlement of three hex spaces or larger: <br>" +
+														" - There must not already be a Temple in the Settlement.<br>" +
+														" - It is allowed to build a Temple which connects multiple settlements, as long as <br>" + 
+														"  one of the Settlements does not already have a Temple. <BR>" +
+														"  (In this way, it is possible to have multiple Temples in the same Settlement)."), "");
+														
+				this.addTooltipToClass("towerBoard",  "<div class='pieceicon towericon'></div>" + 
+				                                      _(" <b>TOWER:</b><hr>It must be adjacent to your existing Settlement and in at least level 3 high: <br>" +
+														" - There must not already be a Tower in the Settlement.<br>" +
+														" - It is allowed to build a Tower which connects multiple settlements, as long as <br>" + 
+														"  one of the Settlements does not already have a Tower. <BR>" +
+														"  (In this way, it is possible to have multiple Tower in the same Settlement)."), "")	;									
+				
+				this.addTooltipToClass("hutBoard",  "<div class='pieceicon huticon'></div>" + 
+				                                      _(" <b>HUT:</b><hr> There are 2 ways to place huts in a hexagon: <br>" +
+														" - A single hut in a level 1 space not connected to an existing settlement.<br>" +
+														" - Multiple huts on every space of a terrain type adjacent to your <br>"+
+														" existing Settlement placing 1 hut per space level (i.e. 3 Huts on a space on level 3 tile) <br>"+
+														" <b> You need to have enough Huts as is required to expand to all spaces of that type </b>"+
+														" (i.e. you cannot leave one adjacent terrain of the chosen type with 2 huts if it is at level 3."), "")	;									
                 // Setup scrollable map
                 var mapContainer = $('map_container');
                 this.scrollmap.onMouseDown = this.myonMouseDown;
