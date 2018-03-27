@@ -32,8 +32,8 @@ $game_options = array(
                 'name' => '12 tiles per player'
             ),
             1 => array(
-                'name' => 'All 48 tiles',
-                'tmdisplay' => totranslate('All 48 tiles')
+                'name' => 'All tiles',
+                'tmdisplay' => totranslate('All tiles')
             ),
         ),
     ),

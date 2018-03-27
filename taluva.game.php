@@ -85,6 +85,7 @@ class taluva extends Table
         // Create tiles
         // Distribution from https://boardgamegeek.com/image/155164/taluva
         $tiles = array();
+        $is5 = count($players) == 5;
         for ($left = JUNGLE; $left <= LAKE; $left++) {
             for ($right = JUNGLE; $right <= LAKE; $right++) {
                 $type = "$left$right";
@@ -92,25 +93,46 @@ class taluva extends Table
                 switch ($type) {
                 case JUNGLE.GRASS:
                     $nbr = 6;
+                    if ($is5) {
+                        $nbr += 1;
+                    }
                     break;
 
                 case GRASS.JUNGLE:
                     $nbr = 5;
+                    if ($is5) {
+                        $nbr += 2;
+                    }
                     break;
 
                 case JUNGLE.SAND:
                 case SAND.JUNGLE:
                     $nbr = 4;
+                    if ($is5) {
+                        $nbr += 2;
+                    }
+                    break;
+
+                case JUNGLE.LAKE:
+                case GRASS.ROCK:
+                    $nbr = 2;
+                    if ($is5) {
+                        $nbr += 2;
+                    }
+                    break;
+
+                case ROCK.GRASS:
+                    $nbr = 2;
+                    if ($is5) {
+                        $nbr += 1;
+                    }
                     break;
 
                 case JUNGLE.ROCK:
-                case JUNGLE.LAKE:
                 case GRASS.SAND:
-                case GRASS.ROCK:
                 case SAND.GRASS:
                 case SAND.ROCK:
                 case ROCK.JUNGLE:
-                case ROCK.GRASS:
                     $nbr = 2;
                     break;
                 }

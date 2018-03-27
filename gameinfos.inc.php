@@ -34,7 +34,7 @@ $gameinfos = array(
 
 
 // Players configuration that can be played (ex: 2 to 4 players)
-'players' => array( 2, 3, 4 ),
+'players' => array( 2, 3, 4, 5 ),
 
 // Suggest players to play with this number of players. Must be null if there is no such advice, or if there is only one possible player configuration.
 'suggest_player_number' => null,
@@ -84,10 +84,10 @@ $gameinfos = array(
 'strategy' => 4,
 
 // Diplomacy of the game, from 0 (no interaction in this game) to 5 (totally based on interaction and discussion between players)
-'diplomacy' => 1,
+'diplomacy' => 2,
 
 // Colors attributed to players
-'player_colors' => array( "ff0000", "ffa500", "b1634f", "ffffff" , "000000" ),
+'player_colors' => array( "ff0000", "ffa500", "ffffff", "b1634f", "000000" ),
 
 // Favorite colors support : if set to "true", support attribution of favorite colors based on player's preferences (see reattributeColorsBasedOnPreferences PHP method)
 'favorite_colors_support' => true,
@@ -109,7 +109,7 @@ $gameinfos = array(
     'max' => null
 ),
 
-'enable_3d' => false, 
+'enable_3d' => false,
 
 // Games categories
 //  You can attribute a maximum of FIVE "tags" for your game.
