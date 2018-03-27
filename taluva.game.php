@@ -370,7 +370,7 @@ class taluva extends Table
             self::incStat($destroyCount, 'destroy', $player_id);
         }
 
-        $msg = clienttranslate('${player_name} places a tile with ${face_name} and ${face_name2} on level ${z}');
+        $msg = clienttranslate('${player_name} places a tile with ${face_name} and ${face_name2} on level ${z}.');
         if ($destroyCount > 0) {
             $msg = clienttranslate('${player_name} places a tile with ${face_name} and ${face_name2} on level ${z}, destroying ${count} ${bldg_name}.');
             $tile['i18n'][] = 'bldg_name';
@@ -447,7 +447,7 @@ class taluva extends Table
             'count' => $count,
             'buildings' => $buildings,
         );
-        self::notifyAllPlayers('commitBuilding', clienttranslate('${player_name} places ${count} ${bldg_name} on ${face_name}'), $args);
+        self::notifyAllPlayers('commitBuilding', clienttranslate('${player_name} places ${count} ${bldg_name} on ${face_name}.'), $args);
 
         // Draw next tile
         $newTile = $this->tiles->pickCard('deck', $player_id);
@@ -537,9 +537,9 @@ class taluva extends Table
             $bldg_counts = array_values($counts);
             $bldg_names = array_keys($counts);
             if ($bldg_counts[0] == 0 && $bldg_counts[1] == 0) {
-                self::notifyAllPlayers('win', clienttranslate('${player_name} has placed all ${bldg_name} and ${bldg_name2}!'), array(
+                self::notifyAllPlayers('win', clienttranslate('Early victory! ${player_name} has placed all ${bldg_name} and ${bldg_name2}.'), array(
                     'i18n' => array('bldg_name', 'bldg_name2'),
-                    'player_id' => array($player_id),
+                    'player_ids' => array($player_id),
                     'player_name' => $player['name'],
                     'bldg_name' => $bldg_names[0],
                     'bldg_name2' => $bldg_names[1],
@@ -558,7 +558,9 @@ class taluva extends Table
         if (count($weights) == 1) {
             reset($weights);
             $player_id = key($weights);
-            self::notifyAllPlayers('win', '', array('player_ids' => array($player_id)));
+            self::notifyAllPlayers('win', clienttranslate('Game over! No other players remain.'), array(
+                'player_ids' => array($player_id),
+            ));
             self::DbQuery("UPDATE player SET player_score = 1 WHERE player_id = $player_id");
             $this->gamestate->nextState('gameEnd');
             return;
@@ -578,7 +580,9 @@ class taluva extends Table
                     break;
                 }
             }
-            self::notifyAllPlayers('win', '', array('player_ids' => $winners));
+            self::notifyAllPlayers('win', clienttranslate('Game over! No tiles remain.'), array(
+                'player_ids' => $winners,
+            ));
             self::DbQuery('UPDATE player SET player_score = 1 WHERE player_id IN (' . implode(',', $winners) . ')');
             $this->gamestate->nextState('gameEnd');
             return;
@@ -598,7 +602,7 @@ class taluva extends Table
         $player_id = self::getActivePlayerId();
         $player = $this->getPlayer($player_id);
         if (empty($this->getPossibleSpaces($player))) {
-            self::notifyAllPlayers('eliminate', clienttranslate('${player_name} cannot place a building!'), array(
+            self::notifyAllPlayers('eliminate', clienttranslate('${player_name} cannot place a building and is eliminated!'), array(
                 'player_id' => $player_id,
                 'player_name' => $player['name'],
             ));
