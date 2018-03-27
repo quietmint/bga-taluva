@@ -1136,7 +1136,7 @@ html,
   background-position: -0px 582px;
   transform: translateX(-10px) scale(0.5) !important;
   transform-origin: top center;
-  opacity: 1;
+  color: #fff;
   left: 0px;
   top: -5px;
   user-select: none;
@@ -1178,7 +1178,7 @@ html,
   transform-origin: top center;
   left: 0px;
   top: -5px;
-  opacity: 1;
+  color: #fff;
 }
 
 .rotator {
