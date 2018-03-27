@@ -227,12 +227,22 @@ class taluva extends Table
 
     public function getPlayers()
     {
-        return self::getCollectionFromDb('SELECT player_id id, player_color color, player_name name, player_score score, player_zombie zombie, player_eliminated eliminated, temples, towers, huts FROM player');
+        return self::getCollectionFromDb('SELECT player_id id, player_color color, player_name name, player_score score, player_zombie zombie, player_eliminated eliminated, temples, towers, huts FROM player ORDER BY player_no');
     }
 
     public function getPlayer($player_id)
     {
         return self::getNonEmptyObjectFromDB("SELECT player_id id, player_color color, player_name name, player_score score, player_zombie zombie, player_eliminated eliminated, temples, towers, huts FROM player WHERE player_id = $player_id");
+    }
+
+    public function sendScores()
+    {
+        $players = $this->getPlayers();
+        $scores = array();
+        foreach ($players as $player_id => $player) {
+            $scores[$player_id] = (int) $player['score'];
+        }
+        self::notifyAllPlayers('scores', '', array('scores' => $scores));
     }
 
     public function getTileInHand($player_id)
@@ -559,14 +569,14 @@ class taluva extends Table
             $bldg_counts = array_values($counts);
             $bldg_names = array_keys($counts);
             if ($bldg_counts[0] == 0 && $bldg_counts[1] == 0) {
-                self::notifyAllPlayers('win', clienttranslate('Early victory! ${player_name} has placed all ${bldg_name} and ${bldg_name2}.'), array(
+                self::notifyAllPlayers('message', clienttranslate('Early victory! ${player_name} has placed all ${bldg_name} and ${bldg_name2}.'), array(
                     'i18n' => array('bldg_name', 'bldg_name2'),
-                    'player_ids' => array($player_id),
                     'player_name' => $player['name'],
                     'bldg_name' => $bldg_names[0],
                     'bldg_name2' => $bldg_names[1],
                 ));
                 self::DbQuery("UPDATE player SET player_score = 1 WHERE player_id = {$player['id']}");
+                $this->sendScores();
                 $this->gamestate->nextState('gameEnd');
                 return;
             }
@@ -580,10 +590,9 @@ class taluva extends Table
         if (count($weights) == 1) {
             reset($weights);
             $player_id = key($weights);
-            self::notifyAllPlayers('win', clienttranslate('Game over! No other players remain.'), array(
-                'player_ids' => array($player_id),
-            ));
+            self::notifyAllPlayers('message', clienttranslate('Game over! No other players remain.'), array());
             self::DbQuery("UPDATE player SET player_score = 1 WHERE player_id = $player_id");
+            $this->sendScores();
             $this->gamestate->nextState('gameEnd');
             return;
         }
@@ -602,10 +611,9 @@ class taluva extends Table
                     break;
                 }
             }
-            self::notifyAllPlayers('win', clienttranslate('Game over! No tiles remain.'), array(
-                'player_ids' => $winners,
-            ));
+            self::notifyAllPlayers('message', clienttranslate('Game over! No tiles remain.'), array());
             self::DbQuery('UPDATE player SET player_score = 1 WHERE player_id IN (' . implode(',', $winners) . ')');
+            $this->sendScores();
             $this->gamestate->nextState('gameEnd');
             return;
         }

@@ -596,6 +596,7 @@ define([
                 dojo.subscribe('commitTile', this, 'notif_tile');
                 dojo.subscribe('commitBuilding', this, 'notif_building');
                 dojo.subscribe('destroyBuilding', this, 'notif_destroyBuilding');
+                dojo.subscribe('scores', this, 'notif_scores');
             },
 
             notif_draw: function(n) {
@@ -649,6 +650,13 @@ define([
 
             notif_destroyBuilding: function(n) {
                 $('bldg_hex_' + n.args.tile_id + '_' + n.args.subface).innerHTML = '';
+            },
+
+            notif_scores: function(n) {
+                var scores = n.args.scores;
+                for (player_id in scores) {
+                    this.scoreCtrl[player_id].toValue(scores[player_id]);
+                }
             },
         });
     });
