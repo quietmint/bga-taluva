@@ -16,7 +16,6 @@
 @import url(../../../css/csslayer.css);
 /** Remaining tile counter **/
 
-html,
 .mode_3d #game_play_area_background {
   background: radial-gradient(#2073c5 50%, #3473b2, #084c91 70%);
 }
@@ -29,7 +28,8 @@ html,
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
   transform-origin: center center;
-  pointer-events: none
+  pointer-events: none;
+  overflow:hidden;
 }
 
 .mode_3d #game_play_area_background {
@@ -41,6 +41,8 @@ html,
   min-height: 1000px;
   height: 300%;
   border-radius: 50%;
+  z-index:-2000;
+  overflow:hidden
 }
 
 #bg-anchor {
@@ -1065,10 +1067,10 @@ html,
   left: 25px;
 }
 
-.bldg-container>.hut:nth-child(3) {
-  top: 8px;
-  left: 10px;
-  transform: rotate(60deg);
+.bldg-container>.hut:not(:only-child):nth-child(1) {
+  top: 48px;
+  left: 2px;
+  transform: rotate(-30deg);
 }
 
 .bldg-container>.hut:nth-child(2) {
@@ -1077,10 +1079,10 @@ html,
   transform: rotate(-30deg);
 }
 
-.bldg-container>.hut:not(:only-child):nth-child(1) {
-  top: 48px;
-  left: 2px;
-  transform: rotate(-30deg);
+.bldg-container>.hut:nth-child(3) {
+  top: 8px;
+  left: 10px;
+  transform: rotate(60deg);
 }
 
 .bldg-container>.hut:nth-child(4) {
@@ -1100,6 +1102,33 @@ html,
   left: 25px;
   transform: translateZ(25px) rotate(60deg)
 }
+
+
+.level2 .bldg-container>.hut:not(:only-child):nth-child(1) {
+  top: 28px;
+  left: 8px;
+}
+.level2 .bldg-container>.hut:nth-child(2) {
+  top: 28px;
+  left: 45px;
+}
+
+.level3 .bldg-container>.hut:nth-child(1) {
+  top: 20px;
+  left: 9px;
+  transform: rotate(0deg);
+}
+.level3 .bldg-container>.hut:nth-child(2) {
+  top: 20px;
+  left: 45px;
+  transform: rotate(0deg);
+}
+.level3 .bldg-container>.hut:nth-child(3) {
+  top: 55px;
+  left: 25px;
+  transform: rotate(-90deg);
+}
+
 
 .bldg-container {
   position: absolute;
