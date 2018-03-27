@@ -1,15 +1,12 @@
 {OVERALL_GAME_HEADER}
-<div id="playareascaler">
-  <div id="playArea">
-    <div id="count_remain" title="{I18N_Remain}">{count_remain}</div>
-
-    <div id="map_container">
-      <div id="map_scrollable">
-        <div id="bg-anchor"></div>
-      </div>
-      <div id="map_surface"></div>
-      <div id="map_scrollable_oversurface"></div>
+<div id="playArea">
+  <div id="count_remain" title="{I18N_Remain}">{count_remain}</div>
+  <div id="map_container">
+    <div id="map_scrollable">
+      <div id="bg-anchor"></div>
     </div>
+    <div id="map_surface"></div>
+    <div id="map_scrollable_oversurface"></div>
   </div>
 </div>
 
