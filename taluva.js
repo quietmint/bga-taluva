@@ -272,6 +272,7 @@ define([
                 if (e.which == 3) {
                     dojo.stopEvent(e);
                     $("ebd-body").onmousemove = dojo.hitch(this, this.elementDrag3d);
+					dojo.addClass( $("pagesection_gameview") , "grabbinghand");
                 }
             },
 
@@ -285,6 +286,7 @@ define([
                 if (evt.which == 3) {
                     dojo.stopEvent(evt);
                     $("ebd-body").onmousemove = null;
+					dojo.removeClass( $("pagesection_gameview") , "grabbinghand");
                 }
             },
 
