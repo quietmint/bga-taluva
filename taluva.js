@@ -335,7 +335,7 @@ define([
             },
 
             removeTile: function(tileEl) {
-                dojo.addClass(tileEl, 'fade-out');
+                dojo.destroy(tileEl);
             },
 
             getCoords: function(x, y) {
