@@ -278,7 +278,16 @@ define([
 
             elementDrag3d: function(e) {
                 e = e || window.event;
-                this.change3d(e.movementY / (-10), 0, 0, e.movementX / (-10), 0, true, false);
+				//$("count_remain").innerHTML="e.screenY:"+e.screenY+"<br>"+ (window.innerHeight/2);
+				var viewportOffset = e.currentTarget.getBoundingClientRect();
+				if ( ( e.screenY - viewportOffset.top ) > ( 2 * window.innerHeight / 3 )) {
+					x= e.movementX ;
+				} 
+				else
+				{
+					x= -1 * e.movementX ;
+				}
+                this.change3d(e.movementY / (-10), 0, 0, x / (-10), 0, true, false);
             },
 
             closeDragElement3d: function(evt) {
