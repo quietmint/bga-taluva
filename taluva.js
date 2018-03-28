@@ -87,7 +87,7 @@ define([
 
                 // Setup remaining tile counter
                 dojo.place($('count_remain'), 'game_play_area_wrap', 'first');
-
+				dojo.place($('mouse_debug'), 'game_play_area_wrap', 'first');
                 // Setup player boards
                 colorNames = {
                     'ff0000': 'red',
@@ -278,9 +278,9 @@ define([
 
             elementDrag3d: function(e) {
                 e = e || window.event;
-				//$("count_remain").innerHTML="e.screenY:"+e.screenY+"<br>"+ (window.innerHeight/2);
 				var viewportOffset = e.currentTarget.getBoundingClientRect();
-				if ( ( e.screenY - viewportOffset.top ) > ( 2 * window.innerHeight / 3 )) {
+				$("mouse_debug").innerHTML="e.screenY:"+e.screenY+"<br> height: "+ window.innerHeight +"<br> ofsettop: "+viewportOffset.top ; 
+				if ( ( e.screenY - viewportOffset.top ) > ( 3 * window.innerHeight / 4 )) {
 					x= e.movementX ;
 				} 
 				else

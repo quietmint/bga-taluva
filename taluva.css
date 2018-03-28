@@ -92,6 +92,22 @@
   text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.8);
 }
 
+#mouse_debug {
+  position: absolute;
+  left: 3px;
+  top: 3px;
+  transform: translateZ(10px);
+  z-index: 200;
+  width: 150px;
+  height: 150px;
+  border: 1px red;
+  text-align: center;
+  color: #f6f5f4;
+  font: bold 15px/15px "Roboto", Arial, sans-serif;
+  text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.8);
+  display:none
+}
+
 /** Scrollable area **/
 
 #map_container {
