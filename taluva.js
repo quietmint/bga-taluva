@@ -83,7 +83,7 @@ define([
                         dojo.destroy(e.target);
                     }
                 }, false);
-                this.dragElement3d($("pagesection_gameview"));
+                this.draggableElement3d($("pagesection_gameview"));
 
                 // Setup remaining tile counter
                 dojo.place($('count_remain'), 'game_play_area_wrap', 'first');
@@ -255,12 +255,14 @@ define([
                     this.dragging_offset_y = evt.pageY - (_101c.y - _101d.y);
                     this.dragging_handler = dojo.connect($("ebd-body"), "onmousemove", this, "onMouseMove");
                     this.dragging_handler_touch = dojo.connect($("ebd-body"), "ontouchmove", this, "onMouseMove");
+					
                 }
             },
 
-            dragElement3d: function(elmnt) {
+            draggableElement3d: function(elmnt) {
                 dojo.connect(elmnt, "onmousedown", this, "drag3dMouseDown");
                 dojo.connect(elmnt, "onmouseup", this, "closeDragElement3d");
+				
                 elmnt.oncontextmenu = function() {
                     return false;
                 }
@@ -272,6 +274,7 @@ define([
                 if (e.which == 3) {
                     dojo.stopEvent(e);
                     $("ebd-body").onmousemove = dojo.hitch(this, this.elementDrag3d);
+					$("pagesection_gameview").onmouseleave = dojo.hitch(this, this.closeDragElement3d);
 					dojo.addClass( $("pagesection_gameview") , "grabbinghand");
                 }
             },
@@ -279,6 +282,7 @@ define([
             elementDrag3d: function(e) {
                 e = e || window.event;
 				var viewportOffset = e.currentTarget.getBoundingClientRect();
+				//$("mouse_debug").style.display="block";
 				$("mouse_debug").innerHTML="e.screenY:"+e.screenY+"<br> height: "+ window.innerHeight +"<br> ofsettop: "+viewportOffset.top ; 
 				if ( ( e.screenY - viewportOffset.top ) > ( 3 * window.innerHeight / 4 )) {
 					x= e.movementX ;
