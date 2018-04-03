@@ -625,7 +625,8 @@ html {
   position: absolute;
   width: 33px;
   height: 33px;
-  background: linear-gradient( rgb(234, 196, 17) 40%, rgb(234, 196, 17) 17%, rgba(240, 223, 221, 1) 63%, rgb(234, 196, 17) 80%);
+  background:  rgb(234, 196, 17)  linear-gradient( rgb(234, 196, 17) 40%, rgb(234, 196, 17) 17%, rgba(240, 223, 221, 1) 63%, rgb(234, 196, 17) 80%);
+  background-blend-mode: luminosity;
   transform-style: preserve-3d;
   transform: rotateZ(90deg) translateZ(16px) rotateX(-58deg) translateZ(7px);
   box-shadow: inset 0px 8px 8px 0px rgba(245, 245, 245, 0.78);
@@ -636,10 +637,12 @@ html {
   position: absolute;
   width: 33px;
   height: 33px;
-  background: linear-gradient( rgb(234, 196, 17) 40%, rgb(234, 196, 17) 17%, rgba(240, 223, 221, 1) 63%, rgb(234, 196, 17) 80%);
+  background:  rgb(234, 196, 17)  linear-gradient( rgb(234, 196, 17) 40%, rgb(234, 196, 17) 17%, rgba(240, 223, 221, 1) 63%, rgb(234, 196, 17) 80%);
+  background-blend-mode: luminosity;
   transform-style: preserve-3d;
   transform: translateZ(-6px) rotateX(-62deg) translateZ(-6px);
   box-shadow: inset 0px 8px 8px 0px rgba(245, 245, 245, 0.78);
+
 }
 
 .temple {
@@ -831,11 +834,12 @@ html {
 }
 
 .red>.hutroof {
-  background: linear-gradient( rgb(255, 0, 0) 40%, rgb(255, 0, 0) 17%, rgba(240, 223, 221, 1) 63%, rgb(255, 0, 0) 80%);
+  background:  linear-gradient( rgb(255, 0, 0) 40%, rgb(255, 0, 0) 17%, #f99a9a 63%, rgb(255, 0, 0) 80%);
+  
 }
 
 .red>.hutroof:after {
-  background: linear-gradient( rgb(255, 0, 0) 40%, rgb(255, 0, 0) 17%, rgba(240, 223, 221, 1) 63%, rgb(255, 0, 0) 80%);
+  background: linear-gradient( rgb(255, 0, 0) 40%, rgb(255, 0, 0) 17%, #f99a9a 63%, rgb(255, 0, 0) 80%);
 }
 
 .red>.templeside {
