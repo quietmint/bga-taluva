@@ -24,20 +24,20 @@ define([
     ],
     function(dojo, declare) {
         // Terrain constants
-        const JUNGLE = 1;
-        const GRASS = 2;
-        const SAND = 3;
-        const ROCK = 4;
-        const LAKE = 5;
-        const VOLCANO = 6;
+        var JUNGLE = 1;
+        var GRASS = 2;
+        var SAND = 3;
+        var ROCK = 4;
+        var LAKE = 5;
+        var VOLCANO = 6;
 
         // Building constants
-        const HUT = 1;
-        const TEMPLE = 2;
-        const TOWER = 3;
+        var HUT = 1;
+        var TEMPLE = 2;
+        var TOWER = 3;
 
         // Zoom limits
-        const ZOOM_MAX = 3;
+        var ZOOM_MAX = 3;
 
         function capitalizeFirstLetter(string) {
             return string.charAt(0).toUpperCase() + string.slice(1);
