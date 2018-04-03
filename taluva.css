@@ -382,27 +382,27 @@
 }
 
 .tile.level1::after {
-    transform: translateZ(21px)
+    transform: translateZ(20.1px)
 }
 
 .tile.level2::after {
-    transform: translateZ(41px)
+    transform: translateZ(40.1px)
 }
 
 .tile.level3::after {
-    transform: translateZ(61px)
+    transform: translateZ(60.1px)
 }
 
 .tile.level4::after {
-    transform: translateZ(81px)
+    transform: translateZ(80.1px)
 }
 
 .tile.level5::after {
-    transform: translateZ(101px)
+    transform: translateZ(100.1px)
 }
 
 .tile.level6::after {
-    transform: translateZ(121px)
+    transform: translateZ(120.1px)
 }
 
 .tile.rotate60 {
@@ -573,7 +573,7 @@
     height: 32px;
     background-image: url(img/sides-hd-w.png);
     background-size: 104px 350px;
-    background-position: 133px -27px;
+    background-position: 133px -29px;
     transform-style: preserve-3d;
     transform-origin:bottom center;
     transform: rotateX(-90deg) translateZ(0px);
@@ -586,7 +586,7 @@
     height: 32px;
     background-image: url(img/sides-hd-w.png);
     background-size: 104px 350px;
-    background-position: 133px -27px;
+    background-position: 133px -29px;
     transform-style: preserve-3d;
     transform: translateZ(-28px);
     
@@ -600,8 +600,8 @@
     background: linear-gradient( #ffa811 40%, rgba(255, 168, 17, 1) 17%, rgb(242, 203, 111) 63%, rgba(255, 168, 17, 1));
     transform-style: preserve-3d;
     transform-origin: bottom center;
-    transform: translatey(-10px) rotateZ(90deg) translateZ(-7.5px) rotateX(-50deg) translateZ(18px);
-    box-shadow: inset 0px 4px 2px 0px rgba(245, 245, 245, 0.78);
+    transform: translateZ(2px) translatey(-10px) rotateZ(90deg) translateZ(-7.5px) rotateX(-50deg) translateZ(18px);
+    box-shadow: inset 0px 1px 1px 0px rgba(245, 245, 245, 0.78);
 }
 
 .hutroof:after {
@@ -612,7 +612,7 @@
     background: linear-gradient( rgba(255, 168, 17, 1) 40%, rgba(255, 168, 17, 1) 17%, rgb(242, 203, 111) 63%, rgba(255, 168, 17, 1));
     transform-style: preserve-3d;
     transform: translateZ(-6px) rotateX(-79deg) translateZ(-7px);
-    box-shadow: inset 0px 4px 2px 0px rgba(245, 245, 245, 0.78);
+    box-shadow: inset 0px 1px 1px 0px rgba(245, 245, 245, 0.78);
 }
 
 .temple {
@@ -780,11 +780,11 @@
 }
 
 .brown>.hutside {
-    background-position: 133px -86px;
+    background-position: 133px -88px;
 }
 
 .brown>.hutside:after {
-    background-position: 133px -86px;
+    background-position: 133px -88px;
 }
 
 .brown>.hutroof {
@@ -804,11 +804,11 @@
 }
 
 .red>.hutroof {
-    background: linear-gradient( rgb(255, 0, 0) 40%, rgb(255, 0, 0) 17%, rgb(247, 137, 124) 63%, rgb(255, 0, 0) 80%)
+    background: linear-gradient( rgb(255, 0, 0) 40%, rgb(255, 0, 0) 17%, rgb(249, 96, 87) 63%, rgb(255, 0, 0) 80%);
 }
 
 .red>.hutroof:after {
-    background: linear-gradient( rgb(255, 0, 0) 40%, rgb(255, 0, 0) 17%,  rgb(247, 137, 124) 63%, rgb(255, 0, 0) 80%)
+    background: linear-gradient( rgb(255, 0, 0) 40%, rgb(255, 0, 0) 17%,  rgb(249, 96, 87), rgb(255, 0, 0) 80%)
 }
 
 .red>.templeside {
@@ -848,11 +848,11 @@
 }
 
 .white>.hutside {
-    background-position: 133px -144px;
+    background-position: 133px -146px;
 }
 
 .white>.hutside:after {
-    background-position: 133px -144px;
+    background-position: 133px -146px;
 }
 
 .white>.hutroof {
@@ -962,11 +962,11 @@
 }
 
 .black>.hutside {
-    background-position: 133px 32px
+    background-position: 133px 29px;
 }
 
 .black>.hutside:after {
-    background-position: 133px 32px;
+    background-position: 133px 29px;
 }
 
 .black>.hutroof {
