@@ -31,7 +31,33 @@ $this->terrain = array(
 );
 
 $this->buildings = array(
-    HUT => clienttranslate('huts'),
-    TEMPLE => clienttranslate('temples'),
-    TOWER => clienttranslate('towers'),
+    HUT => array(
+        'name' => clienttranslate('huts'),
+        'tooltips' => array(
+            array(
+                'title' => clienttranslate('New Settlement'),
+                'text' => clienttranslate('Build a hut on a first-level space not adjacent to an existing settlement.'),
+            ),
+            array(
+                'title' => clienttranslate('Expand Settlement'),
+                'text' => clienttranslate('Choose an existing settlement and terrain type. On all adjacent spaces of that type, build huts equal to the height (one hut on first-level spaces, two huts on second-level spaces, etc.). You must have enough huts to build on all eligible spaces.'),
+            ),
+        ),
+    ),
+    TEMPLE => array(
+        'name' => clienttranslate('temples'),
+        'tooltips' => array(
+            array(
+                'text' => clienttranslate('Build a temple adjacent to a settlement occupying three or more spaces that does not already contain a temple.'),
+            ),
+        ),
+    ),
+    TOWER => array(
+        'name' => clienttranslate('towers'),
+        'tooltips' => array(
+            array(
+                'text' => clienttranslate('Build a tower on a third-level space (or higher) adjacent to a settlement that does not already contain a tower.'),
+            ),
+        ),
+    ),
 );

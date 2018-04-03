@@ -14,20 +14,23 @@
 <script type="text/javascript">
   var jstpl_player_board =
     '<div class="counters">\
-    <div id="{I18N_Temples} ${colorName}" class="templeBoard">\
+    <div id="templeBoard_${id}" class="templeBoard">\
       <div id="icon_temples_${id}" class="pieceicon templeicon ${colorName}"></div>\
       <span id="count_temples_${id}">0</span>\
     </div>\
-    <div id="{I18N_Towers} ${colorName}" class="towerBoard">\
+    <div id="towerBoard_${id}" class="towerBoard">\
       <div id="icon_towers_${id}" class="pieceicon towericon ${colorName}"></div>\
       <span id="count_towers_${id}">0</span>\
     </div>\
-    <div id="{I18N_Huts} ${colorName}" class="hutBoard">\
+    <div id="hutBoard_${id}" class="hutBoard">\
       <div id="icon_huts_${id}" class="pieceicon huticon ${colorName}"></div>\
       <span id="count_huts_${id}">0</span>\
     </div>\
 </div>\
 <div id="preview_${id}" class="preview"></div>';
+
+  var jstpl_tooltip =
+    '<div class="pieceicon ${icon}"></div><h3 class="bldgname">${name}</h3><ul><li>${tooltip}</li></ul>';
 
   var jstpl_tile =
     '<div id="tile_${id}" class="tile rotate${rotate} level${z}">\

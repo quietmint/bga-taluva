@@ -39,24 +39,31 @@ define([
         // Zoom limits
         const ZOOM_MAX = 3;
 
+        function capitalizeFirstLetter(string) {
+            return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+
+        function buildTooltip(tooltips) {
+            return tooltips.map(function(tt) {
+                return (tt.title ? '<b>' + _(tt.title) + ':</b> ' : '') + _(tt.text);
+            }).join('</li><li>');
+        }
+
         return declare("bgagame.taluva", ebg.core.gamegui, {
             constructor: function() {
                 // Scrollable area
                 this.scrollmap = new ebg.scrollmap();
                 this.hexWidth = 84;
                 this.hexHeight = 71;
-                this.tryTile = null;
-                this.zoom = 1;
 
                 if (!dojo.hasClass("ebd-body", "mode_3d")) {
                     dojo.addClass("ebd-body", "mode_3d");
-                    //dojo.addClass("ebd-body", "enableTransitions");
                     $("globalaction_3d").innerHTML = "2D"; // controls the upper right button
                     this.control3dxaxis = 40; // rotation in degrees of x axis (it has a limit of 0 to 80 degrees in the frameword so users cannot turn it upsidedown)
                     this.control3dzaxis = 0; // rotation in degrees of z axis
                     this.control3dxpos = -100; // center of screen in pixels
                     this.control3dypos = -50; // center of screen in pixels
-                    this.control3dscale = 0.8; // zoom level, 1 is default 2 is double normal size,
+                    this.control3dscale = 1; // zoom level, 1 is default 2 is double normal size,
                     this.control3dmode3d = true; // is the 3d enabled
                     //    transform: rotateX(10deg) translate(-100px, -100px) rotateZ(0deg) scale3d(0.7, 0.7, 0.7);
                     $("game_play_area").style.transform = "rotatex(" + this.control3dxaxis + "deg) translate(" + this.control3dypos + "px," + this.control3dxpos + "px) rotateZ(" + this.control3dzaxis + "deg) scale3d(" + this.control3dscale + "," + this.control3dscale + "," + this.control3dscale + ")";
@@ -87,7 +94,7 @@ define([
 
                 // Setup remaining tile counter
                 dojo.place($('count_remain'), 'game_play_area_wrap', 'first');
-				dojo.place($('mouse_debug'), 'game_play_area_wrap', 'first');
+                dojo.place($('mouse_debug'), 'game_play_area_wrap', 'first');
                 // Setup player boards
                 colorNames = {
                     'ff0000': 'red',
@@ -117,28 +124,29 @@ define([
                         });
                     }
                 }
-				
-				this.addTooltipToClass("templeBoard",  "<div class='pieceicon templeicon'></div>" + 
-				                                      _(" <b>TEMPLE:</b><hr>It must be adjacent to your existing Settlement of three hex spaces or larger: <br>" +
-														" - There must not already be a Temple in the Settlement.<br>" +
-														" - It is allowed to build a Temple which connects multiple settlements, as long as <br>" + 
-														"  one of the Settlements does not already have a Temple. <BR>" +
-														"  (In this way, it is possible to have multiple Temples in the same Settlement)."), "");
-														
-				this.addTooltipToClass("towerBoard",  "<div class='pieceicon towericon'></div>" + 
-				                                      _(" <b>TOWER:</b><hr>It must be adjacent to your existing Settlement and in at least level 3 high: <br>" +
-														" - There must not already be a Tower in the Settlement.<br>" +
-														" - It is allowed to build a Tower which connects multiple settlements, as long as <br>" + 
-														"  one of the Settlements does not already have a Tower. <BR>" +
-														"  (In this way, it is possible to have multiple Tower in the same Settlement)."), "")	;									
-				
-				this.addTooltipToClass("hutBoard",  "<div class='pieceicon huticon'></div>" + 
-				                                      _(" <b>HUT:</b><hr> There are 2 ways to place huts in a hexagon: <br>" +
-														" - A single hut in a level 1 space not connected to an existing settlement.<br>" +
-														" - Multiple huts on every space of a terrain type adjacent to your <br>"+
-														" existing Settlement placing 1 hut per space level (i.e. 3 Huts on a space on level 3 tile) <br>"+
-														" <b> You need to have enough Huts as is required to expand to all spaces of that type </b>"+
-														" (i.e. you cannot leave one adjacent terrain of the chosen type with 2 huts if it is at level 3."), "")	;									
+
+                this.addTooltipHtmlToClass('templeBoard', this.format_block('jstpl_tooltip', {
+                    icon: 'templeicon',
+                    name: _(this.gamedatas.buildings[TEMPLE].name),
+                    tooltip: buildTooltip(this.gamedatas.buildings[TEMPLE].tooltips),
+                }));
+
+                this.addTooltipHtmlToClass('towerBoard', this.format_block('jstpl_tooltip', {
+                    icon: 'towericon',
+                    name: _(this.gamedatas.buildings[TOWER].name),
+                    tooltip: this.gamedatas.buildings[TOWER].tooltips.map(function(tt) {
+                        return (tt.title ? '<b>' + _(tt.title) + ':</b> ' : '') + _(tt.text);
+                    }).join('</li><li>')
+                }), '');
+
+                this.addTooltipHtmlToClass('hutBoard', this.format_block('jstpl_tooltip', {
+                    icon: 'huticon',
+                    name: _(this.gamedatas.buildings[HUT].name),
+                    tooltip: this.gamedatas.buildings[HUT].tooltips.map(function(tt) {
+                        return (tt.title ? '<b>' + _(tt.title) + ':</b> ' : '') + _(tt.text);
+                    }).join('</li><li>')
+                }), '');
+
                 // Setup scrollable map
                 var mapContainer = $('map_container');
                 this.scrollmap.onMouseDown = this.myonMouseDown;
@@ -255,14 +263,14 @@ define([
                     this.dragging_offset_y = evt.pageY - (_101c.y - _101d.y);
                     this.dragging_handler = dojo.connect($("ebd-body"), "onmousemove", this, "onMouseMove");
                     this.dragging_handler_touch = dojo.connect($("ebd-body"), "ontouchmove", this, "onMouseMove");
-					
+
                 }
             },
 
             draggableElement3d: function(elmnt) {
                 dojo.connect(elmnt, "onmousedown", this, "drag3dMouseDown");
                 dojo.connect(elmnt, "onmouseup", this, "closeDragElement3d");
-				
+
                 elmnt.oncontextmenu = function() {
                     return false;
                 }
@@ -274,23 +282,21 @@ define([
                 if (e.which == 3) {
                     dojo.stopEvent(e);
                     $("ebd-body").onmousemove = dojo.hitch(this, this.elementDrag3d);
-					$("pagesection_gameview").onmouseleave = dojo.hitch(this, this.closeDragElement3d);
-					dojo.addClass( $("pagesection_gameview") , "grabbinghand");
+                    $("pagesection_gameview").onmouseleave = dojo.hitch(this, this.closeDragElement3d);
+                    dojo.addClass($("pagesection_gameview"), "grabbinghand");
                 }
             },
 
             elementDrag3d: function(e) {
                 e = e || window.event;
-				var viewportOffset = e.currentTarget.getBoundingClientRect();
-				//$("mouse_debug").style.display="block";
-				$("mouse_debug").innerHTML="e.screenY:"+e.screenY+"<br> height: "+ window.innerHeight +"<br> ofsettop: "+viewportOffset.top ; 
-				if ( ( e.screenY - viewportOffset.top ) > ( 3 * window.innerHeight / 4 )) {
-					x= e.movementX ;
-				} 
-				else
-				{
-					x= -1 * e.movementX ;
-				}
+                var viewportOffset = e.currentTarget.getBoundingClientRect();
+                //$("mouse_debug").style.display="block";
+                $("mouse_debug").innerHTML = "e.screenY:" + e.screenY + "<br> height: " + window.innerHeight + "<br> ofsettop: " + viewportOffset.top;
+                if ((e.screenY - viewportOffset.top) > (3 * window.innerHeight / 4)) {
+                    x = e.movementX;
+                } else {
+                    x = -1 * e.movementX;
+                }
                 this.change3d(e.movementY / (-10), 0, 0, x / (-10), 0, true, false);
             },
 
@@ -299,7 +305,7 @@ define([
                 if (evt.which == 3) {
                     dojo.stopEvent(evt);
                     $("ebd-body").onmousemove = null;
-					dojo.removeClass( $("pagesection_gameview") , "grabbinghand");
+                    dojo.removeClass($("pagesection_gameview"), "grabbinghand");
                 }
             },
 
@@ -342,9 +348,9 @@ define([
                     face0: face0,
                     face1: face1,
                     face2: face2,
-                    title0: _(this.gamedatas.terrain[face0]) + levelSuffix,
-                    title1: _(this.gamedatas.terrain[face1]) + levelSuffix,
-                    title2: _(this.gamedatas.terrain[face2]) + levelSuffix,
+                    title0: capitalizeFirstLetter(_(this.gamedatas.terrain[face0])) + levelSuffix,
+                    title1: capitalizeFirstLetter(_(this.gamedatas.terrain[face1])) + levelSuffix,
+                    title2: capitalizeFirstLetter(_(this.gamedatas.terrain[face2])) + levelSuffix,
                 }), 'map_scrollable');
                 return tileEl;
             },

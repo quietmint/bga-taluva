@@ -17,7 +17,7 @@
   */
 
 require_once(APP_GAMEMODULE_PATH.'module/table/table.game.php');
-require_once('taluva.board.php');
+require_once('modules/taluva.board.php');
 
 // Terrain constants
 define('JUNGLE', 1);
@@ -198,6 +198,7 @@ class taluva extends Table
             }
         }
         $result['terrain'] = $this->terrain;
+        $result['buildings'] = $this->buildings;
         $result['spaces'] = $board->getSpaces();
         $result['remain'] = $this->tiles->countCardInLocation('deck');
         return $result;
@@ -406,7 +407,7 @@ class taluva extends Table
         if ($destroyCount > 0) {
             $msg = clienttranslate('${player_name} places a tile with ${face_name} and ${face_name2} on level ${z}, destroying ${count} ${bldg_name}.');
             $tile['i18n'][] = 'bldg_name';
-            $tile['bldg_name'] = $this->buildings[HUT];
+            $tile['bldg_name'] = $this->buildings[HUT]['name'];
             $tile['count'] = $destroyCount;
         }
         self::notifyAllPlayers('commitTile', $msg, $tile);
@@ -454,7 +455,7 @@ class taluva extends Table
         }
 
         // Subtract buildings from player
-        $bldgName = $this->buildings[$bldg_type];
+        $bldgName = $this->buildings[$bldg_type]['name'];
         $columnName = strtolower($bldgName);
         self::DbQuery("UPDATE player SET $columnName = $columnName - $count WHERE player_id = $player_id AND $columnName >= $count");
         if (self::DbAffectedRow() != 1) {
@@ -479,7 +480,7 @@ class taluva extends Table
             'count' => $count,
             'buildings' => $buildings,
         );
-        self::notifyAllPlayers('commitBuilding', clienttranslate('${player_name} places ${count} ${bldg_name} on ${face_name}.'), $args);
+        self::notifyAllPlayers('commitBuilding', clienttranslate('${player_name} builds ${count} ${bldg_name} on ${face_name}.'), $args);
 
         // Draw next tile
         $newTile = $this->tiles->pickCard('deck', $player_id);
@@ -561,9 +562,9 @@ class taluva extends Table
         $weights = array();
         foreach ($players as $player_id => $player) {
             $counts = array(
-                $this->buildings[HUT] => $player['huts'],
-                $this->buildings[TEMPLE] => $player['temples'],
-                $this->buildings[TOWER] => $player['towers'],
+                $this->buildings[HUT]['name'] => $player['huts'],
+                $this->buildings[TEMPLE]['name'] => $player['temples'],
+                $this->buildings[TOWER]['name'] => $player['towers'],
             );
             asort($counts);
             $bldg_counts = array_values($counts);

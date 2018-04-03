@@ -14,10 +14,8 @@
  */
 
 @import url(../../../css/csslayer.css);
-/** Remaining tile counter **/
-
-.mode_3d #game_play_area_background {
-  background: radial-gradient(#2073c5 50%, #3473b2, #084c91 70%);
+html {
+  background: #2073c5;
 }
 
 .mode_3d {
@@ -29,16 +27,18 @@
   -webkit-transform-style: preserve-3d;
   transform-origin: center center;
   pointer-events: none;
-  overflow:hidden;
+  overflow: hidden;
   height: 100vh;
 }
-.grabbinghand{
-	cursor: grabbing !important;
-    cursor: -webkit-grabbing !important;
-	cursor: moz-grabbing !important;
+
+.grabbinghand {
+  cursor: grabbing !important;
+  cursor: -webkit-grabbing !important;
+  cursor: moz-grabbing !important;
 }
 
 .mode_3d #game_play_area_background {
+  background: radial-gradient(#2073c5 50%, #3473b2, #084c91 70%);
   display: block;
   position: absolute;
   top: -100%;
@@ -47,8 +47,8 @@
   min-height: 1000px;
   height: 300%;
   border-radius: 50%;
-  z-index:-2000;
-  overflow:hidden
+  z-index: -2000;
+  overflow: hidden;
 }
 
 #bg-anchor {
@@ -85,7 +85,7 @@
   height: 50px;
   background: url(img/tile-back.png);
   background-size: contain;
-  background-repeat:no-repeat;
+  background-repeat: no-repeat;
   text-align: center;
   color: #f6f5f4;
   font: bold 25px/52px "Roboto", Arial, sans-serif;
@@ -105,7 +105,7 @@
   color: #f6f5f4;
   font: bold 15px/15px "Roboto", Arial, sans-serif;
   text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.8);
-  display:none
+  display: none
 }
 
 /** Scrollable area **/
@@ -114,7 +114,6 @@
   position: relative;
   width: 100%;
   height: 100%;
-  /* overflow: hidden; */
 }
 
 .mode_3d #playArea {
@@ -134,11 +133,6 @@
   left: 0px;
   width: 100%;
   height: 100%;
-  /* cursor: move; */
-}
-
-.mode_3d #map_surface {
-  /* cursor: default; */
 }
 
 #map_footer {
@@ -513,7 +507,7 @@
 
 .pieceicon.towericon.red {
   background-position: 0 60%;
-  z-index:  30;
+  z-index: 30;
 }
 
 .pieceicon.towericon.black {
@@ -524,7 +518,7 @@
   background-position: -26px 0;
   width: 21px;
   margin-top: -13px;
-  z-index:  40;
+  z-index: 40;
 }
 
 .pieceicon.templeicon.brown {
@@ -579,6 +573,19 @@
 .preview .tile {
   transform: scale3d(0.6, 0.6, 0.6);
   transform-origin: 50% 0;
+}
+
+.dijitTooltip .pieceicon {
+  float: right;
+}
+
+.dijitTooltip .bldgname {
+  text-transform: uppercase;
+}
+
+.dijitTooltip li {
+  list-style: square outside;
+  margin: 0 0 .5em 2em;
 }
 
 /*          ==========================  BUILDINGS  ============================                    */
@@ -1129,11 +1136,11 @@
   transform: translateZ(25px) rotate(60deg)
 }
 
-
 .level2 .bldg-container>.hut:not(:only-child):nth-child(1) {
   top: 28px;
   left: 8px;
 }
+
 .level2 .bldg-container>.hut:nth-child(2) {
   top: 28px;
   left: 45px;
@@ -1144,17 +1151,18 @@
   left: 9px;
   transform: rotate(0deg);
 }
+
 .level3 .bldg-container>.hut:nth-child(2) {
   top: 20px;
   left: 45px;
   transform: rotate(0deg);
 }
+
 .level3 .bldg-container>.hut:nth-child(3) {
   top: 55px;
   left: 25px;
   transform: rotate(-90deg);
 }
-
 
 .bldg-container {
   position: absolute;
