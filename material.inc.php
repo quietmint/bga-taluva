@@ -36,11 +36,11 @@ $this->buildings = array(
         'tooltips' => array(
             array(
                 'title' => clienttranslate('New Settlement'),
-                'text' => clienttranslate('Build a hut on a first-level space not adjacent to an existing settlement.'),
+                'text' => clienttranslate('Build a hut on a first-level space not adjacent to your existing settlement.'),
             ),
             array(
                 'title' => clienttranslate('Expand Settlement'),
-                'text' => clienttranslate('Choose an existing settlement and terrain type. On all adjacent spaces of that type, build huts equal to the height (one hut on first-level spaces, two huts on second-level spaces, etc.). You must have enough huts to build on all eligible spaces.'),
+                'text' => clienttranslate('Choose a terrain type. On all adjacent spaces of that type, build huts equal to the height (one hut on first-level spaces, two huts on second-level spaces, etc.). You must have enough huts to build on all eligible spaces.'),
             ),
         ),
     ),
@@ -48,7 +48,7 @@ $this->buildings = array(
         'name' => clienttranslate('temples'),
         'tooltips' => array(
             array(
-                'text' => clienttranslate('Build a temple adjacent to a settlement occupying three or more spaces that does not already contain a temple.'),
+                'text' => clienttranslate('Build a temple adjacent to your settlement occupying three or more spaces that does not already contain a temple.'),
             ),
         ),
     ),
@@ -56,7 +56,7 @@ $this->buildings = array(
         'name' => clienttranslate('towers'),
         'tooltips' => array(
             array(
-                'text' => clienttranslate('Build a tower on a third-level space (or higher) adjacent to a settlement that does not already contain a tower.'),
+                'text' => clienttranslate('Build a tower on a third-level space (or higher) adjacent to your settlement that does not already contain a tower.'),
             ),
         ),
     ),

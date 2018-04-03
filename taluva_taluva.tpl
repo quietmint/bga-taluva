@@ -30,7 +30,7 @@
 <div id="preview_${id}" class="preview"></div>';
 
   var jstpl_tooltip =
-    '<div class="pieceicon ${icon}"></div><h3 class="bldgname">${name}</h3><ul><li>${tooltip}</li></ul>';
+    '<div class="pieceicon black ${icon}"></div><h3 class="bldgname">${name}</h3><ul><li>${tooltip}</li></ul>';
 
   var jstpl_tile =
     '<div id="tile_${id}" class="tile rotate${rotate} level${z}">\
