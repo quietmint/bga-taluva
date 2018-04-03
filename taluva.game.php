@@ -570,7 +570,7 @@ class taluva extends Table
             $bldg_counts = array_values($counts);
             $bldg_names = array_keys($counts);
             if ($bldg_counts[0] == 0 && $bldg_counts[1] == 0) {
-                self::notifyAllPlayers('message', clienttranslate('Early victory! ${player_name} has placed all ${bldg_name} and ${bldg_name2}.'), array(
+                self::notifyAllPlayers('message', clienttranslate('Early victory! ${player_name} has built all ${bldg_name} and ${bldg_name2}.'), array(
                     'i18n' => array('bldg_name', 'bldg_name2'),
                     'player_name' => $player['name'],
                     'bldg_name' => $bldg_names[0],
@@ -633,7 +633,7 @@ class taluva extends Table
         $player_id = self::getActivePlayerId();
         $player = $this->getPlayer($player_id);
         if (empty($this->getPossibleSpaces($player))) {
-            self::notifyAllPlayers('eliminate', clienttranslate('${player_name} cannot place a building and is eliminated!'), array(
+            self::notifyAllPlayers('eliminate', clienttranslate('${player_name} cannot build and is eliminated!'), array(
                 'player_id' => $player_id,
                 'player_name' => $player['name'],
             ));

@@ -113,8 +113,8 @@ $machinestates = array(
 
     ST_BUILDING => array(
         'name' => 'building',
-        'description' => clienttranslate('${actplayer} must place a building'),
-        'descriptionmyturn' => clienttranslate('${you} must place a building'),
+        'description' => clienttranslate('${actplayer} must build a building'),
+        'descriptionmyturn' => clienttranslate('${you} must build a building'),
         'type' => 'activeplayer',
         'args' => 'argBuildingTypes',
         'possibleactions' => array( 'commitBuilding' , 'cancel' ),
