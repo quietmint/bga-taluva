@@ -282,27 +282,27 @@
 }
 
 .level1.possible {
-    transform: translateZ(21px) scale(0.8)
+    transform: translateZ(23px) scale(0.8)
 }
 
 .level2.possible {
-    transform: translateZ(41px) scale(0.8)
+    transform: translateZ(43px) scale(0.8)
 }
 
 .level3.possible {
-    transform: translateZ(61px) scale(0.8)
+    transform: translateZ(63px) scale(0.8)
 }
 
 .level4.possible {
-    transform: translateZ(81px) scale(0.8)
+    transform: translateZ(83px) scale(0.8)
 }
 
 .level5.possible {
-    transform: translateZ(101px) scale(0.8)
+    transform: translateZ(103px) scale(0.8)
 }
 
 .level6.possible {
-    transform: translateZ(121px) scale(0.8)
+    transform: translateZ(123px) scale(0.8)
 }
 
 #playArea .tile .face:after {
@@ -597,11 +597,11 @@
     position: absolute;
     width: 28px;
     height: 28px;
-    background: linear-gradient( #ffa811 40%, rgba(255, 168, 17, 1) 17%, rgb(242, 203, 111) 63%, rgba(255, 168, 17, 1));
+    background: linear-gradient( rgb(242, 203, 111) 0%, rgba(255, 168, 17, 1) 4%, rgba(255, 168, 17, 1) 40%, rgb(242, 203, 111) 63%, rgba(255, 168, 17, 1) 100%);
     transform-style: preserve-3d;
     transform-origin: bottom center;
     transform: translateZ(2px) translatey(-10px) rotateZ(90deg) translateZ(-7.5px) rotateX(-50deg) translateZ(18px);
-    box-shadow: inset 0px 1px 1px 0px rgba(245, 245, 245, 0.78);
+    /* box-shadow: inset 0px 1px 1px 0px rgba(245, 245, 245, 0.78); */
 }
 
 .hutroof:after {
@@ -609,10 +609,10 @@
     position: absolute;
     width: 28px;
     height: 28px;
-    background: linear-gradient( rgba(255, 168, 17, 1) 40%, rgba(255, 168, 17, 1) 17%, rgb(242, 203, 111) 63%, rgba(255, 168, 17, 1));
+    background: linear-gradient( rgb(242, 203, 111) 0%, rgba(255, 168, 17, 1) 4%, rgba(255, 168, 17, 1) 40%, rgb(242, 203, 111) 63%, rgba(255, 168, 17, 1) 100%);
     transform-style: preserve-3d;
     transform: translateZ(-6px) rotateX(-79deg) translateZ(-7px);
-    box-shadow: inset 0px 1px 1px 0px rgba(245, 245, 245, 0.78);
+    /* box-shadow: inset 0px 1px 1px 0px rgba(245, 245, 245, 0.78); */
 }
 
 .temple {
@@ -788,11 +788,11 @@
 }
 
 .brown>.hutroof {
-    background: linear-gradient( rgba(150, 75, 50, 1) 40%,  rgba(150, 75, 50, 1) 17%, rgb(179, 111, 94) 63%,  rgba(150, 75, 50, 1) 80%)
+    background: linear-gradient( rgb(179, 111, 94) 0% , rgba(150, 75, 50, 1) 4%,  rgba(150, 75, 50, 1) 40%, rgb(179, 111, 94) 63%,  rgba(150, 75, 50, 1) 80%)
 }
 
 .brown>.hutroof:after {
-    background: linear-gradient( rgba(150, 75, 50, 1) 40%,  rgba(150, 75, 50, 1) 17%, rgb(179, 111, 94) 63%,  rgba(150, 75, 50, 1) 80%)
+    background: linear-gradient( rgb(179, 111, 94) 0% , rgba(150, 75, 50, 1) 4%,  rgba(150, 75, 50, 1) 40%, rgb(179, 111, 94) 63%,  rgba(150, 75, 50, 1) 80%)
 }
 
 .red>.hutside {
@@ -804,11 +804,11 @@
 }
 
 .red>.hutroof {
-    background: linear-gradient( rgb(255, 0, 0) 40%, rgb(255, 0, 0) 17%, rgb(249, 96, 87) 63%, rgb(255, 0, 0) 80%);
+    background: linear-gradient( rgb(249, 196, 187) 0%, rgb(255, 0, 0) 4%, rgb(255, 0, 0) 40%, rgb(249, 96, 87) 63%, rgb(255, 0, 0) 80%);
 }
 
 .red>.hutroof:after {
-    background: linear-gradient( rgb(255, 0, 0) 40%, rgb(255, 0, 0) 17%,  rgb(249, 96, 87), rgb(255, 0, 0) 80%)
+    background: linear-gradient( rgb(249, 196, 187) 0%, rgb(255, 0, 0) 4%, rgb(255, 0, 0) 40%, rgb(249, 96, 87) 63%, rgb(255, 0, 0) 80%);
 }
 
 .red>.templeside {
@@ -856,11 +856,11 @@
 }
 
 .white>.hutroof {
-    background: linear-gradient( rgb(255, 255, 255) 40%, rgb(255, 255, 255) 17%, rgb(231, 231, 230) 63%, rgb(246, 246, 246) 80%)
+    background: linear-gradient( rgb(200, 200, 200) 0%, rgb(255, 255, 255) 4%, rgb(255, 255, 255) 40%, rgb(231, 231, 230) 63%, rgb(255, 255, 255) 80%);
 }
 
 .white>.hutroof:after {
-    background: linear-gradient( rgb(255, 255, 255) 40%, rgb(255, 255, 255) 17%, rgb(231, 231, 230) 63%, rgb(246, 246, 246) 80%)
+    background: linear-gradient( rgb(200, 200, 200) 0%, rgb(255, 255, 255) 4%, rgb(255, 255, 255) 17%, rgb(231, 231, 230) 63%, rgb(246, 246, 246) 80%)
 }
 
 .white>.templeside {
@@ -970,11 +970,11 @@
 }
 
 .black>.hutroof {
-    background: linear-gradient( rgb(44, 44, 44) 40%, rgb(44, 44, 44) 17%, #5a5959 63%, rgb(44, 44, 44) 80%)
+    background: linear-gradient( rgb(200, 200, 200) 0%, rgb(44, 44, 44) 4%, rgb(44, 44, 44) 40%, #5a5959 63%, rgb(44, 44, 44) 80%)
 }
 
 .black>.hutroof:after {
-    background: linear-gradient( rgb(44, 44, 44) 40%, rgb(44, 44, 44) 17%, #5a5959 63%, rgb(44, 44, 44) 80%)
+    background: linear-gradient( rgb(200, 200, 200) 0%, rgb(44, 44, 44) 4%, rgb(44, 44, 44) 40%, #5a5959 63%, rgb(44, 44, 44) 80%)
 }
 
 .black>.templeside {
@@ -1029,7 +1029,7 @@
 }
 
 .tile.prior-move-yellow .side {
-    background: linear-gradient(to right, #ecc61c 0%, #fdd72d 2%, #fdd72d 98%, #ecc61c 100%) !important
+    background: linear-gradient(to right, #ca840c 0%, #ffa811 2%, #ffa811 98%, #ca840c 100%) !important;
 }
 
 .tile.prior-move-red .face:after {
@@ -1045,7 +1045,7 @@
 }
 
 .tile.prior-move-brown .side {
-    background: linear-gradient(to right, #be5440 0%, #b1634f 2%, #b1634f 98%, #be5440 100%) !important
+    background: linear-gradient(to right, #6d3421 0%, #964b32 2%, #9a4f36 98%, #6d3421  100%) !important;
 }
 
 .tile.prior-move-black .face:after {
