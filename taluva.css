@@ -911,12 +911,12 @@
 }
 
 .tempbuilding>.hutroof {
-    background: #cfffab80;
+    background: rgba(209, 255, 173, 0.5);
     box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83)
 }
 
 .tempbuilding>.hutroof:after {
-    background: #cfffab80;
+    background: rgba(209, 255, 173, 0.5);
     box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83)
 }
 
@@ -929,12 +929,12 @@
 }
 
 .tempbuilding>.templeroof {
-    background: linear-gradient( #b3f1a88c, #b3f1a88c, #b3f1a88c, #b3f1a88c, rgb(99, 127, 83), #b3f1a88c, #b3f1a88c, rgb(99, 127, 83), #b3f1a88c, #b3f1a88c, rgb(99, 127, 83), #b3f1a88c, #b3f1a88c, #b3f1a88c, #b3f1a88c);
+    background: linear-gradient( rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgb(99, 127, 83), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgb(99, 127, 83), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgb(99, 127, 83), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5));
     box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83)
 }
 
 .tempbuilding>.templeroof:after {
-    background: linear-gradient( #b3f1a88c, #b3f1a88c, #b3f1a88c, #b3f1a88c, rgb(99, 127, 83), #b3f1a88c, #b3f1a88c, rgb(99, 127, 83), #b3f1a88c, #b3f1a88c, rgb(99, 127, 83), #b3f1a88c, #b3f1a88c, #b3f1a88c, #b3f1a88c);
+    background: linear-gradient( rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgb(99, 127, 83), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgb(99, 127, 83), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgb(99, 127, 83), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5));
     box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83)
 }
 
@@ -947,17 +947,17 @@
 }
 
 .tempbuilding>.towerroof {
-    background: #b3f1a88c;
+    background: rgba(209, 255, 173, 0.5);
     box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83)
 }
 
 .tempbuilding>.towerroof:after {
-    background: #b3f1a88c;
+    background: rgba(209, 255, 173, 0.5);
     box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83)
 }
 
 .tempbuilding>.towerroof:before {
-    background: #b3f1a88c;
+    background: rgba(209, 255, 173, 0.5);
     box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83)
 }
 
@@ -1148,7 +1148,7 @@
     width: 60px;
     transform: translate3d(12px, 16px, 10px);
     animation: flipanim 0.5s ease forwards 1;
-    box-shadow: inset 0px 0px 5px 35px #b3f1a8b3
+    box-shadow: inset 0px 0px 5px 35px rgba(209, 255, 173, 0.68);
 }
 
 #cancelator {
