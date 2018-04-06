@@ -812,7 +812,7 @@
 }
 
 .red>.templeside {
-    background-position: 73px 60%
+    background-position: 73px -232px;
 }
 
 .red>.templeside:after {
