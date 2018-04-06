@@ -68,7 +68,7 @@ class TaluvaSpace extends APP_GameClass
     // Is this space avaialble for placing a new building?
     public function canBuild()
     {
-        return $this->exists() && !$this->bldg_type && $this->face !== VOLCANO;
+        return $this->exists() && !$this->bldg_type && $this->face !== VOLCANO ;
     }
 }
 
@@ -417,7 +417,7 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
                     foreach ($settlement as $sSpace) {
                         $adjacents = $this->getAdjacentsOnTop($sSpace);
                         foreach ($adjacents as $adj) {
-                            if ($adj->face == $space->face && !$adj->bldg_type) {
+                            if ($adj->face == $space->face && !$adj->bldg_type && !$this->getSpaceAbove($space)->exists() ) {
                                 $huts["$adj"] = $adj;
                             }
                         }
@@ -432,12 +432,12 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
                 }
 
                 // OPTION B -- temple
-                if ($player['temples'] > 0 && count($settlement) >= 3 && !$this->hasBuilding(TEMPLE, $settlement)) {
+                if ($player['temples'] > 0 && count($settlement) >= 3 && !$this->hasBuilding(TEMPLE, $settlement) && !$this->getSpaceAbove($space)->exists() ) {
                     $options[TEMPLE * 10] = array($space);
                 }
 
                 // OPTION D -- tower
-                if ($player['towers'] > 0 && $space->z >= 3 && !$this->hasBuilding(TOWER, $settlement)) {
+                if ($player['towers'] > 0 && $space->z >= 3 && !$this->hasBuilding(TOWER, $settlement) && !$this->getSpaceAbove($space)->exists() ) {
                     $options[TOWER * 10] = array($space);
                 }
             }
@@ -446,7 +446,7 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
             foreach ($hutOptions as $huts) {
                 $options[HUT * 10 + $i++] = $huts;
             }
-        } elseif ($player['huts'] > 0 && $space->z == 1) {
+        } elseif ($player['huts'] > 0 && $space->z == 1 && !$this->getSpaceAbove($space)->exists() ) {
             // OPTION A -- new hut
             $options[HUT * 10] = array($space);
         }
