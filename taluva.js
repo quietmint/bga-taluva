@@ -261,8 +261,8 @@ define([
                     var _101d = dojo.position(this.container_div);
                     this.dragging_offset_x = evt.pageX - (_101c.x - _101d.x);
                     this.dragging_offset_y = evt.pageY - (_101c.y - _101d.y);
-                    this.dragging_handler = dojo.connect($("ebd-body"), "onmousemove", this, "onMouseMove");
-                    this.dragging_handler_touch = dojo.connect($("ebd-body"), "ontouchmove", this, "onMouseMove");
+                    this.dragging_handler = dojo.connect($("pagesection_gameview"), "onmousemove", this, "onMouseMove");
+                    //this.dragging_handler_touch = dojo.connect($("ebd-body"), "ontouchmove", this, "onMouseMove");
 
                 }
             },
@@ -288,16 +288,21 @@ define([
             },
 
             elementDrag3d: function(e) {
-                e = e || window.event;
-                var viewportOffset = e.currentTarget.getBoundingClientRect();
-                //$("mouse_debug").style.display="block";
-                //$("mouse_debug").innerHTML = "e.screenY:" + e.screenY + "<br> height: " + window.innerHeight + "<br> ofsettop: " + viewportOffset.top + "<br>E:"+ e.clientX + " " + e.clientY ; 
-                if ((e.screenY - viewportOffset.top) > (3 * window.innerHeight / 4)) {
-                    x = e.movementX;
-                } else {
-                    x = -1 * e.movementX;
-                }
-                this.change3d(e.movementY / (-10), 0, 0, x / (-10), 0, true, false);
+				e = e || window.event;
+				dojo.stopEvent(e);
+				if (!this.isdragging) {
+					this.isdragging=true;	
+					var viewportOffset = e.currentTarget.getBoundingClientRect();
+					//$("mouse_debug").style.display="block";
+					//$("mouse_debug").innerHTML = "e.screenY:" + e.screenY + "<br> height: " + window.innerHeight + "<br> ofsettop: " + viewportOffset.top + "<br>E:"+ e.clientX + " " + e.clientY +"<br> "+ e.currentTarget.id ; 
+					if ((e.screenY - viewportOffset.top) > (3 * window.innerHeight / 4)) {
+						x = e.movementX;
+					} else {
+						x = -1 * e.movementX;
+					}
+					this.change3d(e.movementY / (-10), 0, 0, x / (-10), 0, true, false);
+					this.isdragging=false;
+				}	
             },
 
             closeDragElement3d: function(evt) {

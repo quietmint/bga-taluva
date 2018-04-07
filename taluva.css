@@ -157,7 +157,7 @@
     height: 97px;
     background: url(img/hexagons-hd.png);
     background-size: 100% 1300%;
-    border-radius: 35%;
+    border-radius: 30%;
     backface-visibility: hidden
 }
 
@@ -257,27 +257,27 @@
     background-position: 0px -485px
 }
 
-.level1 .face,.bldg-container.level1 {
+.level1 .face,.bldg-container.level1,.level1 .sides {
     transform: translateZ(20px)
 }
 
-.level2 .face,.bldg-container.level2 {
+.level2 .face,.bldg-container.level2,.level2 .sides {
     transform: translateZ(40px)
 }
 
-.level3 .face,.bldg-container.level3 {
+.level3 .face,.bldg-container.level3,.level3 .sides {
     transform: translateZ(60px)
 }
 
-.level4 .face,.bldg-container.level4 {
+.level4 .face,.bldg-container.level4,.level4 .sides {
     transform: translateZ(80px)
 }
 
-.level5 .face,.bldg-container.level5 {
+.level5 .face,.bldg-container.level5,.level5 .sides {
     transform: translateZ(100px)
 }
 
-.level6 .face,.bldg-container.level6 {
+.level6 .face,.bldg-container.level6,.level6 .sides {
     transform: translateZ(120px)
 }
 
@@ -320,27 +320,42 @@
 }
 
 #playArea .side1 {
-    transform: translatez(-0.5px) rotatez(90deg) translatex(31px) translatey(6px) rotatex(90deg);
-    z-index: -100
+    transform: translatez(-0.5px) rotatez(104deg) translatex(72px) translatey(7px) rotatex(90deg);
+    z-index: -100;
 }
 
 #playArea .side2 {
-    transform: translatez(-0.5px) rotatez(90deg) translatex(31px) translatey(6px) rotatex(90deg) rotatey(-60deg);
-    z-index: -100
+   transform: translatez(-0.5px) rotatez(76deg) translatex(71px) translatey(-2px) rotatex(90deg);
+   z-index: -100;
 }
 
 #playArea .side3 {
-    transform: translatez(-0.5px) rotatez(90deg) translatex(31px) translatey(6px) rotatex(90deg) rotatey(60deg);
-    z-index: -100
+    transform: translatez(-0.5px) rotatez(136deg) translatex(63px) translatey(-32px) rotatex(90deg);
+    z-index: -100;
+}
+
+#playArea .side4 {
+    transform: translatez(-0.5px) rotatez(164deg) translatex(31px) translatey(-99px) rotatex(90deg);
+    z-index: -100;
+}
+
+#playArea .side5 {
+    transform: translatez(-0.5px) rotatez(196deg) translatex(-26px) translatey(-100px) rotatex(90deg);
+    z-index: -100;
+}
+
+#playArea .side6 {
+    transform: translatez(-0.5px) rotatez(224deg) translatex(-60px) translatey(-36px) rotatex(90deg);
+    z-index: -100;
 }
 
 #playArea .tile .side {
     box-sizing: border-box;
     position: absolute;
-    width: 97px;
+    width: 173px;
     height: 17px;
-    background: linear-gradient(to right, #999999 0%, rgba(187, 187, 187, 1) 2%, rgba(187, 187, 187, 1) 98%, #999999 100%);
-    transform-origin: bottom center
+    background: linear-gradient(to right, #999999 0%, rgba(187, 187, 187, 1) 1%, rgba(187, 187, 187, 1) 99%, #999999 100%);
+    transform-origin: bottom center;
 }
 
 #playArea .possible .side {
