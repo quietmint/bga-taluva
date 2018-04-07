@@ -46,8 +46,8 @@
     min-height: 1000px;
     height: 300%;
     border-radius: 50%;
-    z-index: -2000;
-    overflow: hidden
+    overflow: hidden;
+    transform: translateZ(-1px);
 }
 
 #bg-anchor {
@@ -158,7 +158,7 @@
     background: url(img/hexagons-hd.png);
     background-size: 100% 1300%;
     border-radius: 30%;
-    backface-visibility: hidden
+    backface-visibility: hidden;
 }
 
 .facelabel {
@@ -178,7 +178,8 @@
     user-select: none;
     text-shadow: 1px 1px 5px #000;
     transform: translateZ(1px);
-    transition: transform 350ms ease-in-out
+    transition: transform 350ms ease-in-out;
+    backface-visibility: hidden;
 }
 
 .has-bldg .facelabel {
@@ -210,23 +211,23 @@
 }
 
 .rotate60 .facelabel {
-    transform: rotate(-60deg) translateZ(1px)
+    transform: rotatez(-60deg) translateZ(1px)
 }
 
 .rotate120 .facelabel {
-    transform: rotate(-120deg) translateZ(1px)
+    transform: rotatez(-120deg) translateZ(1px)
 }
 
 .rotate180 .facelabel {
-    transform: rotate(-180deg) translateZ(1px)
+    transform: rotatez(-180deg) translateZ(1px)
 }
 
 .rotate240 .facelabel {
-    transform: rotate(-240deg) translateZ(1px)
+    transform: rotatez(-240deg) translateZ(1px)
 }
 
 .rotate300 .facelabel {
-    transform: rotate(-300deg) translateZ(1px)
+    transform: rotatez(-300deg) translateZ(1px)
 }
 
 .face.possible {
@@ -375,7 +376,10 @@
     height: 168px;
     transform-origin: 84px 97px;
     transition: transform 350ms ease-in-out;
-    border-radius: 50% 50% 35% 35%
+    backface-visibility: hidden;
+    border-radius: 50% 50% 35% 35%;
+    will-change: transform;
+
 }
 
 .tile::after {
@@ -386,7 +390,6 @@
     width: 168px;
     height: 168px;
     transform: translateZ(0.1px);
-    opacity: 0.4;
     backface-visibility: hidden;
     pointer-events: none
 }
@@ -421,23 +424,23 @@
 }
 
 .tile.rotate60 {
-    transform: translate(-43px, -25px) rotate(60deg)
+    transform: translate(-43px, -25px) rotatez(60deg)
 }
 
 .tile.rotate120 {
-    transform: translate(-43px, -73px) rotate(120deg)
+    transform: translate(-43px, -73px) rotatez(120deg)
 }
 
 .tile.rotate180 {
-    transform: translate(0, -97px) rotate(180deg)
+    transform: translate(0, -97px) rotatez(180deg)
 }
 
 .tile.rotate240 {
-    transform: translate(43px, -73px) rotate(240deg)
+    transform: translate(43px, -73px) rotatez(240deg)
 }
 
 .tile.rotate300 {
-    transform: translate(43px, -25px) rotate(300deg)
+    transform: translate(43px, -25px) rotatez(300deg)
 }
 
 .tile .face.subface0 {
@@ -579,7 +582,7 @@
     height: 28px;
     transform-style: preserve-3d;
     box-shadow: inset 0px 0px 0px 16px rgba(0, 0, 0, 0.65), 0px 0px 6px 2px rgba(0, 0, 0, 0.65);
-    /* transform: scale3d(0.9,0.9,0.9); */
+    will-change: transform;
 }
 
 .hutside {
@@ -927,12 +930,12 @@
 
 .tempbuilding>.hutroof {
     background: rgba(209, 255, 173, 0.5);
-    box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83)
+   
 }
 
 .tempbuilding>.hutroof:after {
     background: rgba(209, 255, 173, 0.5);
-    box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83)
+   
 }
 
 .tempbuilding>.templeside {
@@ -1151,7 +1154,8 @@
 }
 
 .bldg-container {
-    position: absolute
+    position: absolute;
+    backface-visibility: hidden;
 }
 
 .palette {
