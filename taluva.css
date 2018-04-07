@@ -24,10 +24,14 @@
 .mode_3d #game_play_area_wrap {
     transform-style: preserve-3d;
     -webkit-transform-style: preserve-3d;
-    transform-origin: center center;
+    transform-origin: 50% 50%;
     pointer-events: none;
     overflow: hidden;
     height: 100vh
+}
+
+#game_play_area{
+    will-change: transform;
 }
 
 .grabbinghand {
@@ -40,13 +44,14 @@
     background: radial-gradient(#2073c5 50%, #3473b2, #084c91 70%);
     display: block;
     position: absolute;
-    top: -100%;
-    left: -100%;
-    width: 300%;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
     min-height: 1000px;
-    height: 300%;
     border-radius: 50%;
     overflow: hidden;
+    backface-visibility:hidden;
     transform: translateZ(-1px);
 }
 
@@ -56,7 +61,8 @@
     width: 1024px;
     height: 825px;
     top: -439px;
-    left: -506px
+    left: -506px;
+    backface-visibility:hidden
 }
 
 #playArea {
@@ -99,7 +105,6 @@
     z-index: 200;
     width: 150px;
     height: 150px;
-    border: 1px red;
     text-align: center;
     color: #f6f5f4;
     font: bold 15px/15px "Roboto", Arial, sans-serif;
@@ -159,6 +164,7 @@
     background-size: 100% 1300%;
     border-radius: 30%;
     backface-visibility: hidden;
+    will-change: transform , animation ;
 }
 
 .facelabel {
@@ -444,18 +450,18 @@
 }
 
 .tile .face.subface0 {
-    top: 0;
+    top: 0.5px;
     left: 42px
 }
 
 .tile .face.subface1 {
-    top: 72px;
-    left: 0
+    top: 71.5px;
+    left: 0.5px
 }
 
 .tile .face.subface2 {
-    top: 72px;
-    right: 0
+    top: 71.5px;
+    right: 0.5px
 }
 
 .counters {
@@ -674,7 +680,7 @@
     transform-style: preserve-3d;
     transform-origin: bottom center;
     transform: translatey(-30px) rotatez(-90deg) translatey(18px) rotateX(-68deg);
-    box-shadow: inset 0px 7px 5px 0px rgba(245, 245, 245, 0.78)
+   /* box-shadow: inset 0px 7px 5px 0px rgba(245, 245, 245, 0.78) */
 }
 
 .templeroof:after {
@@ -686,7 +692,7 @@
     transform-style: preserve-3d;
     transform-origin: top center;
     transform: translatez(4px) rotateX(-44deg) translatey(2px);
-    box-shadow: inset 0px 7px 5px 0px rgba(245, 245, 245, 0.78)
+    /* box-shadow: inset 0px 7px 5px 0px rgba(245, 245, 245, 0.78) */
 }
 
 .tower {
@@ -728,11 +734,11 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: #ffa811;
+    background: radial-gradient( #ffa811 0%,  #ffa811 50%, #f7ebc2 85% );
     transform-style: preserve-3d;
     transform-origin: center center;
     transform: translatez(25px);
-    box-shadow: inset 0px 0px 3px 2px rgba(245, 245, 245, 0.78)
+  
 }
 
 .towerroof:after {
@@ -741,11 +747,10 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: #ffa811;
+    background: radial-gradient( #ffa811 0%,  #ffa811 50%, #f7ebc2 85% );
     transform-style: preserve-3d;
     transform-origin: center center;
     transform: translatez(-20px);
-    box-shadow: inset 0px 0px 3px 2px rgba(245, 245, 245, 0.78)
 }
 
 .towerroof:before {
@@ -754,11 +759,10 @@
     width: 36px;
     height: 36px;
     border-radius: 70%;
-    background: #ffa811;
+    background: radial-gradient( #ffa811 0%,  #ffa811 50%, #f7ebc2 85% );
     transform-style: preserve-3d;
-    transform-origin: center center;
+    transform-origin: 50% 50%;
     transform: translate3D(2px, 2px, 19px);
-    box-shadow: inset 0px 0px 3px 2px rgba(245, 245, 245, 0.78)
 }
 
 .brown>.templeside {
@@ -786,15 +790,16 @@
 }
 
 .brown>.towerroof {
-    background: #964b32
+    background: #964b32;
+    background: radial-gradient( #964b32 0%,  #964b32 50%, #e4b0a1 85% );
 }
 
 .brown>.towerroof:after {
-    background: #964b32
+    background: radial-gradient( #964b32 0%,  #964b32 50%, #e4b0a1 85% );
 }
 
 .brown>.towerroof:before {
-    background: #964b32
+    background: radial-gradient( #964b32 0%,  #964b32 50%, #e4b0a1 85% );
 }
 
 .brown>.hutside {
@@ -854,15 +859,16 @@
 }
 
 .red>.towerroof {
-    background: #ff0000
+    
+    background: radial-gradient( #ff0000 0%,  #ff0000 50%, #f99a9a 85% );
 }
 
 .red>.towerroof:after {
-    background: #ff0000
+    background: radial-gradient( #ff0000 0%,  #ff0000 50%, #f99a9a 85% );
 }
 
 .red>.towerroof:before {
-    background: #ff0000
+    background: radial-gradient( #ff0000 0%,  #ff0000 50%, #f99a9a 85% );
 }
 
 .white>.hutside {
@@ -906,18 +912,15 @@
 }
 
 .white>.towerroof {
-    background: #fff;
-    box-shadow: inset 0px 0px 4px 4px rgba(0, 0, 0, 0.2)
+    background: radial-gradient( #fff 0%,  #fff 50%, #bbbbbb 85% );
 }
 
 .white>.towerroof:after {
-    background: #fff;
-    box-shadow: inset 0px 0px 4px 4px rgba(0, 0, 0, 0.2)
-}
+    background: radial-gradient( #fff 0%,  #fff 50%, #bbbbbb 85% );
 
+}
 .white>.towerroof:before {
-    background: #fff;
-    box-shadow: inset 0px 0px 4px 4px rgba(0, 0, 0, 0.2)
+    background: radial-gradient( #fff 0%,  #fff 50%, #bbbbbb 85% );
 }
 
 .tempbuilding>.hutside {
@@ -930,12 +933,12 @@
 
 .tempbuilding>.hutroof {
     background: rgba(209, 255, 173, 0.5);
-   
+    box-shadow: inset 0px 0px 1px 1px rgb(99, 127, 83);
 }
 
 .tempbuilding>.hutroof:after {
     background: rgba(209, 255, 173, 0.5);
-   
+    box-shadow: inset 0px 0px 1px 1px rgb(99, 127, 83);
 }
 
 .tempbuilding>.templeside {
@@ -1020,18 +1023,13 @@
 }
 
 .black>.towerroof {
-    background: rgb(44, 44, 44);
-    box-shadow: inset 0px 0px 3px 2px #b1aeae
+    background: radial-gradient( #2c2c2c 0%,  #2c2c2c 50%, #636363 85% );
 }
-
 .black>.towerroof:after {
-    background: rgb(44, 44, 44);
-    box-shadow: inset 0px 0px 3px 2px #b1aeae
+    background: radial-gradient( #2c2c2c 0%,  #2c2c2c 50%, #636363 85% );
 }
-
 .black>.towerroof:before {
-    background: rgb(44, 44, 44);
-    box-shadow: inset 0px 0px 3px 2px #b1aeae
+    background: radial-gradient( #2c2c2c 0%,  #2c2c2c 50%, #636363 85% );
 }
 
 .tile.prior-move-white .face:after {
@@ -1159,7 +1157,7 @@
 }
 
 .palette {
-    transform-origin: center center;
+    transform-origin: 50% 50%;
     transition: all 1s;
     position: absolute;
     border-radius: 50%;
@@ -1241,7 +1239,8 @@
     transform: rotate(0deg);
     left: 0px;
     margin-top: 40%;
-    transition: all 3s
+    transition: all 3s;
+    will-change:transform
 }
 
 @keyframes rotator1 {
