@@ -149,8 +149,8 @@ define([
 
                 // Setup scrollable map
                 var mapContainer = $('map_container');
-                this.scrollmap.onMouseDown = this.myonMouseDown;
-                this.scrollmap.create(mapContainer, $('map_scrollable'), $('map_surface'), $('map_scrollable_oversurface'));
+                //this.scrollmap.onMouseDown = this.myonMouseDown;
+                //this.scrollmap.create(mapContainer, $('map_scrollable'), $('map_surface'), $('map_scrollable_oversurface'));
                 if (dojo.isFF) {
                     dojo.connect($('pagesection_gameview'), 'DOMMouseScroll', this, 'onMouseWheel');
                 } else {
