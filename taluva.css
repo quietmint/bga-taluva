@@ -599,7 +599,7 @@
     position: absolute;
     width: 28px;
     height: 32px;
-    background-image: url(img/sides-hd-w.png);
+    background-image: url(https://raw.githubusercontent.com/quietmint/bga-taluva/master/img/sides-hd-w.png);
     background-size: 104px 350px;
     background-position: 133px -29px;
     transform-style: preserve-3d;
@@ -612,7 +612,7 @@
     position: absolute;
     width: 28px;
     height: 32px;
-    background-image: url(img/sides-hd-w.png);
+    background-image: url(https://raw.githubusercontent.com/quietmint/bga-taluva/master/img/sides-hd-w.png);
     background-size: 104px 350px;
     background-position: 133px -29px;
     transform-style: preserve-3d;
@@ -625,7 +625,7 @@
     position: absolute;
     width: 28px;
     height: 28px;
-    background: linear-gradient( rgb(242, 203, 111) 0%, rgba(255, 168, 17, 1) 4%, rgba(255, 168, 17, 1) 40%, rgb(242, 203, 111) 63%, rgba(255, 168, 17, 1) 100%);
+    background: linear-gradient( #fedf3f 0%, #f9b131 22%, #f29100 81%, #fedf3f 87%, #f29100 94%, #f9b131 100%);
     transform-style: preserve-3d;
     transform-origin: bottom center;
     transform: translateZ(2px) translatey(-10px) rotateZ(90deg) translateZ(-7.5px) rotateX(-50deg) translateZ(18px);
@@ -637,7 +637,7 @@
     position: absolute;
     width: 28px;
     height: 28px;
-    background: linear-gradient( rgb(242, 203, 111) 0%, rgba(255, 168, 17, 1) 4%, rgba(255, 168, 17, 1) 40%, rgb(242, 203, 111) 63%, rgba(255, 168, 17, 1) 100%);
+    background: linear-gradient( #fedf3f 0%, #f9b131 22%, #f29100 81%, #fedf3f 87%, #f29100 94%, #f9b131 100%);
     transform-style: preserve-3d;
     transform: translateZ(-6px) rotateX(-79deg) translateZ(-7px);
     /* box-shadow: inset 0px 1px 1px 0px rgba(245, 245, 245, 0.78); */
@@ -655,7 +655,7 @@
     position: absolute;
     width: 40px;
     height: 50px;
-    background-image: url(img/sides-hd-w.png);
+    background-image: url(https://raw.githubusercontent.com/quietmint/bga-taluva/master/img/sides-hd-w.png);
     background-size: 116.5px 420px;
     background-position: 73px -22px;
     transform-style: preserve-3d;
@@ -668,7 +668,7 @@
     position: absolute;
     width: 40px;
     height: 50px;
-    background-image: url(img/sides-hd-w.png);
+    background-image: url(https://raw.githubusercontent.com/quietmint/bga-taluva/master/img/sides-hd-w.png);
     background-size: 116.5px 420px;
     background-position: 73px -22px;
     transform-style: preserve-3d;
@@ -680,7 +680,7 @@
     position: absolute;
     width: 40px;
     height: 50px;
-    background: linear-gradient( #ffa811, #ffa811, #ffa811, #ffa811, #f5f5f5, #ffa811, #ffa811, #f5f5f5, #ffa811, #ffa811, #f5f5f5, #ffa811, #ffa811, #ffa811, #ffa811);
+    background: linear-gradient(#f29100 0%, #f9b131 5%, #f9b131 12%, #f29100 21%, #fedf3f 24%, #f9b131 32%, #f9b131 37%, #f29100 46%, #fedf3f 49%, #f9b131 56%, #f9b02e 62%, #f29100 70%, #fedf3f 73%, #f9b131 77%, #f9b02e 84%, #f39600 89%, #fedf3f 91%, #f9b02e 100%);
     transform-style: preserve-3d;
     transform-origin: bottom center;
     transform: translatey(-30px) rotatez(-90deg) translatey(18px) rotateX(-68deg);
@@ -692,7 +692,7 @@
     position: absolute;
     width: 40px;
     height: 50px;
-    background: linear-gradient( #ffa811, #ffa811, #ffa811, #ffa811, #f5f5f5, #ffa811, #ffa811, #f5f5f5, #ffa811, #ffa811, #f5f5f5, #ffa811, #ffa811, #ffa811, #ffa811);
+    background: linear-gradient(#f29100 0%, #f9b131 5%, #f9b131 12%, #f29100 21%, #fedf3f 24%, #f9b131 32%, #f9b131 37%, #f29100 46%, #fedf3f 49%, #f9b131 56%, #f9b02e 62%, #f29100 70%, #fedf3f 73%, #f9b131 77%, #f9b02e 84%, #f39600 89%, #fedf3f 91%, #f9b02e 100%);
     transform-style: preserve-3d;
     transform-origin: top center;
     transform: translatez(4px) rotateX(-44deg) translatey(2px);
@@ -712,7 +712,7 @@
     position: absolute;
     width: 40px;
     height: 70px;
-    background-image: url(img/sides-hd-w.png);
+    background-image: url(https://raw.githubusercontent.com/quietmint/bga-taluva/master/img/sides-hd-w.png);
     background-size: 116.5px 420px;
     background-position: -1px 0px;
     transform-style: preserve-3d;
@@ -725,7 +725,7 @@
     position: absolute;
     width: 40px;
     height: 70px;
-    background-image: url(img/sides-hd-w.png);
+    background-image: url(https://raw.githubusercontent.com/quietmint/bga-taluva/master/img/sides-hd-w.png);
     background-size: 116.5px 420px;
     background-position: -1px 0px;
     transform-style: preserve-3d;
@@ -738,7 +738,7 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: radial-gradient( #ffa811 0%,  #ffa811 50%, #f7ebc2 85% );
+    background: radial-gradient( #f29100 6%, #f9b131 62%, #fedf3f 64%, #f29100 75%);
     transform-style: preserve-3d;
     transform-origin: center center;
     transform: translatez(25px);
@@ -751,10 +751,10 @@
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: radial-gradient( #ffa811 0%,  #ffa811 50%, #f7ebc2 85% );
+    background: radial-gradient( #f29100 6%, #f9b131 62%, #fedf3f 64%, #f29100 75%);
     transform-style: preserve-3d;
     transform-origin: center center;
-    transform: translatez(-20px);
+    transform: translatez(-18px);
 }
 
 .towerroof:before {
@@ -763,10 +763,10 @@
     width: 36px;
     height: 36px;
     border-radius: 70%;
-    background: radial-gradient( #ffa811 0%,  #ffa811 50%, #f7ebc2 85% );
+    background: radial-gradient(#f29100 6%, #f9b131 62%, #fedf3f 64%, #f29100 75% );
     transform-style: preserve-3d;
     transform-origin: 50% 50%;
-    transform: translate3D(2px, 2px, 19px);
+    transform: translate3D(2px, 2px, 20.5px);
 }
 
 .brown>.templeside {
@@ -778,11 +778,11 @@
 }
 
 .brown>.templeroof {
-    background: linear-gradient( #964b32, #964b32, #964b32, #964b32, #f5f5f5, #964b32, #964b32, #f5f5f5, #964b32, #964b32, #f5f5f5, #964b32, #964b32, #964b32, #964b32)
+    background: linear-gradient( #472300 0%, #643200 5%, #643200 12%, #472300 21%, #7b3d00 24%, #643200 32%, #643200 37%, #472300 46%, #7b3d00 49%, #643200 56%, #643200 62%, #472300 70%, #7b3d00 73%, #643200 77%, #643200 84%, #472300 89%, #7b3d00 91%, #643200 100%)
 }
 
 .brown>.templeroof:after {
-    background: linear-gradient( #964b32, #964b32, #964b32, #964b32, #f5f5f5, #964b32, #964b32, #f5f5f5, #964b32, #964b32, #f5f5f5, #964b32, #964b32, #964b32, #964b32)
+    background: linear-gradient(#472300 0%, #643200 5%, #643200 12%, #472300 21%, #7b3d00 24%, #643200 32%, #643200 37%, #472300 46%, #7b3d00 49%, #643200 56%, #643200 62%, #472300 70%, #7b3d00 73%, #643200 77%, #643200 84%, #472300 89%, #7b3d00 91%, #643200 100%)
 }
 
 .brown>.towerside {
@@ -795,15 +795,15 @@
 
 .brown>.towerroof {
     background: #964b32;
-    background: radial-gradient( #964b32 0%,  #964b32 50%, #e4b0a1 85% );
+    background: radial-gradient( #472300 0%, #643200 62%, #7b3d00 64%, #472300 75% );
 }
 
 .brown>.towerroof:after {
-    background: radial-gradient( #964b32 0%,  #964b32 50%, #e4b0a1 85% );
+    background: radial-gradient( #472300 0%, #643200 62%, #7b3d00 64%, #472300 75%);
 }
 
 .brown>.towerroof:before {
-    background: radial-gradient( #964b32 0%,  #964b32 50%, #e4b0a1 85% );
+    background: radial-gradient( #472300 0%, #643200 62%, #7b3d00 64%, #472300 75% );
 }
 
 .brown>.hutside {
@@ -815,11 +815,11 @@
 }
 
 .brown>.hutroof {
-    background: linear-gradient( rgb(179, 111, 94) 0% , rgba(150, 75, 50, 1) 4%,  rgba(150, 75, 50, 1) 40%, rgb(179, 111, 94) 63%,  rgba(150, 75, 50, 1) 80%)
+    background: linear-gradient(  #7b3d00 0%, #643200 22%, #472300 81%, #7b3d00 87%, #472300 94%, #643200 100%)
 }
 
 .brown>.hutroof:after {
-    background: linear-gradient( rgb(179, 111, 94) 0% , rgba(150, 75, 50, 1) 4%,  rgba(150, 75, 50, 1) 40%, rgb(179, 111, 94) 63%,  rgba(150, 75, 50, 1) 80%)
+    background: linear-gradient(  #7b3d00 0%, #643200 22%, #472300 81%, #7b3d00 87%, #472300 94%, #643200 100%)
 }
 
 .red>.hutside {
@@ -831,11 +831,11 @@
 }
 
 .red>.hutroof {
-    background: linear-gradient( rgb(249, 196, 187) 0%, rgb(255, 0, 0) 4%, rgb(255, 0, 0) 40%, rgb(249, 96, 87) 63%, rgb(255, 0, 0) 80%);
+    background: linear-gradient( #e73b37 0%, #e41b0b 22%, #b21509 81%, #e73b37 87%, #b21509 94%, #e41b0b 100%);
 }
 
 .red>.hutroof:after {
-    background: linear-gradient( rgb(249, 196, 187) 0%, rgb(255, 0, 0) 4%, rgb(255, 0, 0) 40%, rgb(249, 96, 87) 63%, rgb(255, 0, 0) 80%);
+    background: linear-gradient( #e73b37 0%, #e41b0b 22%, #b21509 81%, #e73b37 87%, #b21509 94%, #e41b0b 100%);
 }
 
 .red>.templeside {
@@ -847,11 +847,11 @@
 }
 
 .red>.templeroof {
-    background: linear-gradient( #ff0000, #ff0000, #ff0000, #ff0000, #f5f5f5, #ff0000, #ff0000, #f5f5f5, #ff0000, #ff0000, #f5f5f5, #ff0000, #ff0000, #ff0000, #ff0000)
+    background: linear-gradient( #b21509 0%, #e41b0b 5%, #e41b0b 12%, #b21509 21%, #e73b37 24%, #e41b0b 32%, #e41b0b 37%, #b21509 46%, #e73b37 49%, #e41b0b 56%, #e41b0b 62%, #b21509 70%, #e73b37 73%, #e41b0b 77%, #e41b0b 84%, #b21509 89%, #e73b37 91%, #e41b0b 100%)
 }
 
 .red>.templeroof:after {
-    background: linear-gradient( #ff0000, #ff0000, #ff0000, #ff0000, #f5f5f5, #ff0000, #ff0000, #f5f5f5, #ff0000, #ff0000, #f5f5f5, #ff0000, #ff0000, #ff0000, #ff0000)
+    background: linear-gradient(#b21509 0%, #e41b0b 5%, #e41b0b 12%, #b21509 21%, #e73b37 24%, #e41b0b 32%, #e41b0b 37%, #b21509 46%, #e73b37 49%, #e41b0b 56%, #e41b0b 62%, #b21509 70%, #e73b37 73%, #e41b0b 77%, #e41b0b 84%, #b21509 89%, #e73b37 91%, #e41b0b 100%)
 }
 
 .red>.towerside {
@@ -864,15 +864,15 @@
 
 .red>.towerroof {
     
-    background: radial-gradient( #ff0000 0%,  #ff0000 50%, #f99a9a 85% );
+    background: radial-gradient( #b21509 0%, #e41b0b 62%, #e73b37 64%, #b21509 75%);
 }
 
 .red>.towerroof:after {
-    background: radial-gradient( #ff0000 0%,  #ff0000 50%, #f99a9a 85% );
+    background: radial-gradient(#b21509 0%, #e41b0b 62%, #e73b37 64%, #b21509 75% );
 }
 
 .red>.towerroof:before {
-    background: radial-gradient( #ff0000 0%,  #ff0000 50%, #f99a9a 85% );
+    background: radial-gradient( #b21509 0%, #e41b0b 62%, #e73b37 64%, #b21509 75%);
 }
 
 .white>.hutside {
@@ -884,11 +884,11 @@
 }
 
 .white>.hutroof {
-    background: linear-gradient( rgb(200, 200, 200) 0%, rgb(255, 255, 255) 4%, rgb(255, 255, 255) 40%, rgb(231, 231, 230) 63%, rgb(255, 255, 255) 80%);
+    background: linear-gradient( #fefefe 0%, #f2f2f2 22%, #e5e5e5 81%, #fefefe 87%, #e5e5e5 94%, #f2f2f2 100%);
 }
 
 .white>.hutroof:after {
-    background: linear-gradient( rgb(200, 200, 200) 0%, rgb(255, 255, 255) 4%, rgb(255, 255, 255) 17%, rgb(231, 231, 230) 63%, rgb(246, 246, 246) 80%)
+    background: linear-gradient(  #fefefe 0%, #f2f2f2 22%, #e5e5e5 81%, #fefefe 87%, #e5e5e5 94%, #f2f2f2 100%)
 }
 
 .white>.templeside {
@@ -900,11 +900,11 @@
 }
 
 .white>.templeroof {
-    background: linear-gradient( #fff, #fff, #fff, #fff, #c3c0c0, #fff, #fff, #c3c0c0, #fff, #fff, #c3c0c0, #fff, #fff, #fff, #fff)
+    background: linear-gradient( #e5e5e5 0%, #f2f2f2 5%, #f2f2f2 12%, #e5e5e5 21%, #fefefe 24%, #f2f2f2 32%, #f2f2f2 37%, #e5e5e5 46%, #fefefe 49%, #f2f2f2 56%, #f2f2f2 62%, #e5e5e5 70%, #fefefe 73%, #f2f2f2 77%, #f2f2f2 84%, #e5e5e5 89%, #fefefe 91%, #f2f2f2 100%)
 }
 
 .white>.templeroof:after {
-    background: linear-gradient( #fff, #fff, #fff, #fff, #c3c0c0, #fff, #fff, #c3c0c0, #fff, #fff, #c3c0c0, #fff, #fff, #fff, #fff)
+    background: linear-gradient( #e5e5e5 0%, #f2f2f2 5%, #f2f2f2 12%, #e5e5e5 21%, #fefefe 24%, #f2f2f2 32%, #f2f2f2 37%, #e5e5e5 46%, #fefefe 49%, #f2f2f2 56%, #f2f2f2 62%, #e5e5e5 70%, #fefefe 73%, #f2f2f2 77%, #f2f2f2 84%, #e5e5e5 89%, #fefefe 91%, #f2f2f2 100%)
 }
 
 .white>.towerside {
@@ -916,15 +916,15 @@
 }
 
 .white>.towerroof {
-    background: radial-gradient( #fff 0%,  #fff 50%, #bbbbbb 85% );
+    background: radial-gradient( #e5e5e5 0%, #f2f2f2 62%, #fefefe 64%, #e5e5e5 75%);
 }
 
 .white>.towerroof:after {
-    background: radial-gradient( #fff 0%,  #fff 50%, #bbbbbb 85% );
+    background: radial-gradient( #e5e5e5 0%, #f2f2f2 62%, #fefefe 64%, #e5e5e5 75% );
 
 }
 .white>.towerroof:before {
-    background: radial-gradient( #fff 0%,  #fff 50%, #bbbbbb 85% );
+    background: radial-gradient(#e5e5e5 0%, #f2f2f2 62%, #fefefe 64%, #e5e5e5 75% );
 }
 
 .tempbuilding>.hutside {
