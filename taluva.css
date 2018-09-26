@@ -14,7 +14,7 @@
  **/
 
 @import "../../../css/csslayer.css";html {
-    background: #2073c5
+    background: #093a75
 }
 
 .mode_3d {
@@ -41,7 +41,7 @@
 }
 
 .mode_3d #game_play_area_background {
-    background: radial-gradient(#2073c5 50%, #3473b2, #084c91 70%);
+    background: radial-gradient(#0a3874 35%, #00407e, #0b3975 70%);
     display: block;
     position: absolute;
     top: -50%;
@@ -331,41 +331,98 @@
 }
 
 #playArea .side1 {
-    transform: translatez(-0.5px) rotatez(104deg) translatex(72px) translatey(7px) rotatex(90deg);
+    transform: translatez(-0.5px) rotatez(90deg) translatex(103px) translatey(22px) rotatex(90deg);
     z-index: -100;
 }
 
 #playArea .side2 {
-   transform: translatez(-0.5px) rotatez(76deg) translatex(71px) translatey(-2px) rotatex(90deg);
+   transform: translatez(-0.5px) rotatez(30deg) translatex(68px) translatey(121px) rotatex(90deg);
    z-index: -100;
 }
 
 #playArea .side3 {
-    transform: translatez(-0.5px) rotatez(136deg) translatex(63px) translatey(-32px) rotatex(90deg);
+    transform: translatez(-0.5px) rotatez(30deg) translatex(139px) translatey(79px) rotatex(90deg);
     z-index: -100;
 }
 
 #playArea .side4 {
-    transform: translatez(-0.5px) rotatez(164deg) translatex(31px) translatey(-99px) rotatex(90deg);
+    transform: translatez(-0.5px) rotatez(-30deg) translatex(-35px) translatey(140px) rotatex(90deg);
     z-index: -100;
 }
 
 #playArea .side5 {
-    transform: translatez(-0.5px) rotatez(196deg) translatex(-26px) translatey(-100px) rotatex(90deg);
+    transform: translatez(-0.5px) rotatez(90deg) translatex(32px) translatey(-20px) rotatex(90deg);
     z-index: -100;
 }
 
 #playArea .side6 {
-    transform: translatez(-0.5px) rotatez(224deg) translatex(-60px) translatey(-36px) rotatex(90deg);
+    transform: translatez(-0.5px) rotatez(-30deg) translatex(36px) translatey(181px) rotatex(90deg);
     z-index: -100;
 }
+
+
+#playArea .side1::after {
+    content: "";
+    transform: translatez(164px);
+    width: 48px;
+    height: 17px;
+    background: inherit;
+    position: absolute;
+}
+
+#playArea .side2::after {
+    content: "";
+    transform: translatez(164px);
+    width: 48px;
+    height: 17px;
+    background: inherit;
+    position: absolute;
+}
+
+#playArea .side3::after {
+    content: "";
+    transform: translatez(81px);
+    width: 48px;
+    height: 17px;
+    background: inherit;
+    position: absolute;
+}
+
+#playArea .side4::after {
+    content: "";
+    transform: translatez(82px);
+    width: 48px;
+    height: 17px;
+    background: inherit;
+    position: absolute;
+}
+
+#playArea .side5::after {
+    content: "";
+    transform: translatez(80px);
+    width: 48px;
+    height: 17px;
+    background: inherit;
+    position: absolute;
+}
+
+#playArea .side6::after {
+    content: "";
+    transform: translatez(164px);
+    width: 48px;
+    height: 17px;
+    background: inherit;
+    position: absolute;
+}
+
 
 #playArea .tile .side {
     box-sizing: border-box;
     position: absolute;
-    width: 173px;
+    width: 48px;
     height: 17px;
-    background: linear-gradient(to right, #999999 0%, rgba(187, 187, 187, 1) 1%, rgba(187, 187, 187, 1) 99%, #999999 100%);
+    background: url(img/texture_side.jpg);
+    background-size: 48px 17px;
     transform-origin: bottom center;
 }
 
@@ -1041,15 +1098,24 @@
 }
 
 .tile.prior-move-white .side {
-    background: linear-gradient(to right, #999999 0%, #ffffff 2%, #ffffff 98%, #999999 100%) !important
+    box-shadow: inset 0px 0px 0px 10px #eeeeee90;
 }
+
+.tile.prior-move-white .side::after {
+    box-shadow: inset 0px 0px 0px 10px #eeeeee90;
+}
+
 
 .tile.prior-move-yellow .face:after {
     background-position: -0px 291px !important
 }
 
 .tile.prior-move-yellow .side {
-    background: linear-gradient(to right, #ca840c 0%, #ffa811 2%, #ffa811 98%, #ca840c 100%) !important;
+    box-shadow: inset 0px 0px 0px 10px #ffa81190;
+}
+
+.tile.prior-move-yellow .side::after {
+    box-shadow: inset 0px 0px 0px 10px #ffa81190;
 }
 
 .tile.prior-move-red .face:after {
@@ -1057,15 +1123,24 @@
 }
 
 .tile.prior-move-red .side {
-    background: linear-gradient(to right, #cc0000 0%, #ff0000 2%, #ff0000 98%, #cc0000 100%) !important
+    box-shadow: inset 0px 0px 0px 10px #cc000090;
+}
+
+.tile.prior-move-red .side::after {
+    box-shadow: inset 0px 0px 0px 10px #cc000090;
 }
 
 .tile.prior-move-brown .face:after {
     background-position: 0px 386px !important
 }
 
+
 .tile.prior-move-brown .side {
-    background: linear-gradient(to right, #6d3421 0%, #964b32 2%, #9a4f36 98%, #6d3421  100%) !important;
+    box-shadow: inset 0px 0px 0px 10px #6d342190;
+}
+
+.tile.prior-move-brown .side::after {
+    box-shadow: inset 0px 0px 0px 10px #6d342190;
 }
 
 .tile.prior-move-black .face:after {
@@ -1073,7 +1148,11 @@
 }
 
 .tile.prior-move-black .side {
-    background: linear-gradient(to right, #656565 0%, #2c2c2c 2%, #2c2c2c 98%, #656565 100%) !important
+    box-shadow: inset 0px 0px 0px 10px #11111190;
+}
+
+.tile.prior-move-black .side::after {
+    box-shadow: inset 0px 0px 0px 10px #11111190;
 }
 
 .bldg-container .tower {
