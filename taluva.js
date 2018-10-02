@@ -94,7 +94,7 @@ define([
 
                 // Setup remaining tile counter
                 dojo.place($('count_remain'), 'game_play_area_wrap', 'first');
-                dojo.place($('mouse_debug'), 'game_play_area_wrap', 'first');
+
                 // Setup player boards
                 colorNames = {
                     'ff0000': 'red',
@@ -288,21 +288,19 @@ define([
             },
 
             elementDrag3d: function(e) {
-				e = e || window.event;
-				dojo.stopEvent(e);
-				if (!this.isdragging) {
-					this.isdragging=true;	
-					var viewportOffset = e.currentTarget.getBoundingClientRect();
-					//$("mouse_debug").style.display="block";
-					//$("mouse_debug").innerHTML = "e.screenY:" + e.screenY + "<br> height: " + window.innerHeight + "<br> ofsettop: " + viewportOffset.top + "<br>E:"+ e.clientX + " " + e.clientY +"<br> "+ e.currentTarget.id ; 
-					if ((e.screenY - viewportOffset.top) > (3 * window.innerHeight / 4)) {
-						x = e.movementX;
-					} else {
-						x = -1 * e.movementX;
-					}
-					this.change3d(e.movementY / (-10), 0, 0, x / (-10), 0, true, false);
-					this.isdragging=false;
-				}	
+                e = e || window.event;
+                dojo.stopEvent(e);
+                if (!this.isdragging) {
+                    this.isdragging = true;
+                    var viewportOffset = e.currentTarget.getBoundingClientRect();
+                    if ((e.screenY - viewportOffset.top) > (3 * window.innerHeight / 4)) {
+                        x = e.movementX;
+                    } else {
+                        x = -1 * e.movementX;
+                    }
+                    this.change3d(e.movementY / (-10), 0, 0, x / (-10), 0, true, false);
+                    this.isdragging = false;
+                }
             },
 
             closeDragElement3d: function(evt) {
@@ -452,8 +450,7 @@ define([
                 } else {
                     var paletteEl = dojo.place("<div id='buildPalette' class='palette possible'></div>", "hex_" + tile_id + "_" + subface);
                     dojo.connect(paletteEl, 'onclick', this, 'onClickCancelBuilding');
-                    var cancelatorEl = dojo.place("<div id='cancelator'><span class='facelabel'> ✗ </span></div>", 'buildPalette');
-                    //dojo.connect(cancelatorEl, 'onclick', this, 'onClickCancelBuilding');
+                    var cancelatorEl = dojo.place("<div id='cancelator'><span class='facelabel'> × </span></div>", 'buildPalette');
                     for (var option_nbr in options) {
                         var spaces = options[option_nbr];
                         var bldg_type = Math.floor(option_nbr / 10);
@@ -470,7 +467,7 @@ define([
                         dojo.connect(rotaEl, 'onclick', this, 'onClickPossibleBuilding')
                     }
                 }
-				this.map_surfaceConnector = dojo.connect($("map_surface"), 'onclick', this, 'onClickCancelBuilding');
+                this.map_surfaceConnector = dojo.connect($("map_surface"), 'onclick', this, 'onClickCancelBuilding');
             },
 
             ///////////////////////////////////////////////////
@@ -519,7 +516,7 @@ define([
 
                 this.removeActionButtons();
                 this.onUpdateActionButtons(this.gamedatas.gamestate.name, this.gamedatas.gamestate.args);
-				this.map_surfaceConnector = dojo.connect($("map_surface"), 'onclick', this, 'onClickCancelTile');
+                this.map_surfaceConnector = dojo.connect($("map_surface"), 'onclick', this, 'onClickCancelTile');
             },
 
             onClickRotateTile: function(evt) {
@@ -543,9 +540,9 @@ define([
                     var player_id = this.getActivePlayerId();
                     var tileEl = $('tile_' + this.tryTile.tile_id);
                     this.removeTile(tileEl);
-					if ( this.map_surfaceConnector != null ) {
-						dojo.disconnect ( this.map_surfaceConnector );
-					}
+                    if (this.map_surfaceConnector != null) {
+                        dojo.disconnect(this.map_surfaceConnector);
+                    }
                     this.showPossibleTile();
                 }
             },
@@ -557,9 +554,9 @@ define([
                     return;
                 }
                 this.doAction('commitTile', this.tryTile);
-				if ( this.map_surfaceConnector != null ) {
-					dojo.disconnect ( this.map_surfaceConnector );
-				}
+                if (this.map_surfaceConnector != null) {
+                    dojo.disconnect(this.map_surfaceConnector);
+                }
             },
 
             /////
@@ -622,9 +619,9 @@ define([
                 // Don't clear possible spaces here, wait for state change event
                 dojo.stopEvent(evt);
                 this.doAction('cancel');
-				if ( this.map_surfaceConnector != null ) {
-					dojo.disconnect ( this.map_surfaceConnector );
-				}
+                if (this.map_surfaceConnector != null) {
+                    dojo.disconnect(this.map_surfaceConnector);
+                }
             },
 
             onClickCommitBuilding: function(evt) {
@@ -634,9 +631,9 @@ define([
                     return;
                 }
                 this.doAction('commitBuilding', this.tryBuilding);
-				if ( this.map_surfaceConnector != null ) {
-					dojo.disconnect ( this.map_surfaceConnector );
-				}
+                if (this.map_surfaceConnector != null) {
+                    dojo.disconnect(this.map_surfaceConnector);
+                }
             },
 
 
@@ -699,6 +696,11 @@ define([
                 // Destroy preview
                 var previewEl = $('tile_p_' + player_id);
                 this.removeTile(previewEl);
+
+                // Update remaining tile counter
+                if (n.args.remain != null) {
+                    $('count_remain').innerText = n.args.remain;
+                }
             },
 
             notif_building: function(n) {

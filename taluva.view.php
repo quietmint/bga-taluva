@@ -43,7 +43,7 @@
           $this->tpl['I18N_Remain'] = self::_('Tiles remaining');
 
           // Remaining tile counter
-          $this->tpl['count_remain'] = $this->game->tiles->countCardInLocation('deck');
+          $this->tpl['count_remain'] = $this->game->getTilesRemain();
 
           // Get players & players number
           $players = $this->game->loadPlayersBasicInfos();

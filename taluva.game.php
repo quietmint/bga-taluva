@@ -163,7 +163,7 @@ class taluva extends Table
 
             // Give each player a tile
             $tile = $this->tiles->pickCard('deck', $player_id);
-            $tile['remain'] = $this->tiles->countCardInLocation('deck');
+            $tile['remain'] = $this->getTilesRemain();
             self::notifyPlayer($player_id, 'draw', '', $tile);
             self::initStat('player', 'tiles', 0, $player_id);
             self::initStat('player', 'buildings_' . HUT, 0, $player_id);
@@ -204,7 +204,7 @@ class taluva extends Table
         $result['terrain'] = $this->terrain;
         $result['buildings'] = $this->buildings;
         $result['spaces'] = $board->getSpaces();
-        $result['remain'] = $this->tiles->countCardInLocation('deck');
+        $result['remain'] = $this->getTilesRemain();
         return $result;
     }
 
@@ -342,6 +342,19 @@ class taluva extends Table
         return $possible;
     }
 
+    public function getTilesRemain()
+    {
+        $counts = $this->tiles->countCardsInLocations();
+        $remain = 0;
+        if (array_key_exists('deck', $counts)) {
+            $remain +=$counts['deck'];
+        }
+        if (array_key_exists('hand', $counts)) {
+            $remain +=$counts['hand'];
+        }
+        return $remain;
+    }
+
     //////////////////////////////////////////////////////////////////////////////
     //////////// Player actions
     ////////////
@@ -389,6 +402,7 @@ class taluva extends Table
         $tile['y'] = $y;
         $tile['z'] = $z;
         $tile['r'] = $r;
+        $tile['remain'] = $this->getTilesRemain();
 
         // Destroy huts under the tile
         $destroyCount = 0;
@@ -491,7 +505,7 @@ class taluva extends Table
         if ($newTile != null) {
             self::notifyAllPlayers('draw', '', array(
                 'player_id' => $player_id,
-                'remain' => $this->tiles->countCardInLocation('deck'),
+                'remain' => $this->getTilesRemain(),
             ));
             self::notifyPlayer($player_id, 'draw', '', array(
                 'player_id' => $player_id,
@@ -623,7 +637,7 @@ class taluva extends Table
             return;
         }
 
-        $tile['remain'] = $this->tiles->countCardInLocation('deck');
+        $tile['remain'] = $this->getTilesRemain();
         self::notifyAllPlayers('draw', '', $tile);
         self::incStat(1, 'tiles');
         self::incStat(1, 'tiles', $player_id);
