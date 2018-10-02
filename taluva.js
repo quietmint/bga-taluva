@@ -149,8 +149,6 @@ define([
 
                 // Setup scrollable map
                 var mapContainer = $('map_container');
-                //this.scrollmap.onMouseDown = this.myonMouseDown;
-                //this.scrollmap.create(mapContainer, $('map_scrollable'), $('map_surface'), $('map_scrollable_oversurface'));
                 if (dojo.isFF) {
                     dojo.connect($('pagesection_gameview'), 'DOMMouseScroll', this, 'onMouseWheel');
                 } else {
@@ -173,6 +171,7 @@ define([
                             this.positionTile(tileEl, coords);
                             prior_tile[space.tile_player_id] = space.tile_id;
                         } else if (space.bldg_player_id) {
+                            var player = gamedatas.players[space.bldg_player_id];
                             this.placeBuilding(space);
                         }
                     }
@@ -358,11 +357,14 @@ define([
                 return tileEl;
             },
 
-            placeBuilding: function(building) {
+            placeBuilding: function(building, indicatePrior) {
                 var hexId = 'hex_' + building.tile_id + '_' + building.subface;
                 var container = $('bldg_' + hexId) || dojo.place('<div id="bldg_' + hexId + '" class="bldg-container"></div>', $(hexId));
                 if (building.bldg_player_id) {
                     building.colorName = this.gamedatas.players[building.bldg_player_id].colorName;
+                    if (indicatePrior) {
+                        building.colorName += ' prior-building';
+                    }
                     dojo.addClass(hexId, 'has-bldg');
                 } else {
                     building.colorName = 'tempbuilding';
@@ -705,9 +707,11 @@ define([
 
             notif_building: function(n) {
                 this.updatePlayerCounters(n.args);
+                var player = this.gamedatas.players[n.args.player_id];
+                dojo.query('.prior-building.' + player.colorName).removeClass('prior-building');
                 for (var i in n.args.buildings) {
                     var building = n.args.buildings[i];
-                    this.placeBuilding(building);
+                    this.placeBuilding(building, true);
                 }
             },
 
