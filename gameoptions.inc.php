@@ -23,7 +23,7 @@
  * !! It is not a good idea to modify this file when a game is running !!
  *
  */
-
+ 
 $game_options = array(
     100 => array(
         'name' => totranslate('Number of tiles'),
@@ -31,9 +31,13 @@ $game_options = array(
             0 => array(
                 'name' => '12 tiles per player'
             ),
-            1 => array(
-                'name' => 'All tiles',
-                'tmdisplay' => totranslate('All tiles')
+            36 => array(
+                'name' => '36 tiles',
+                'tmdisplay' => totranslate('36 tiles')
+            ),
+            48 => array(
+                'name' => '48 tiles',
+                'tmdisplay' => totranslate('48 tiles')
             ),
         ),
     ),
