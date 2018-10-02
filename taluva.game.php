@@ -142,13 +142,11 @@ class taluva extends Table
         $this->tiles->createCards($tiles, 'deck');
         $this->tiles->shuffle('deck');
 
-        // Total number of tiles (default 12 per player)
-        $totalTiles = self::getGameStateValue('variantTiles');
-        if ($totalTiles == 0) {
-            $totalTiles = 12 * count($players);
-        }
-        if ($totalTiles < 48) {
-            $this->tiles->pickCardsForLocation(48 - $totalTiles, 'deck', 'box');
+        // Number of tiles to include per player
+        $totalTiles = $this->getTilesTotal();
+        $includeTiles = self::getGameStateValue('variantTiles') * count($players);
+        if ($includeTiles < $totalTiles) {
+            $this->tiles->pickCardsForLocation($totalTiles - $includeTiles, 'deck', 'box');
         }
 
         // Create players
@@ -220,8 +218,7 @@ class taluva extends Table
     */
     public function getGameProgression()
     {
-        $totalTiles = 48 - $this->tiles->countCardInLocation('box');
-        $tileProgress = $this->tiles->countCardInLocation('board') / $totalTiles * 100;
+        $tileProgress = $this->tiles->countCardInLocation('board') / $this->getTilesTotal() * 100;
         return round($tileProgress);
     }
 
@@ -342,15 +339,25 @@ class taluva extends Table
         return $possible;
     }
 
+    public function getTilesTotal()
+    {
+        $counts = $this->tiles->countCardsInLocations();
+        $total = array_sum($counts);
+        if (array_key_exists('box', $counts)) {
+            $total -= $counts['box'];
+        }
+        return $total;
+    }
+
     public function getTilesRemain()
     {
         $counts = $this->tiles->countCardsInLocations();
         $remain = 0;
         if (array_key_exists('deck', $counts)) {
-            $remain +=$counts['deck'];
+            $remain += $counts['deck'];
         }
         if (array_key_exists('hand', $counts)) {
-            $remain +=$counts['hand'];
+            $remain += $counts['hand'];
         }
         return $remain;
     }

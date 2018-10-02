@@ -23,22 +23,39 @@
  * !! It is not a good idea to modify this file when a game is running !!
  *
  */
- 
+
 $game_options = array(
     100 => array(
-        'name' => totranslate('Number of tiles'),
+        'name' => totranslate('Tiles per player'),
         'values' => array(
-            0 => array(
-                'name' => '12 tiles per player'
+            12 => array(
+                'name' => '12'
             ),
-            36 => array(
-                'name' => '36 tiles',
-                'tmdisplay' => totranslate('36 tiles')
+            18 => array(
+                'name' => '18',
+                'tmdisplay' => totranslate('18 tiles per player')
             ),
-            48 => array(
-                'name' => '48 tiles',
-                'tmdisplay' => totranslate('48 tiles')
+            24 => array(
+                'name' => '24',
+                'tmdisplay' => totranslate('24 tiles per player')
             ),
         ),
+        'startcondition' => array(
+            12 => array(),
+            18 => array(
+                array(
+                    'type' => 'maxplayers',
+                    'value' => 2,
+                    'message' => totranslate('Must use 12 tiles per player with more than 2 players.'),
+                )
+            ),
+            24 => array(
+                array(
+                    'type' => 'maxplayers',
+                    'value' => 2,
+                    'message' => totranslate('Must use 12 tiles per player with more than 2 players.'),
+                )
+            ),
+         ),
     ),
 );
