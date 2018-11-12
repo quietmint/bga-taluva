@@ -432,7 +432,7 @@ class taluva extends Table
         if ($destroyCount > 0) {
             $msg = clienttranslate('${player_name} places a tile with ${face_name} and ${face_name2} on level ${z}, destroying ${count} ${bldg_name}.');
             $tile['i18n'][] = 'bldg_name';
-            $tile['bldg_name'] = $this->buildings[HUT]['name'];
+            $tile['bldg_name'] = $this->buildings[HUT][($destroyCount == 1 ? 'name_single' : 'name')];
             $tile['count'] = $destroyCount;
         }
         self::notifyAllPlayers('commitTile', $msg, $tile);
@@ -480,8 +480,8 @@ class taluva extends Table
         }
 
         // Subtract buildings from player
-        $bldgName = $this->buildings[$bldg_type]['name'];
-        $columnName = strtolower($bldgName);
+        $bldgName = $this->buildings[$bldg_type][($count == 1 ? 'name_single' : 'name')];
+        $columnName = strtolower($this->buildings[$bldg_type]['name']);
         self::DbQuery("UPDATE player SET $columnName = $columnName - $count WHERE player_id = $player_id AND $columnName >= $count");
         if (self::DbAffectedRow() != 1) {
             throw new BgaVisibleSystemException(sprintf('You do not have enough buildings. This placement requires %d %s.', $count, $bldgName));

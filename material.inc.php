@@ -33,6 +33,7 @@ $this->terrain = array(
 $this->buildings = array(
     HUT => array(
         'name' => clienttranslate('huts'),
+        'name_single' => clienttranslate('hut'),
         'tooltips' => array(
             array(
                 'title' => clienttranslate('New Settlement'),
@@ -46,6 +47,7 @@ $this->buildings = array(
     ),
     TEMPLE => array(
         'name' => clienttranslate('temples'),
+        'name_single' => clienttranslate('temple'),
         'tooltips' => array(
             array(
                 'text' => clienttranslate('Build a temple adjacent to your settlement occupying three or more spaces that does not already contain a temple.'),
@@ -54,6 +56,7 @@ $this->buildings = array(
     ),
     TOWER => array(
         'name' => clienttranslate('towers'),
+        'name_single' => clienttranslate('tower'),
         'tooltips' => array(
             array(
                 'text' => clienttranslate('Build a tower on a third-level space (or higher) adjacent to your settlement that does not already contain a tower.'),
