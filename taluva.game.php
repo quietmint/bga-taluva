@@ -580,12 +580,10 @@ class taluva extends Table
 
     public function stNextPlayer()
     {
-        $this->activeNextPlayer();
-
         // You win if you place all of two types of buildings
         $players = $this->getPlayers();
         $weights = array();
-        foreach ($players as $player_id => $player) {
+        foreach ($players as $id => $player) {
             $counts = array(
                 $this->buildings[HUT]['name'] => $player['huts'],
                 $this->buildings[TEMPLE]['name'] => $player['temples'],
@@ -608,7 +606,7 @@ class taluva extends Table
             }
             if (!$player['eliminated'] && !$player['zombie']) {
                 // Compute weight of temples > towers > huts (lowest wins)
-                $weights[$player_id] = $player['huts'] + $player['towers'] * 100 + $player['temples'] * 1000;
+                $weights[$id] = $player['huts'] + $player['towers'] * 100 + $player['temples'] * 1000;
             }
         }
 
@@ -623,7 +621,15 @@ class taluva extends Table
             return;
         }
 
-        $player_id = self::getActivePlayerId();
+        // Activate the next player
+        do {
+            $this->activeNextPlayer();
+            // https://forum.boardgamearena.com/viewtopic.php?f=12&t=13169
+            // BGA framework bug: Eliminated players are activated
+            $player_id = self::getActivePlayerId();
+            $player = $this->getPlayer($player_id);
+        } while ($player['eliminated']);
+
         $tile = $this->getTileInHand($player_id);
         if ($tile == null) {
             // You win if you place the most temples, then towers, then huts
