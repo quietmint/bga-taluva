@@ -3,7 +3,7 @@
 
 Languages: PHP JS SQL CSS
 
-(c) 2018 Nick Venturella & Antonio Soler
+© 2018 quietmint & Morgalad
 
 This work is done using licensed material from Ferti Games with their agreement:
 
