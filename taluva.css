@@ -151,11 +151,18 @@ html {
   position: absolute;
   width: 84px;
   height: 97px;
-  background: url(img/hexagons-hd.png);
   background-size: 100% 1300%;
   border-radius: 30%;
   backface-visibility: hidden;
   will-change: transform, animation;
+}
+
+.no-webpalpha .face {
+  background-image: url(img/hexagons-hd.png);
+}
+
+.webpalpha .face {
+  background-image: url(img/hexagons-hd.webp);
 }
 
 .facelabel {
@@ -320,13 +327,20 @@ html {
   position: absolute;
   width: 84px;
   height: 97px;
-  background: url(img/hexagons-hd.png);
   background-size: 100% 1300%;
   background-position: -0px 679px;
   transform: translateZ(-17px);
   backface-visibility: hidden;
   z-index: -200;
   border-radius: 20%
+}
+
+.no-webpalpha #playArea .tile .face:after {
+  background-image: url(img/hexagons-hd.png);
+}
+
+.webpalpha #playArea .tile .face:after {
+  background-image: url(img/hexagons-hd.webp);
 }
 
 #playArea .side1 {
@@ -450,6 +464,7 @@ html {
   background: no-repeat url(img/tile-mask.png);
   background-size: cover;
   position: absolute;
+  top: 1px;
   width: 168px;
   height: 168px;
   transform: translateZ(0.1px);
@@ -459,7 +474,6 @@ html {
 
 .tile:hover::after {
   background-position: 100% 0;
-  opacity: 0.8
 }
 
 .tile.level1::after {
@@ -1293,7 +1307,6 @@ html {
   height: 97px;
   position: absolute;
   font-size: 40px !important;
-  background: url(img/hexagons-hd.png);
   background-size: 100% 1300%;
   background-position: -0px 582px;
   transform: translateX(-10px) scale(0.5) !important;
@@ -1302,6 +1315,14 @@ html {
   left: 0px;
   top: -5px;
   user-select: none
+}
+
+.no-webpalpha #cancelator span {
+  background-image: url(img/hexagons-hd.png);
+}
+
+.webpalpha #cancelator span {
+  background-image: url(img/hexagons-hd.webp);
 }
 
 #buildPalette> :nth-child(1) {
@@ -1333,7 +1354,6 @@ html {
   height: 97px;
   position: absolute;
   font-size: 60px;
-  background: url(img/hexagons-hd.png);
   background-size: 100% 1300%;
   background-position: -0px 582px;
   transform: translateX(-50px) scale(0.25);
@@ -1341,6 +1361,14 @@ html {
   left: 0px;
   top: -5px;
   color: #fff
+}
+
+.no-webpalpha #buildPalette .rotator .facelabel {
+  background-image: url(img/hexagons-hd.png);
+}
+
+.webpalpha #buildPalette .rotator .facelabel {
+  background-image: url(img/hexagons-hd.webp);
 }
 
 .rotator {
