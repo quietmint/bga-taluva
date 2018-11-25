@@ -151,18 +151,10 @@ html {
   position: absolute;
   width: 84px;
   height: 97px;
-  background-size: 100% 1300%;
+  background-size: 100% 100%;
   border-radius: 30%;
   backface-visibility: hidden;
   will-change: transform, animation;
-}
-
-.no-webpalpha .face {
-  background-image: url(img/hexagons-hd.png);
-}
-
-.webpalpha .face {
-  background-image: url(img/hexagons-hd.webp);
 }
 
 .facelabel {
@@ -239,27 +231,66 @@ html {
   transform: translateZ(1px) scale(0.8);
   cursor: pointer;
   animation: 350ms fade-in ease-in-out;
-  background-position: -0px 582px
 }
 
-.face.face-1 {
-  background-position: 0px -97px
+.no-webpalpha .face.possible,
+.no-webpalpha #cancelator span,
+.no-webpalpha #buildPalette .rotator .facelabel {
+  background-image: url(img/hex-possible.png);
 }
 
-.face.face-2 {
-  background-position: 0px -194px
+.webpalpha .face.possible,
+.webpalpha #cancelator span,
+.webpalpha #buildPalette .rotator .facelabel {
+  background-image: url(img/hex-possible.webp);
 }
 
-.face.face-3 {
-  background-position: 0px -291px
+.no-webpalpha .face.face-1 {
+  background-image: url(img/hex-1.png);
 }
 
-.face.face-4 {
-  background-position: -0px -388px
+.webpalpha .face.face-1 {
+  background-image: url(img/hex-1.webp);
 }
 
-.face.face-5 {
-  background-position: 0px -485px
+.no-webpalpha .face.face-2 {
+  background-image: url(img/hex-2.png);
+}
+
+.webpalpha .face.face-2 {
+  background-image: url(img/hex-2.webp);
+}
+
+.no-webpalpha .face.face-3 {
+  background-image: url(img/hex-3.png);
+}
+
+.webpalpha .face.face-3 {
+  background-image: url(img/hex-3.webp);
+}
+
+.no-webpalpha .face.face-4 {
+  background-image: url(img/hex-4.png);
+}
+
+.webpalpha .face.face-4 {
+  background-image: url(img/hex-4.webp);
+}
+
+.no-webpalpha .face.face-5 {
+  background-image: url(img/hex-5.png);
+}
+
+.webpalpha .face.face-5 {
+  background-image: url(img/hex-5.webp);
+}
+
+.no-webpalpha .face.face-6 {
+  background-image: url(img/hex-6.png);
+}
+
+.webpalpha .face.face-6 {
+  background-image: url(img/hex-6.webp);
 }
 
 .level1 .face,
@@ -327,20 +358,15 @@ html {
   position: absolute;
   width: 84px;
   height: 97px;
-  background-size: 100% 1300%;
-  background-position: -0px 679px;
+  background-size: 100% 100%;
   transform: translateZ(-17px);
   backface-visibility: hidden;
   z-index: -200;
   border-radius: 20%
 }
 
-.no-webpalpha #playArea .tile .face:after {
-  background-image: url(img/hexagons-hd.png);
-}
-
-.webpalpha #playArea .tile .face:after {
-  background-image: url(img/hexagons-hd.webp);
+#playArea .tile .face:after {
+  background-image: url(img/hex-bg.png);
 }
 
 #playArea .side1 {
@@ -1138,63 +1164,63 @@ html {
   background: radial-gradient( #2c2c2c 0%, #2c2c2c 50%, #636363 85%);
 }
 
-.tile.prior-move-white .face:after {
-  background-position: -0px -1068px !important
+#playArea .tile.prior-move-white .face:after {
+  background-image: url(img/hex-white.png);
 }
 
-.tile.prior-move-white .side {
+#playArea .tile.prior-move-white .side {
   box-shadow: inset 0px 0px 0px 10px #eeeeee90;
 }
 
-.tile.prior-move-white .side::after {
+#playArea .tile.prior-move-white .side::after {
   box-shadow: inset 0px 0px 0px 10px #eeeeee90;
 }
 
-.tile.prior-move-yellow .face:after {
-  background-position: -0px 291px !important
+#playArea .tile.prior-move-yellow .face:after {
+  background-image: url(img/hex-yellow.png);
 }
 
-.tile.prior-move-yellow .side {
+#playArea .tile.prior-move-yellow .side {
   box-shadow: inset 0px 0px 0px 10px #ffa81190;
 }
 
-.tile.prior-move-yellow .side::after {
+#playArea .tile.prior-move-yellow .side::after {
   box-shadow: inset 0px 0px 0px 10px #ffa81190;
 }
 
-.tile.prior-move-red .face:after {
-  background-position: 0px 484px !important
+#playArea .tile.prior-move-red .face:after {
+  background-image: url(img/hex-red.png);
 }
 
-.tile.prior-move-red .side {
+#playArea .tile.prior-move-red .side {
   box-shadow: inset 0px 0px 0px 10px #cc000090;
 }
 
-.tile.prior-move-red .side::after {
+#playArea .tile.prior-move-red .side::after {
   box-shadow: inset 0px 0px 0px 10px #cc000090;
 }
 
-.tile.prior-move-brown .face:after {
-  background-position: 0px 386px !important
+#playArea .tile.prior-move-brown .face:after {
+  background-image: url(img/hex-brown.png);
 }
 
-.tile.prior-move-brown .side {
+#playArea .tile.prior-move-brown .side {
   box-shadow: inset 0px 0px 0px 10px #6d342190;
 }
 
-.tile.prior-move-brown .side::after {
+#playArea .tile.prior-move-brown .side::after {
   box-shadow: inset 0px 0px 0px 10px #6d342190;
 }
 
-.tile.prior-move-black .face:after {
-  background-position: 0px -1165px !important
+#playArea .tile.prior-move-black .face:after {
+  background-image: url(img/hex-black.png);
 }
 
-.tile.prior-move-black .side {
+#playArea .tile.prior-move-black .side {
   box-shadow: inset 0px 0px 0px 10px #11111190;
 }
 
-.tile.prior-move-black .side::after {
+#playArea .tile.prior-move-black .side::after {
   box-shadow: inset 0px 0px 0px 10px #11111190;
 }
 
@@ -1307,8 +1333,7 @@ html {
   height: 97px;
   position: absolute;
   font-size: 40px !important;
-  background-size: 100% 1300%;
-  background-position: -0px 582px;
+  background-size: 100% 100%;
   transform: translateX(-10px) scale(0.5) !important;
   transform-origin: top center;
   color: #fff;
@@ -1317,35 +1342,27 @@ html {
   user-select: none
 }
 
-.no-webpalpha #cancelator span {
-  background-image: url(img/hexagons-hd.png);
-}
-
-.webpalpha #cancelator span {
-  background-image: url(img/hexagons-hd.webp);
-}
-
-#buildPalette> :nth-child(1) {
+#buildPalette>:nth-child(1) {
   animation: rotator1 1.5s ease forwards 1
 }
 
-#buildPalette> :nth-child(2) {
+#buildPalette>:nth-child(2) {
   animation: rotator2 1.5s ease forwards 1
 }
 
-#buildPalette> :nth-child(3) {
+#buildPalette>:nth-child(3) {
   animation: rotator3 1.5s ease forwards 1
 }
 
-#buildPalette> :nth-child(4) {
+#buildPalette>:nth-child(4) {
   animation: rotator4 1.5s ease forwards 1
 }
 
-#buildPalette> :nth-child(5) {
+#buildPalette>:nth-child(5) {
   animation: rotator5 1.5s ease forwards 1
 }
 
-#buildPalette> :nth-child(6) {
+#buildPalette>:nth-child(6) {
   animation: rotator6 1.5s ease forwards 1
 }
 
@@ -1354,21 +1371,12 @@ html {
   height: 97px;
   position: absolute;
   font-size: 60px;
-  background-size: 100% 1300%;
-  background-position: -0px 582px;
+  background-size: 100% 100%;
   transform: translateX(-50px) scale(0.25);
   transform-origin: top center;
   left: 0px;
   top: -5px;
   color: #fff
-}
-
-.no-webpalpha #buildPalette .rotator .facelabel {
-  background-image: url(img/hexagons-hd.png);
-}
-
-.webpalpha #buildPalette .rotator .facelabel {
-  background-image: url(img/hexagons-hd.webp);
 }
 
 .rotator {
