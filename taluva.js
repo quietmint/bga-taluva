@@ -62,6 +62,18 @@ define([
                 this.hexWidth = 84;
                 this.hexHeight = 71;
 
+                // Preload correct images
+                if (Modernizr.webpalpha) {
+                    this.dontPreloadImage('hex-1.png');
+                    this.dontPreloadImage('hex-2.png');
+                    this.dontPreloadImage('hex-3.png');
+                    this.dontPreloadImage('hex-4.png');
+                    this.dontPreloadImage('hex-5.png');
+                    this.dontPreloadImage('hex-6.png');
+                    this.dontPreloadImage('hex-possible.png');
+                    g_img_preload.push('hex-1.webp', 'hex-2.webp', 'hex-3.webp', 'hex-4.webp', 'hex-5.webp', 'hex-6.webp', 'hex-possible.webp');
+                }
+
                 if (!dojo.hasClass("ebd-body", "mode_3d")) {
                     dojo.addClass("ebd-body", "mode_3d");
                     $("globalaction_3d").innerHTML = "2D"; // controls the upper right button
