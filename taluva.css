@@ -353,7 +353,7 @@ html {
   transform: translateZ(123px) scale(0.8)
 }
 
-#playArea .tile .face:after {
+#playArea .tile .face::after {
   content: "";
   position: absolute;
   width: 84px;
@@ -365,7 +365,7 @@ html {
   border-radius: 20%
 }
 
-#playArea .tile .face:after {
+#playArea .tile .face::after {
   background-image: url(img/hex-bg.png);
 }
 
@@ -708,7 +708,7 @@ html {
   transform: rotateX(-90deg) translateZ(0px);
 }
 
-.hutside:after {
+.hutside::after {
   content: "";
   position: absolute;
   width: 28px;
@@ -730,7 +730,7 @@ html {
   transform: translateZ(2px) translatey(-10px) rotateZ(90deg) translateZ(-7.5px) rotateX(-50deg) translateZ(18px);
 }
 
-.hutroof:after {
+.hutroof::after {
   content: "";
   position: absolute;
   width: 28px;
@@ -740,8 +740,8 @@ html {
   transform: translateZ(-6px) rotateX(-79deg) translateZ(-7px);
 }
 
-.prior-building .hutroof:before,
-.prior-building .hutroof:after {
+.prior-building .hutroof::before,
+.prior-building .hutroof::after {
   content: "\2022";
   position: absolute;
   width: 28px;
@@ -771,7 +771,7 @@ html {
   transform: translateY(-10px) rotateX(-90deg)
 }
 
-.templeside:after {
+.templeside::after {
   content: "";
   position: absolute;
   width: 40px;
@@ -794,7 +794,7 @@ html {
   transform: translatey(-30px) rotatez(-90deg) translatey(18px) rotateX(-68deg);
 }
 
-.templeroof:after {
+.templeroof::after {
   content: "";
   position: absolute;
   width: 40px;
@@ -805,8 +805,8 @@ html {
   transform: translatez(4px) rotateX(-44deg) translatey(2px);
 }
 
-.prior-building .templeroof:before,
-.prior-building .templeroof:after {
+.prior-building .templeroof::before,
+.prior-building .templeroof::after {
   content: "\2022";
   position: absolute;
   width: 40px;
@@ -837,7 +837,7 @@ html {
   transform: translateY(-50px) rotateX(-90deg)
 }
 
-.towerside:after {
+.towerside::after {
   content: "";
   position: absolute;
   width: 40px;
@@ -850,8 +850,8 @@ html {
   transform: rotateY(-90deg)
 }
 
-.prior-building .towerside:before,
-.prior-building .towerside:after {
+.prior-building .towerside::before,
+.prior-building .towerside::after {
   content: "\2022";
   position: absolute;
   width: 40px;
@@ -872,7 +872,7 @@ html {
   transform: translatez(25px);
 }
 
-.towerroof:after {
+.towerroof::after {
   content: "";
   position: absolute;
   width: 40px;
@@ -884,7 +884,7 @@ html {
   transform: translatez(-18px);
 }
 
-.towerroof:before {
+.towerroof::before {
   content: "";
   position: absolute;
   width: 36px;
@@ -900,7 +900,7 @@ html {
   background-position: 73px -92px
 }
 
-.brown>.templeside:after {
+.brown>.templeside::after {
   background-position: 73px -92px
 }
 
@@ -908,7 +908,7 @@ html {
   background: linear-gradient( #472300 0%, #643200 5%, #643200 12%, #472300 21%, #7b3d00 24%, #643200 32%, #643200 37%, #472300 46%, #7b3d00 49%, #643200 56%, #643200 62%, #472300 70%, #7b3d00 73%, #643200 77%, #643200 84%, #472300 89%, #7b3d00 91%, #643200 100%)
 }
 
-.brown>.templeroof:after {
+.brown>.templeroof::after {
   background: linear-gradient(#472300 0%, #643200 5%, #643200 12%, #472300 21%, #7b3d00 24%, #643200 32%, #643200 37%, #472300 46%, #7b3d00 49%, #643200 56%, #643200 62%, #472300 70%, #7b3d00 73%, #643200 77%, #643200 84%, #472300 89%, #7b3d00 91%, #643200 100%)
 }
 
@@ -916,7 +916,7 @@ html {
   background-position: -1px -70px
 }
 
-.brown>.towerside:after {
+.brown>.towerside::after {
   background-position: -1px -70px
 }
 
@@ -925,11 +925,11 @@ html {
   background: radial-gradient( #472300 0%, #643200 62%, #7b3d00 64%, #472300 75%);
 }
 
-.brown>.towerroof:after {
+.brown>.towerroof::after {
   background: radial-gradient( #472300 0%, #643200 62%, #7b3d00 64%, #472300 75%);
 }
 
-.brown>.towerroof:before {
+.brown>.towerroof::before {
   background: radial-gradient( #472300 0%, #643200 62%, #7b3d00 64%, #472300 75%);
 }
 
@@ -937,7 +937,7 @@ html {
   background-position: 133px -88px;
 }
 
-.brown>.hutside:after {
+.brown>.hutside::after {
   background-position: 133px -88px;
 }
 
@@ -945,7 +945,7 @@ html {
   background: linear-gradient( #7b3d00 0%, #643200 22%, #472300 81%, #7b3d00 87%, #472300 94%, #643200 100%)
 }
 
-.brown>.hutroof:after {
+.brown>.hutroof::after {
   background: linear-gradient( #7b3d00 0%, #643200 22%, #472300 81%, #7b3d00 87%, #472300 94%, #643200 100%)
 }
 
@@ -953,7 +953,7 @@ html {
   background-position: 133px 146px;
 }
 
-.red>.hutside:after {
+.red>.hutside::after {
   background-position: 133px 146px;
 }
 
@@ -961,7 +961,7 @@ html {
   background: linear-gradient( #e73b37 0%, #e41b0b 22%, #b21509 81%, #e73b37 87%, #b21509 94%, #e41b0b 100%);
 }
 
-.red>.hutroof:after {
+.red>.hutroof::after {
   background: linear-gradient( #e73b37 0%, #e41b0b 22%, #b21509 81%, #e73b37 87%, #b21509 94%, #e41b0b 100%);
 }
 
@@ -969,7 +969,7 @@ html {
   background-position: 73px -232px;
 }
 
-.red>.templeside:after {
+.red>.templeside::after {
   background-position: 73px -232px
 }
 
@@ -977,7 +977,7 @@ html {
   background: linear-gradient( #b21509 0%, #e41b0b 5%, #e41b0b 12%, #b21509 21%, #e73b37 24%, #e41b0b 32%, #e41b0b 37%, #b21509 46%, #e73b37 49%, #e41b0b 56%, #e41b0b 62%, #b21509 70%, #e73b37 73%, #e41b0b 77%, #e41b0b 84%, #b21509 89%, #e73b37 91%, #e41b0b 100%)
 }
 
-.red>.templeroof:after {
+.red>.templeroof::after {
   background: linear-gradient(#b21509 0%, #e41b0b 5%, #e41b0b 12%, #b21509 21%, #e73b37 24%, #e41b0b 32%, #e41b0b 37%, #b21509 46%, #e73b37 49%, #e41b0b 56%, #e41b0b 62%, #b21509 70%, #e73b37 73%, #e41b0b 77%, #e41b0b 84%, #b21509 89%, #e73b37 91%, #e41b0b 100%)
 }
 
@@ -985,7 +985,7 @@ html {
   background-position: -1px -210px
 }
 
-.red>.towerside:after {
+.red>.towerside::after {
   background-position: -1px -210px
 }
 
@@ -993,11 +993,11 @@ html {
   background: radial-gradient( #b21509 0%, #e41b0b 62%, #e73b37 64%, #b21509 75%);
 }
 
-.red>.towerroof:after {
+.red>.towerroof::after {
   background: radial-gradient(#b21509 0%, #e41b0b 62%, #e73b37 64%, #b21509 75%);
 }
 
-.red>.towerroof:before {
+.red>.towerroof::before {
   background: radial-gradient( #b21509 0%, #e41b0b 62%, #e73b37 64%, #b21509 75%);
 }
 
@@ -1005,7 +1005,7 @@ html {
   background-position: 133px -146px;
 }
 
-.white>.hutside:after {
+.white>.hutside::after {
   background-position: 133px -146px;
 }
 
@@ -1013,7 +1013,7 @@ html {
   background: linear-gradient( #fefefe 0%, #f2f2f2 22%, #e5e5e5 81%, #fefefe 87%, #e5e5e5 94%, #f2f2f2 100%);
 }
 
-.white>.hutroof:after {
+.white>.hutroof::after {
   background: linear-gradient( #fefefe 0%, #f2f2f2 22%, #e5e5e5 81%, #fefefe 87%, #e5e5e5 94%, #f2f2f2 100%)
 }
 
@@ -1021,7 +1021,7 @@ html {
   background-position: 73px -162px
 }
 
-.white>.templeside:after {
+.white>.templeside::after {
   background-position: 73px -162px
 }
 
@@ -1029,7 +1029,7 @@ html {
   background: linear-gradient( #e5e5e5 0%, #f2f2f2 5%, #f2f2f2 12%, #e5e5e5 21%, #fefefe 24%, #f2f2f2 32%, #f2f2f2 37%, #e5e5e5 46%, #fefefe 49%, #f2f2f2 56%, #f2f2f2 62%, #e5e5e5 70%, #fefefe 73%, #f2f2f2 77%, #f2f2f2 84%, #e5e5e5 89%, #fefefe 91%, #f2f2f2 100%)
 }
 
-.white>.templeroof:after {
+.white>.templeroof::after {
   background: linear-gradient( #e5e5e5 0%, #f2f2f2 5%, #f2f2f2 12%, #e5e5e5 21%, #fefefe 24%, #f2f2f2 32%, #f2f2f2 37%, #e5e5e5 46%, #fefefe 49%, #f2f2f2 56%, #f2f2f2 62%, #e5e5e5 70%, #fefefe 73%, #f2f2f2 77%, #f2f2f2 84%, #e5e5e5 89%, #fefefe 91%, #f2f2f2 100%)
 }
 
@@ -1037,7 +1037,7 @@ html {
   background-position: -1px -140px
 }
 
-.white>.towerside:after {
+.white>.towerside::after {
   background-position: -1px -140px
 }
 
@@ -1045,11 +1045,11 @@ html {
   background: radial-gradient( #e5e5e5 0%, #f2f2f2 62%, #fefefe 64%, #e5e5e5 75%);
 }
 
-.white>.towerroof:after {
+.white>.towerroof::after {
   background: radial-gradient( #e5e5e5 0%, #f2f2f2 62%, #fefefe 64%, #e5e5e5 75%);
 }
 
-.white>.towerroof:before {
+.white>.towerroof::before {
   background: radial-gradient(#e5e5e5 0%, #f2f2f2 62%, #fefefe 64%, #e5e5e5 75%);
 }
 
@@ -1057,7 +1057,7 @@ html {
   background-position: 133px -262px;
 }
 
-.tempbuilding>.hutside:after {
+.tempbuilding>.hutside::after {
   background-position: 133px -262px;
 }
 
@@ -1066,7 +1066,7 @@ html {
   box-shadow: inset 0px 0px 1px 1px rgb(99, 127, 83);
 }
 
-.tempbuilding>.hutroof:after {
+.tempbuilding>.hutroof::after {
   background: rgba(209, 255, 173, 0.5);
   box-shadow: inset 0px 0px 1px 1px rgb(99, 127, 83);
 }
@@ -1075,7 +1075,7 @@ html {
   background-position: 73px -302px
 }
 
-.tempbuilding>.templeside:after {
+.tempbuilding>.templeside::after {
   background-position: 73px -302px
 }
 
@@ -1084,7 +1084,7 @@ html {
   box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83)
 }
 
-.tempbuilding>.templeroof:after {
+.tempbuilding>.templeroof::after {
   background: linear-gradient( rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgb(99, 127, 83), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgb(99, 127, 83), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgb(99, 127, 83), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5), rgba(209, 255, 173, 0.5));
   box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83)
 }
@@ -1093,7 +1093,7 @@ html {
   background-position: -1px -280px
 }
 
-.tempbuilding>.towerside:after {
+.tempbuilding>.towerside::after {
   background-position: -1px -280px
 }
 
@@ -1102,12 +1102,12 @@ html {
   box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83)
 }
 
-.tempbuilding>.towerroof:after {
+.tempbuilding>.towerroof::after {
   background: rgba(209, 255, 173, 0.5);
   box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83)
 }
 
-.tempbuilding>.towerroof:before {
+.tempbuilding>.towerroof::before {
   background: rgba(209, 255, 173, 0.5);
   box-shadow: inset 0px 0px 1px 2px rgb(99, 127, 83)
 }
@@ -1116,7 +1116,7 @@ html {
   background-position: 133px 29px;
 }
 
-.black>.hutside:after {
+.black>.hutside::after {
   background-position: 133px 29px;
 }
 
@@ -1124,7 +1124,7 @@ html {
   background: linear-gradient( rgb(200, 200, 200) 0%, rgb(44, 44, 44) 4%, rgb(44, 44, 44) 40%, #5a5959 63%, rgb(44, 44, 44) 80%)
 }
 
-.black>.hutroof:after {
+.black>.hutroof::after {
   background: linear-gradient( rgb(200, 200, 200) 0%, rgb(44, 44, 44) 4%, rgb(44, 44, 44) 40%, #5a5959 63%, rgb(44, 44, 44) 80%)
 }
 
@@ -1132,7 +1132,7 @@ html {
   background-position: 73px 50px
 }
 
-.black>.templeside:after {
+.black>.templeside::after {
   background-position: 73px 50px
 }
 
@@ -1140,7 +1140,7 @@ html {
   background: linear-gradient( #2c2c2c, #2c2c2c, #2c2c2c, #2c2c2c, #b1aeae, #2c2c2c, #2c2c2c, #b1aeae, #2c2c2c, #2c2c2c, #b1aeae, #2c2c2c, #2c2c2c, #2c2c2c, #2c2c2c)
 }
 
-.black>.templeroof:after {
+.black>.templeroof::after {
   background: linear-gradient( #2c2c2c, #2c2c2c, #2c2c2c, #2c2c2c, #b1aeae, #2c2c2c, #2c2c2c, #b1aeae, #2c2c2c, #2c2c2c, #b1aeae, #2c2c2c, #2c2c2c, #2c2c2c, #2c2c2c)
 }
 
@@ -1148,7 +1148,7 @@ html {
   background-position: -1px 70px
 }
 
-.black>.towerside:after {
+.black>.towerside::after {
   background-position: -1px 70px
 }
 
@@ -1156,15 +1156,15 @@ html {
   background: radial-gradient( #2c2c2c 0%, #2c2c2c 50%, #636363 85%);
 }
 
-.black>.towerroof:after {
+.black>.towerroof::after {
   background: radial-gradient( #2c2c2c 0%, #2c2c2c 50%, #636363 85%);
 }
 
-.black>.towerroof:before {
+.black>.towerroof::before {
   background: radial-gradient( #2c2c2c 0%, #2c2c2c 50%, #636363 85%);
 }
 
-#playArea .tile.prior-move-white .face:after {
+#playArea .tile.prior-move-white .face::after {
   background-image: url(img/hex-white.png);
 }
 
@@ -1176,7 +1176,7 @@ html {
   box-shadow: inset 0px 0px 0px 10px #eeeeee90;
 }
 
-#playArea .tile.prior-move-yellow .face:after {
+#playArea .tile.prior-move-yellow .face::after {
   background-image: url(img/hex-yellow.png);
 }
 
@@ -1188,7 +1188,7 @@ html {
   box-shadow: inset 0px 0px 0px 10px #ffa81190;
 }
 
-#playArea .tile.prior-move-red .face:after {
+#playArea .tile.prior-move-red .face::after {
   background-image: url(img/hex-red.png);
 }
 
@@ -1200,7 +1200,7 @@ html {
   box-shadow: inset 0px 0px 0px 10px #cc000090;
 }
 
-#playArea .tile.prior-move-brown .face:after {
+#playArea .tile.prior-move-brown .face::after {
   background-image: url(img/hex-brown.png);
 }
 
@@ -1212,7 +1212,7 @@ html {
   box-shadow: inset 0px 0px 0px 10px #6d342190;
 }
 
-#playArea .tile.prior-move-black .face:after {
+#playArea .tile.prior-move-black .face::after {
   background-image: url(img/hex-black.png);
 }
 
