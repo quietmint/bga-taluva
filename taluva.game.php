@@ -605,10 +605,11 @@ class taluva extends Table
                 return;
             }
             if (!$player['eliminated'] && !$player['zombie']) {
-                // Compute weight of temples > towers > huts (lowest wins)
-                $weights[$id] = $player['huts'] + $player['towers'] * 100 + $player['temples'] * 1000;
+                // Compute weight of built temples > towers > huts (highest wins)
+                $weights[$id] = 3220 - ($player['temples'] * 1000) - ($player['towers'] * 100) - $player['huts'];
             }
         }
+        arsort($weights);
 
         // You win if you are the only player remaining
         if (count($weights) == 1) {
@@ -633,14 +634,12 @@ class taluva extends Table
         $tile = $this->getTileInHand($player_id);
         if ($tile == null) {
             // You win if you place the most temples, then towers, then huts
-            asort($weights);
             $best = reset($weights);
             $winners = array();
             foreach ($weights as $id => $weight) {
+                self::DbQuery("UPDATE player SET player_score_aux = $weight WHERE player_id = $id");
                 if ($weight == $best) {
                     $winners[] = $id;
-                } else {
-                    break;
                 }
             }
             self::notifyAllPlayers('message', clienttranslate('Game over! No tiles remain.'), array());
@@ -669,6 +668,8 @@ class taluva extends Table
                 'player_name' => $player['name'],
             ));
             self::eliminatePlayer($player['id']);
+            $rankOrder = self::getUniqueValueFromDB("SELECT COUNT(1) * -1 FROM player WHERE player_eliminated = 0 and player_zombie = 0");
+            self::DbQuery("UPDATE player SET player_score_aux = $rankOrder WHERE player_id = {$player['id']}");
             $this->gamestate->nextState('nextPlayer');
         } else {
             $this->gamestate->nextState('selectSpace');
