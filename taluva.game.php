@@ -1,22 +1,23 @@
 <?php
- /**
-  *------
-  * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
-  * Taluva implementation : © 2018 quietmint & Morgalad
-  *
-  * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
-  * See http://en.boardgamearena.com/#!doc/Studio for more information.
-  * -----
-  *
-  * taluva.game.php
-  *
-  * This is the main file for your game logic.
-  *
-  * In this PHP file, you are going to defines the rules of the game.
-  *
-  */
 
-require_once(APP_GAMEMODULE_PATH.'module/table/table.game.php');
+/**
+ *------
+ * BGA framework: © Gregory Isabelli <gisabelli@boardgamearena.com> & Emmanuel Colin <ecolin@boardgamearena.com>
+ * Taluva implementation : © 2018 quietmint & Morgalad
+ *
+ * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
+ * See http://en.boardgamearena.com/#!doc/Studio for more information.
+ * -----
+ *
+ * taluva.game.php
+ *
+ * This is the main file for your game logic.
+ *
+ * In this PHP file, you are going to defines the rules of the game.
+ *
+ */
+
+require_once(APP_GAMEMODULE_PATH . 'module/table/table.game.php');
 require_once('modules/taluva.board.php');
 
 // Terrain constants
@@ -91,50 +92,50 @@ class taluva extends Table
                 $type = "$left$right";
                 $nbr = 1;
                 switch ($type) {
-                case JUNGLE.GRASS:
-                    $nbr = 6;
-                    if ($is5) {
-                        $nbr += 1;
-                    }
-                    break;
+                    case JUNGLE . GRASS:
+                        $nbr = 6;
+                        if ($is5) {
+                            $nbr += 1;
+                        }
+                        break;
 
-                case GRASS.JUNGLE:
-                    $nbr = 5;
-                    if ($is5) {
-                        $nbr += 2;
-                    }
-                    break;
+                    case GRASS . JUNGLE:
+                        $nbr = 5;
+                        if ($is5) {
+                            $nbr += 2;
+                        }
+                        break;
 
-                case JUNGLE.SAND:
-                case SAND.JUNGLE:
-                    $nbr = 4;
-                    if ($is5) {
-                        $nbr += 2;
-                    }
-                    break;
+                    case JUNGLE . SAND:
+                    case SAND . JUNGLE:
+                        $nbr = 4;
+                        if ($is5) {
+                            $nbr += 2;
+                        }
+                        break;
 
-                case JUNGLE.LAKE:
-                case GRASS.ROCK:
-                    $nbr = 2;
-                    if ($is5) {
-                        $nbr += 2;
-                    }
-                    break;
+                    case JUNGLE . LAKE:
+                    case GRASS . ROCK:
+                        $nbr = 2;
+                        if ($is5) {
+                            $nbr += 2;
+                        }
+                        break;
 
-                case ROCK.GRASS:
-                    $nbr = 2;
-                    if ($is5) {
-                        $nbr += 1;
-                    }
-                    break;
+                    case ROCK . GRASS:
+                        $nbr = 2;
+                        if ($is5) {
+                            $nbr += 1;
+                        }
+                        break;
 
-                case JUNGLE.ROCK:
-                case GRASS.SAND:
-                case SAND.GRASS:
-                case SAND.ROCK:
-                case ROCK.JUNGLE:
-                    $nbr = 2;
-                    break;
+                    case JUNGLE . ROCK:
+                    case GRASS . SAND:
+                    case SAND . GRASS:
+                    case SAND . ROCK:
+                    case ROCK . JUNGLE:
+                        $nbr = 2;
+                        break;
                 }
                 $tiles[] = array('type' => $type, 'type_arg' => 0, 'nbr' => $nbr);
             }
@@ -157,7 +158,7 @@ class taluva extends Table
         $values = array();
         foreach ($players as $player_id => $player) {
             $color = array_shift($default_colors);
-            $values[] = "('".$player_id."','$color','".$player['player_canal']."','".addslashes($player['player_name'])."','".addslashes($player['player_avatar'])."')";
+            $values[] = "('" . $player_id . "','$color','" . $player['player_canal'] . "','" . addslashes($player['player_name']) . "','" . addslashes($player['player_avatar']) . "')";
 
             // Give each player a tile
             $tile = $this->tiles->pickCard('deck', $player_id);
@@ -227,9 +228,14 @@ class taluva extends Table
     //////////// Utility functions
     ////////////
 
-    public function getPlayers()
+    public function getPlayers($activeOnly = false)
     {
-        return self::getCollectionFromDb('SELECT player_id id, player_color color, player_name name, player_score score, player_zombie zombie, player_eliminated eliminated, temples, towers, huts FROM player ORDER BY player_no');
+        $sql = 'SELECT player_id id, player_color color, player_name name, player_score score, player_zombie zombie, player_eliminated eliminated, temples, towers, huts FROM player';
+        if ($activeOnly) {
+            $sql .= ' WHERE player_eliminated = 0 AND player_zombie = 0';
+        }
+        $sql .= ' ORDER BY player_no';
+        return self::getCollectionFromDb($sql);
     }
 
     public function getPlayer($player_id)
@@ -413,7 +419,7 @@ class taluva extends Table
 
         // Destroy huts under the tile
         $destroyCount = 0;
-        for ($i = 1 ; $i <= 2 ; $i++) {
+        for ($i = 1; $i <= 2; $i++) {
             $spaceBelow = $board->getSpaceBelow($spaces[$i]);
             if ($spaceBelow->bldg_type == HUT) {
                 $destroyCount += $spaceBelow->z;
@@ -471,7 +477,7 @@ class taluva extends Table
             if ($bldg_type == HUT) {
                 $count += $h->z;
             } else {
-                $count+=1;
+                $count += 1;
             }
             self::DbQuery("UPDATE board SET bldg_player_id = $player_id, bldg_type = $bldg_type WHERE x = {$h->x} AND y = {$h->y} AND z = {$h->z}");
             $h->bldg_player_id = $player_id;
@@ -486,6 +492,10 @@ class taluva extends Table
         if (self::DbAffectedRow() != 1) {
             throw new BgaVisibleSystemException(sprintf('You do not have enough buildings. This placement requires %d %s.', $count, $bldgName));
         }
+
+        // Add points
+        $points = $this->buildings[$bldg_type]['points'] * $count;
+        self::DbQuery("UPDATE player SET player_score = player_score + $points WHERE player_id = $player_id");
 
         // Increment statistics
         self::incStat($count, 'buildings_' . $bldg_type, $player_id);
@@ -504,6 +514,7 @@ class taluva extends Table
             'bldg_type' => $bldg_type,
             'count' => $count,
             'buildings' => $buildings,
+            'points' => $points,
         );
         self::notifyAllPlayers('commitBuilding', clienttranslate('${player_name} builds ${count} ${bldg_name} on ${face_name}.'), $args);
 
@@ -581,8 +592,7 @@ class taluva extends Table
     public function stNextPlayer()
     {
         // You win if you place all of two types of buildings
-        $players = $this->getPlayers();
-        $weights = array();
+        $players = $this->getPlayers(true);
         foreach ($players as $id => $player) {
             $counts = array(
                 $this->buildings[HUT]['name'] => $player['huts'],
@@ -599,24 +609,16 @@ class taluva extends Table
                     'bldg_name' => $bldg_names[0],
                     'bldg_name2' => $bldg_names[1],
                 ));
-                self::DbQuery("UPDATE player SET player_score = 1 WHERE player_id = {$player['id']}");
+                self::DbQuery("UPDATE player SET player_score = 0 WHERE player_score > 0 AND player_id != {$player['id']}");
                 $this->sendScores();
                 $this->gamestate->nextState('gameEnd');
                 return;
             }
-            if (!$player['eliminated'] && !$player['zombie']) {
-                // Compute weight of built temples > towers > huts (highest wins)
-                $weights[$id] = 3220 - ($player['temples'] * 1000) - ($player['towers'] * 100) - $player['huts'];
-            }
         }
-        arsort($weights);
 
         // You win if you are the only player remaining
-        if (count($weights) == 1) {
-            reset($weights);
-            $player_id = key($weights);
+        if (count($players) == 1) {
             self::notifyAllPlayers('message', clienttranslate('Game over! No other players remain.'), array());
-            self::DbQuery("UPDATE player SET player_score = 1 WHERE player_id = $player_id");
             $this->sendScores();
             $this->gamestate->nextState('gameEnd');
             return;
@@ -633,17 +635,8 @@ class taluva extends Table
 
         $tile = $this->getTileInHand($player_id);
         if ($tile == null) {
-            // You win if you place the most temples, then towers, then huts
-            $best = reset($weights);
-            $winners = array();
-            foreach ($weights as $id => $weight) {
-                self::DbQuery("UPDATE player SET player_score_aux = $weight WHERE player_id = $id");
-                if ($weight == $best) {
-                    $winners[] = $id;
-                }
-            }
+            // No more tiles
             self::notifyAllPlayers('message', clienttranslate('Game over! No tiles remain.'), array());
-            self::DbQuery('UPDATE player SET player_score = 1 WHERE player_id IN (' . implode(',', $winners) . ')');
             $this->sendScores();
             $this->gamestate->nextState('gameEnd');
             return;
@@ -663,13 +656,14 @@ class taluva extends Table
         $player_id = self::getActivePlayerId();
         $player = $this->getPlayer($player_id);
         if (empty($this->getPossibleSpaces($player))) {
+            $score = self::getUniqueValueFromDB("SELECT COUNT(1) * -1 FROM player WHERE player_eliminated = 0 and player_zombie = 0");
+            self::DbQuery("UPDATE player SET player_score = $score WHERE player_id = {$player['id']}");
             self::notifyAllPlayers('eliminate', clienttranslate('${player_name} cannot build and is eliminated!'), array(
                 'player_id' => $player_id,
                 'player_name' => $player['name'],
+                'score' => $score,
             ));
             self::eliminatePlayer($player['id']);
-            $rankOrder = self::getUniqueValueFromDB("SELECT COUNT(1) * -1 FROM player WHERE player_eliminated = 0 and player_zombie = 0");
-            self::DbQuery("UPDATE player SET player_score_aux = $rankOrder WHERE player_id = {$player['id']}");
             $this->gamestate->nextState('nextPlayer');
         } else {
             $this->gamestate->nextState('selectSpace');
@@ -717,5 +711,9 @@ class taluva extends Table
         // $from_version is the current version of this game database, in numerical form.
         // For example, if the game was running with a release of your game named "140430-1345",
         // $from_version is equal to 1404301345
+        if ($from_version <= 2008222338) {
+            self::DbQuery('UPDATE player SET player_score_aux = 0, player_score = 3220 - (1000 * temples) - (100 * towers) - (huts)');
+            self::DbQuery('UPDATE player SET player_score = -1 WHERE player_eliminated = 1');
+        }
     }
 }

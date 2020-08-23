@@ -16,13 +16,13 @@
  */
 
 define([
-        "dojo", "dojo/_base/declare",
-        "ebg/core/gamegui",
-        "ebg/counter",
-        "ebg/stock",
-        "ebg/scrollmap"
-    ],
-    function(dojo, declare) {
+    "dojo", "dojo/_base/declare",
+    "ebg/core/gamegui",
+    "ebg/counter",
+    "ebg/stock",
+    "ebg/scrollmap"
+],
+    function (dojo, declare) {
         // Terrain constants
         var JUNGLE = 1;
         var GRASS = 2;
@@ -44,13 +44,13 @@ define([
         }
 
         function buildTooltip(tooltips) {
-            return tooltips.map(function(tt) {
+            return tooltips.map(function (tt) {
                 return (tt.title ? '<b>' + _(tt.title) + ':</b> ' : '') + _(tt.text);
             }).join('</li><li>');
         }
 
         return declare("bgagame.taluva", ebg.core.gamegui, {
-            constructor: function() {
+            constructor: function () {
                 // Scrollable area
                 this.scrollmap = new ebg.scrollmap();
                 this.hexWidth = 84;
@@ -83,9 +83,9 @@ define([
                 "gamedatas" argument contains all datas retrieved by your "getAllDatas" PHP method.
             */
 
-            setup: function(gamedatas) {
+            setup: function (gamedatas) {
                 // Setup 'fade-out' element destruction
-                $('overall-content').addEventListener('animationend', function(e) {
+                $('overall-content').addEventListener('animationend', function (e) {
                     if (e.animationName == 'fade-out') {
                         dojo.destroy(e.target);
                     }
@@ -128,13 +128,15 @@ define([
                 this.addTooltipHtmlToClass('templeBoard', this.format_block('jstpl_tooltip', {
                     icon: 'templeicon',
                     name: _(this.gamedatas.buildings[TEMPLE].name),
+                    points: this.gamedatas.buildings[TEMPLE].points,
                     tooltip: buildTooltip(this.gamedatas.buildings[TEMPLE].tooltips),
                 }));
 
                 this.addTooltipHtmlToClass('towerBoard', this.format_block('jstpl_tooltip', {
                     icon: 'towericon',
                     name: _(this.gamedatas.buildings[TOWER].name),
-                    tooltip: this.gamedatas.buildings[TOWER].tooltips.map(function(tt) {
+                    points: this.gamedatas.buildings[TOWER].points,
+                    tooltip: this.gamedatas.buildings[TOWER].tooltips.map(function (tt) {
                         return (tt.title ? '<b>' + _(tt.title) + ':</b> ' : '') + _(tt.text);
                     }).join('</li><li>')
                 }), '');
@@ -142,7 +144,8 @@ define([
                 this.addTooltipHtmlToClass('hutBoard', this.format_block('jstpl_tooltip', {
                     icon: 'huticon',
                     name: _(this.gamedatas.buildings[HUT].name),
-                    tooltip: this.gamedatas.buildings[HUT].tooltips.map(function(tt) {
+                    points: this.gamedatas.buildings[HUT].points,
+                    tooltip: this.gamedatas.buildings[HUT].tooltips.map(function (tt) {
                         return (tt.title ? '<b>' + _(tt.title) + ':</b> ' : '') + _(tt.text);
                     }).join('</li><li>')
                 }), '');
@@ -159,7 +162,7 @@ define([
                 if (Array.isArray(gamedatas.spaces)) {
                     var prior_tile = {};
                     // Sort by play order to create tiles before buildings
-                    gamedatas.spaces.sort(function(a, b) {
+                    gamedatas.spaces.sort(function (a, b) {
                         return a.id - b.id;
                     });
                     for (var s in gamedatas.spaces) {
@@ -185,7 +188,7 @@ define([
                 this.setupNotifications();
             },
 
-            change3d: function(_dc2, xpos, ypos, _dc3, _dc4, _dc5, _dc6) {
+            change3d: function (_dc2, xpos, ypos, _dc3, _dc4, _dc5, _dc6) {
                 this.control3dscale = Math.min(ZOOM_MAX, this.control3dscale);
                 if (arguments[4] > 0 && this.control3dscale >= ZOOM_MAX) {
                     arguments[4] = 0;
@@ -199,7 +202,7 @@ define([
             // onEnteringState: this method is called each time we are entering into a new game state.
             //                  You can use this method to perform some user interface changes at this moment.
             //
-            onEnteringState: function(stateName, args) {
+            onEnteringState: function (stateName, args) {
                 console.log('Entering state: ' + stateName, args.args);
                 if (this.isCurrentPlayerActive()) {
                     if (stateName == 'tile') {
@@ -221,7 +224,7 @@ define([
             // onLeavingState: this method is called each time we are leaving a game state.
             //                 You can use this method to perform some user interface changes at this moment.
             //
-            onLeavingState: function(stateName) {
+            onLeavingState: function (stateName) {
                 console.log('Leaving state: ' + stateName);
                 if (stateName == 'tile' || stateName == 'building') {
                     this.clearPossible();
@@ -231,7 +234,7 @@ define([
             // onUpdateActionButtons: in this method you can manage "action buttons" that are displayed in the
             //                        action status bar (ie: the HTML links in the status bar).
             //
-            onUpdateActionButtons: function(stateName, args) {
+            onUpdateActionButtons: function (stateName, args) {
                 if (this.isCurrentPlayerActive()) {
                     if (stateName == 'tile' && this.tryTile) {
                         this.addActionButton('button_reset', _('Cancel'), 'onClickCancelTile', null, false, 'gray');
@@ -244,13 +247,13 @@ define([
                 }
             },
 
-            onMouseWheel: function(evt) {
+            onMouseWheel: function (evt) {
                 dojo.stopEvent(evt);
                 var d = Math.max(-1, Math.min(1, (evt.wheelDelta || -evt.detail))) * 0.1;
                 this.change3d(0, 0, 0, 0, d, true, false);
             },
 
-            myonMouseDown: function(evt) {
+            myonMouseDown: function (evt) {
                 if (!this.bEnableScrolling) {
                     return;
                 }
@@ -266,17 +269,17 @@ define([
                 }
             },
 
-            draggableElement3d: function(elmnt) {
+            draggableElement3d: function (elmnt) {
                 dojo.connect(elmnt, "onmousedown", this, "drag3dMouseDown");
                 dojo.connect(elmnt, "onmouseup", this, "closeDragElement3d");
 
-                elmnt.oncontextmenu = function() {
+                elmnt.oncontextmenu = function () {
                     return false;
                 }
                 this.drag3d = elmnt;
             },
 
-            drag3dMouseDown: function(e) {
+            drag3dMouseDown: function (e) {
                 e = e || window.event;
                 if (e.which == 3) {
                     dojo.stopEvent(e);
@@ -286,7 +289,7 @@ define([
                 }
             },
 
-            elementDrag3d: function(e) {
+            elementDrag3d: function (e) {
                 e = e || window.event;
                 dojo.stopEvent(e);
                 if (!this.isdragging) {
@@ -302,7 +305,7 @@ define([
                 }
             },
 
-            closeDragElement3d: function(evt) {
+            closeDragElement3d: function (evt) {
                 /* stop moving when mouse button is released:*/
                 if (evt.which == 3) {
                     dojo.stopEvent(evt);
@@ -313,23 +316,23 @@ define([
 
             ///////////////////////////////////////////////////
             //// Utility methods
-            doAction: function(action, args) {
+            doAction: function (action, args) {
                 if (this.checkAction(action)) {
                     console.info('Taking action: ' + action, args);
                     args = args || {};
                     //args.lock = true;
-                    this.ajaxcall('/taluva/taluva/' + action + '.html', args, this, function(result) {});
+                    this.ajaxcall('/taluva/taluva/' + action + '.html', args, this, function (result) { });
                 }
             },
 
-            updatePlayerCounters: function(player) {
+            updatePlayerCounters: function (player) {
                 var player_id = player.player_id || player.id;
                 $('count_huts_' + player_id).innerText = player.huts;
                 $('count_temples_' + player_id).innerText = player.temples;
                 $('count_towers_' + player_id).innerText = player.towers;
             },
 
-            createTile: function(tile) {
+            createTile: function (tile) {
                 var face0 = VOLCANO;
                 var face1 = tile.tile_type.charAt(0);
                 var face2 = tile.tile_type.charAt(1);
@@ -357,7 +360,7 @@ define([
                 return tileEl;
             },
 
-            placeBuilding: function(building, indicatePrior) {
+            placeBuilding: function (building, indicatePrior) {
                 var hexId = 'hex_' + building.tile_id + '_' + building.subface;
                 var container = $('bldg_' + hexId) || dojo.place('<div id="bldg_' + hexId + '" class="bldg-container"></div>', $(hexId));
                 if (building.bldg_player_id) {
@@ -376,16 +379,16 @@ define([
                 }
             },
 
-            positionTile: function(tileEl, coords) {
+            positionTile: function (tileEl, coords) {
                 tileEl.style.left = (coords.left - (this.hexWidth / 2)) + 'px';
                 tileEl.style.top = coords.top + 'px';
             },
 
-            removeTile: function(tileEl) {
+            removeTile: function (tileEl) {
                 dojo.destroy(tileEl);
             },
 
-            getCoords: function(x, y) {
+            getCoords: function (x, y) {
                 var top = this.hexHeight * y - 70;
                 var left = this.hexWidth * x - 35;
                 if (y % 2 != 0) {
@@ -398,7 +401,7 @@ define([
                 };
             },
 
-            clearPossible: function() {
+            clearPossible: function () {
                 this.tryTile = null;
                 this.tryBuilding = null;
                 this.removeActionButtons();
@@ -408,7 +411,7 @@ define([
                 dojo.query('.tempbuilding').forEach(dojo.destroy);
             },
 
-            showPossibleTile: function() {
+            showPossibleTile: function () {
                 this.clearPossible();
                 for (var i in this.gamedatas.gamestate.args.possible) {
                     var possible = this.gamedatas.gamestate.args.possible[i];
@@ -424,7 +427,7 @@ define([
                 dojo.query('.face.possible').connect('onclick', this, 'onClickPossibleTile');
             },
 
-            showPossibleSpaces: function() {
+            showPossibleSpaces: function () {
                 this.clearPossible();
                 for (var i in this.gamedatas.gamestate.args.spaces) {
                     var possible = this.gamedatas.gamestate.args.spaces[i];
@@ -440,7 +443,7 @@ define([
                 dojo.query('.face.possible').connect('onclick', this, 'onClickPossibleSpaces');
             },
 
-            showPossibleBuilding: function() {
+            showPossibleBuilding: function () {
                 this.clearPossible();
                 var options = this.gamedatas.gamestate.args.options;
                 var tile_id = this.gamedatas.gamestate.args.tile_id;
@@ -460,7 +463,7 @@ define([
                             colorName: 'tempbuilding'
                         });
                         if (bldg_type == HUT) {
-                            var hutCount = spaces.reduce(function(sum, space) {
+                            var hutCount = spaces.reduce(function (sum, space) {
                                 return sum + space.z;
                             }, 0);
                             possibleHtml += "<span class='facelabel'>" + hutCount + "</span>";
@@ -479,7 +482,7 @@ define([
             // Tile actions
             /////
 
-            onClickPossibleTile: function(evt, possible_nbr) {
+            onClickPossibleTile: function (evt, possible_nbr) {
                 this.clearPossible();
                 if (possible_nbr == null) {
                     dojo.stopEvent(evt);
@@ -521,7 +524,7 @@ define([
                 this.map_surfaceConnector = dojo.connect($("map_surface"), 'onclick', this, 'onClickCancelTile');
             },
 
-            onClickRotateTile: function(evt) {
+            onClickRotateTile: function (evt) {
                 dojo.stopEvent(evt);
 
                 // Determine new rotation
@@ -536,7 +539,7 @@ define([
                 dojo.addClass(tileEl, 'rotate' + this.tryTile.r);
             },
 
-            onClickCancelTile: function(evt) {
+            onClickCancelTile: function (evt) {
                 dojo.stopEvent(evt);
                 if (this.tryTile != null) {
                     var player_id = this.getActivePlayerId();
@@ -549,7 +552,7 @@ define([
                 }
             },
 
-            onClickCommitTile: function(evt) {
+            onClickCommitTile: function (evt) {
                 dojo.stopEvent(evt);
                 if (this.tryTile == null) {
                     this.showMessage(_('You must place a tile.'), 'error');
@@ -565,7 +568,7 @@ define([
             // Building actions
             /////
 
-            onClickPossibleSpaces: function(evt) {
+            onClickPossibleSpaces: function (evt) {
                 // This click trigger network request
                 // Don't clear possible spaces here, wait for state change event
                 dojo.stopEvent(evt);
@@ -581,7 +584,7 @@ define([
                 });
             },
 
-            onClickPossibleBuilding: function(evt, option_nbr) {
+            onClickPossibleBuilding: function (evt, option_nbr) {
                 this.clearPossible();
                 if (option_nbr == null) {
                     dojo.stopEvent(evt);
@@ -616,7 +619,7 @@ define([
                 this.onUpdateActionButtons(this.gamedatas.gamestate.name, this.gamedatas.gamestate.args);
             },
 
-            onClickCancelBuilding: function(evt) {
+            onClickCancelBuilding: function (evt) {
                 // This click trigger network request
                 // Don't clear possible spaces here, wait for state change event
                 dojo.stopEvent(evt);
@@ -626,7 +629,7 @@ define([
                 }
             },
 
-            onClickCommitBuilding: function(evt) {
+            onClickCommitBuilding: function (evt) {
                 dojo.stopEvent(evt);
                 if (this.tryBuilding == null) {
                     this.showMessage(_('You must place a building.'), 'error');
@@ -651,15 +654,16 @@ define([
                       your taluva.game.php file.
 
             */
-            setupNotifications: function() {
+            setupNotifications: function () {
                 dojo.subscribe('draw', this, 'notif_draw');
                 dojo.subscribe('commitTile', this, 'notif_tile');
                 dojo.subscribe('commitBuilding', this, 'notif_building');
                 dojo.subscribe('destroyBuilding', this, 'notif_destroyBuilding');
                 dojo.subscribe('scores', this, 'notif_scores');
+                dojo.subscribe('eliminate', this, 'notif_eliminate');
             },
 
-            notif_draw: function(n) {
+            notif_draw: function (n) {
                 // Show preview tile
                 var player_id = n.args.player_id;
                 if (n.args.tile_type) {
@@ -680,7 +684,7 @@ define([
                 }
             },
 
-            notif_tile: function(n) {
+            notif_tile: function (n) {
                 var player_id = this.getActivePlayerId();
                 var player = this.gamedatas.players[player_id];
                 var colorClass = 'prior-move-' + player.colorName;
@@ -705,7 +709,7 @@ define([
                 }
             },
 
-            notif_building: function(n) {
+            notif_building: function (n) {
                 this.updatePlayerCounters(n.args);
                 var player = this.gamedatas.players[n.args.player_id];
                 dojo.query('.prior-building.' + player.colorName).removeClass('prior-building');
@@ -713,17 +717,22 @@ define([
                     var building = n.args.buildings[i];
                     this.placeBuilding(building, true);
                 }
+                this.scoreCtrl[n.args.player_id].incValue(n.args.points);
             },
 
-            notif_destroyBuilding: function(n) {
+            notif_destroyBuilding: function (n) {
                 $('bldg_hex_' + n.args.tile_id + '_' + n.args.subface).innerHTML = '';
             },
 
-            notif_scores: function(n) {
+            notif_scores: function (n) {
                 var scores = n.args.scores;
                 for (player_id in scores) {
                     this.scoreCtrl[player_id].toValue(scores[player_id]);
                 }
+            },
+
+            notif_eliminate: function (n) {
+                this.scoreCtrl[n.args.player_id].toValue(n.args.score);
             },
         });
     });

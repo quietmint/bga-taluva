@@ -32,6 +32,7 @@ $this->terrain = array(
 
 $this->buildings = array(
     HUT => array(
+        'points' => 1,
         'name' => clienttranslate('huts'),
         'name_single' => clienttranslate('hut'),
         'tooltips' => array(
@@ -46,6 +47,7 @@ $this->buildings = array(
         ),
     ),
     TEMPLE => array(
+        'points' => 1000,
         'name' => clienttranslate('temples'),
         'name_single' => clienttranslate('temple'),
         'tooltips' => array(
@@ -55,6 +57,7 @@ $this->buildings = array(
         ),
     ),
     TOWER => array(
+        'points' => 100,
         'name' => clienttranslate('towers'),
         'name_single' => clienttranslate('tower'),
         'tooltips' => array(
