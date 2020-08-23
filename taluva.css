@@ -217,64 +217,34 @@ html, .mode_3d {
   animation: 350ms fade-in ease-in-out;
 }
 
-.no-webpalpha .face.possible,
-.no-webpalpha #cancelator span,
-.no-webpalpha #buildPalette .rotator .facelabel {
+.face.possible,
+#cancelator span,
+#buildPalette .rotator .facelabel {
   background-image: url(img/hex-possible.png);
 }
 
-.webpalpha .face.possible,
-.webpalpha #cancelator span,
-.webpalpha #buildPalette .rotator .facelabel {
-  background-image: url(img/hex-possible.webp);
-}
-
-.no-webpalpha .face.face-1 {
+.face.face-1 {
   background-image: url(img/hex-1.png);
 }
 
-.webpalpha .face.face-1 {
-  background-image: url(img/hex-1.webp);
-}
-
-.no-webpalpha .face.face-2 {
+.face.face-2 {
   background-image: url(img/hex-2.png);
 }
 
-.webpalpha .face.face-2 {
-  background-image: url(img/hex-2.webp);
-}
-
-.no-webpalpha .face.face-3 {
+.face.face-3 {
   background-image: url(img/hex-3.png);
 }
 
-.webpalpha .face.face-3 {
-  background-image: url(img/hex-3.webp);
-}
-
-.no-webpalpha .face.face-4 {
+.face.face-4 {
   background-image: url(img/hex-4.png);
 }
 
-.webpalpha .face.face-4 {
-  background-image: url(img/hex-4.webp);
-}
-
-.no-webpalpha .face.face-5 {
+.face.face-5 {
   background-image: url(img/hex-5.png);
 }
 
-.webpalpha .face.face-5 {
-  background-image: url(img/hex-5.webp);
-}
-
-.no-webpalpha .face.face-6 {
+.face.face-6 {
   background-image: url(img/hex-6.png);
-}
-
-.webpalpha .face.face-6 {
-  background-image: url(img/hex-6.webp);
 }
 
 .level1 .face,
