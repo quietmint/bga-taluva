@@ -13,6 +13,26 @@
  *
  **/
 
+#tooltip3d {
+  display: none;
+}
+
+#controls-reminder {
+  position: relative;
+  color: white;
+  font-size: 12px;
+  padding-left: 30px;
+  padding-bottom: 8px;
+}
+
+#controls-reminder img {
+  position: absolute;
+  top: 0;
+  left: 2px;
+  width: 22px;
+  height: 30px;
+}
+
 html, .mode_3d {
   background: #0b3975;
 }

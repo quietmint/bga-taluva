@@ -84,6 +84,13 @@ define([
             */
 
             setup: function (gamedatas) {
+                // Setup camera controls reminder
+                var reminderHtml = '<div id="controls-reminder">'
+                    + '<img src="' + g_gamethemeurl + 'img/mouse-right.svg"></img>'
+                    + _('Adjust camera with below controls or right-drag and scroll wheel')
+                    + '</div>';
+                dojo.place(reminderHtml, 'controls3d_wrap', 'first') ;
+
                 // Setup 'fade-out' element destruction
                 $('overall-content').addEventListener('animationend', function (e) {
                     if (e.animationName == 'fade-out') {
@@ -94,6 +101,7 @@ define([
 
                 // Setup remaining tile counter
                 dojo.place($('count_remain'), 'game_play_area_wrap', 'first');
+                $('count_remain').title = _('Tiles remaining');
 
                 // Setup player boards
                 colorNames = {

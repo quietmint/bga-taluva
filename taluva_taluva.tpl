@@ -1,6 +1,6 @@
 {OVERALL_GAME_HEADER}
 <div id="playArea">
-  <div id="count_remain" title="{I18N_Remain}">{count_remain}</div>
+  <div id="count_remain">{count_remain}</div>
   <div id="map_container">
     <div id="map_scrollable">
       <div id="bg-anchor"></div>

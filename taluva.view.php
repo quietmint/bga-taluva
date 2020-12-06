@@ -39,9 +39,6 @@
           $current_player_id = $g_user->get_id();
           $template = self::getGameName() . '_' . self::getGameName();
 
-          // Translations for static text
-          $this->tpl['I18N_Remain'] = self::_('Tiles remaining');
-
           // Remaining tile counter
           $this->tpl['count_remain'] = $this->game->getTilesRemain();
 
