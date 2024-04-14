@@ -170,7 +170,7 @@ class taluva extends Table
             self::initStat('player', 'buildings_' . TOWER, 0, $player_id);
             self::initStat('player', 'destroy', 0, $player_id);
         }
-        self::DbQuery($sql . implode($values, ','));
+        self::DbQuery($sql . implode(',', $values));
         self::reattributeColorsBasedOnPreferences($players, $gameinfos['player_colors']);
         self::reloadPlayersBasicInfos();
         self::initStat('table', 'tiles', 0);
@@ -400,7 +400,7 @@ class taluva extends Table
             1 => "({$spaces[1]->x}, {$spaces[1]->y}, $z, $r, {$spaces[1]->face}, $tile_id, 1, $player_id)",
             2 => "({$spaces[2]->x}, {$spaces[2]->y}, $z, $r, {$spaces[2]->face}, $tile_id, 2, $player_id)",
         );
-        self::DbQuery("INSERT INTO board (x, y, z, r, face, tile_id, subface, tile_player_id) VALUES " . implode($values, ','));
+        self::DbQuery("INSERT INTO board (x, y, z, r, face, tile_id, subface, tile_player_id) VALUES " . implode(',', $values));
         $highest = self::getStat('z');
         if ($z > $highest) {
             self::setStat($z, 'z');
