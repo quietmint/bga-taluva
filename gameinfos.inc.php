@@ -10,27 +10,6 @@
 */
 
 $gameinfos = array(
-
-    // Game presentation
-    // Short game presentation text that will appear on the game description page, structured as an array of paragraphs.
-    // Each paragraph must be wrapped with totranslate() for translation and should not contain html (plain text without formatting).
-    // A good length for this text is between 100 and 150 words (about 6 to 9 lines on a standard display)
-    'presentation' => array(
-        totranslate("As powerful volcanoes erupt on Taluva Island, a terraced jungle emerges from the South Pacific."),
-        totranslate("Dangerous lava flows destroy huts of those foolhardy enough to build in their path while providing opportunities for ingenious clans to erect temples and towers."),
-        totranslate("Speedy construction could lead to an early victory or exhaust the building supply and force defeat."),
-        totranslate("Will you create the most glorious civilization?")
-    ),
-
-    // Game designer (or game designers, separated by commas)
-    'designer' => 'Marcel-André Casasola Merkle',
-
-    // Game artist (or game artists, separated by commas)
-    'artist' => 'Manuel Casasola Merkle, Xavier Gueniffey Durin',
-
-    // Year of FIRST publication of this game. Can be negative.
-    'year' => 2006,
-
     // Game publisher
     'publisher' => 'Ferti Games',
 
@@ -43,7 +22,6 @@ $gameinfos = array(
     // Board game geek if of the game
     'bgg_id' => 24508,
 
-
     // Players configuration that can be played (ex: 2 to 4 players)
     'players' => array(2, 3, 4, 5),
 
@@ -53,7 +31,6 @@ $gameinfos = array(
     // Discourage players to play with these numbers of players. Must be null if there is no such advice.
     'not_recommend_player_number' => null,
     // 'not_recommend_player_number' => array( 2, 3 ),      // <= example: this is not recommended to play this game with 2 or 3 players
-
 
     // Estimated game duration, in minutes (used only for the launch, afterward the real duration is computed)
     'estimated_duration' => 45,
@@ -81,18 +58,6 @@ $gameinfos = array(
     // Is this game cooperative (all players wins together or loose together)
     'is_coop' => 0,
 
-    // Complexity of the game, from 0 (extremely simple) to 5 (extremely complex)
-    'complexity' => 2,
-
-    // Luck of the game, from 0 (absolutely no luck in this game) to 5 (totally luck driven)
-    'luck' => 2,
-
-    // Strategy of the game, from 0 (no strategy can be setup) to 5 (totally based on strategy)
-    'strategy' => 4,
-
-    // Diplomacy of the game, from 0 (no interaction in this game) to 5 (totally based on interaction and discussion between players)
-    'diplomacy' => 3,
-
     // Colors attributed to players
     'player_colors' => array("ff0000", "ffa500", "ffffff", "b1634f", "000000"),
 
@@ -117,16 +82,6 @@ $gameinfos = array(
     ),
 
     'enable_3d' => false,
-
-    // Games categories
-    //  You can attribute a maximum of FIVE "tags" for your game.
-    //  Each tag has a specific ID (ex: 22 for the category "Prototype", 101 for the tag "Science-fiction theme game")
-    //  Please see the "Game meta information" entry in the BGA Studio documentation for a full list of available tags:
-    //  http://en.doc.boardgamearena.com/Game_meta-information:_gameinfos.inc.php
-    //  IMPORTANT: this list should be ORDERED, with the most important tag first.
-    //  IMPORTANT: it is mandatory that the FIRST tag is 1, 2, 3 and 4 (= game category)
-    'tags' => array(3, 12, 103, 206),
-
 
     //////// BGA SANDBOX ONLY PARAMETERS (DO NOT MODIFY)
 
