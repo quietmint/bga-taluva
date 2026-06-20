@@ -16,8 +16,11 @@
  * In this PHP file, you are going to defines the rules of the game.
  *
  */
+use Bga\GameFramework\Components\Deck;
+use Bga\GameFramework\Table;
+use Bga\GameFramework\UserException;
+use Bga\GameFramework\VisibleSystemException;
 
-require_once(APP_GAMEMODULE_PATH . 'module/table/table.game.php');
 require_once('modules/taluva.board.php');
 
 // Terrain constants
@@ -44,6 +47,11 @@ define('ST_GAME_END', 99);
 
 class taluva extends Table
 {
+    public Deck $tiles;
+    public array $rotations;
+    public array $terrain;
+    public array $buildings;
+
     public function __construct()
     {
         // Your global variables labels:
@@ -61,13 +69,7 @@ class taluva extends Table
             'variantTiles' => 100,
         ));
 
-        $this->tiles = self::getNew('module.common.deck');
-        $this->tiles->init('tile');
-    }
-
-    protected function getGameName()
-    {
-        return 'taluva';
+        $this->tiles = $this->bga->deckFactory->createDeck('tile');
     }
 
     /*
@@ -173,6 +175,7 @@ class taluva extends Table
         self::reloadPlayersBasicInfos();
         self::initStat('table', 'tiles', 0);
         self::initStat('table', 'z', 0);
+        return ST_NEXT_PLAYER;
     }
 
     /*
@@ -248,7 +251,7 @@ class taluva extends Table
         foreach ($players as $player_id => $player) {
             $scores[$player_id] = (int) $player['score'];
         }
-        self::notifyAllPlayers('scores', '', array('scores' => $scores));
+        $this->bga->notify->all('scores', '', array('scores' => $scores));
     }
 
     public function getTileInHand($player_id)
@@ -385,7 +388,7 @@ class taluva extends Table
         $spaces = $board->getSpacesForTile($x, $y, $z, $r, $tile['tile_type']);
         $valid = $board->isValidTilePlacement($spaces);
         if (!$valid) {
-            throw new BgaVisibleSystemException('Invalid tile placement');
+            throw new UserException('Invalid tile placement');
         }
 
         // Add volcano face at the clicked location
@@ -422,7 +425,7 @@ class taluva extends Table
             if ($spaceBelow->bldg_type == HUT) {
                 $destroyCount += $spaceBelow->z;
                 self::DbQuery("UPDATE board SET bldg_type = NULL, bldg_player_id = NULL WHERE x = {$spaceBelow->x} AND y = {$spaceBelow->y} AND z = {$spaceBelow->z}");
-                self::notifyAllPlayers('destroyBuilding', '', array(
+                $this->bga->notify->all('destroyBuilding', '', array(
                     'tile_id' => $spaceBelow->tile_id,
                     'subface' => $spaceBelow->subface,
                 ));
@@ -439,7 +442,7 @@ class taluva extends Table
             $tile['bldg_name'] = $this->buildings[HUT][($destroyCount == 1 ? 'name_single' : 'name')];
             $tile['count'] = $destroyCount;
         }
-        self::notifyAllPlayers('commitTile', $msg, $tile);
+        $this->bga->notify->all('commitTile', $msg, $tile);
         $this->gamestate->nextState('eliminate');
     }
 
@@ -464,7 +467,7 @@ class taluva extends Table
         $space = $board->getSpace($x, $y, $z);
         $options = $board->getBuildingOptions($space, $player);
         if (!array_key_exists($option_nbr, $options)) {
-            throw new BgaVisibleSystemException(sprintf('Invalid option: %d', $option_nbr));
+            throw new UserException(sprintf('Invalid option: %d', $option_nbr));
         }
         $bldg_type = intdiv($option_nbr, 10);
 
@@ -488,7 +491,7 @@ class taluva extends Table
         $columnName = strtolower($this->buildings[$bldg_type]['name']);
         self::DbQuery("UPDATE player SET $columnName = $columnName - $count WHERE player_id = $player_id AND $columnName >= $count");
         if (self::DbAffectedRow() != 1) {
-            throw new BgaVisibleSystemException(sprintf('You do not have enough buildings. This placement requires %d %s.', $count, $bldgName));
+            throw new UserException(sprintf('You do not have enough buildings. This placement requires %d %s.', $count, $bldgName));
         }
 
         // Add points
@@ -514,16 +517,16 @@ class taluva extends Table
             'buildings' => $buildings,
             'points' => $points,
         );
-        self::notifyAllPlayers('commitBuilding', clienttranslate('${player_name} builds ${count} ${bldg_name} on ${face_name}.'), $args);
+        $this->bga->notify->all('commitBuilding', clienttranslate('${player_name} builds ${count} ${bldg_name} on ${face_name}.'), $args);
 
         // Draw next tile
         $newTile = $this->tiles->pickCard('deck', $player_id);
         if ($newTile != null) {
-            self::notifyAllPlayers('draw', '', array(
+            $this->bga->notify->all('draw', '', array(
                 'player_id' => $player_id,
                 'remain' => $this->getTilesRemain(),
             ));
-            self::notifyPlayer($player_id, 'draw', '', array(
+            $this->bga->notify->player($player_id, 'draw', '', array(
                 'player_id' => $player_id,
                 'tile_id' => $newTile['id'],
                 'tile_type' => $newTile['type'],
@@ -601,7 +604,7 @@ class taluva extends Table
             $bldg_counts = array_values($counts);
             $bldg_names = array_keys($counts);
             if ($bldg_counts[0] == 0 && $bldg_counts[1] == 0) {
-                self::notifyAllPlayers('message', clienttranslate('Early victory! ${player_name} has built all ${bldg_name} and ${bldg_name2}.'), array(
+                $this->bga->notify->all('message', clienttranslate('Early victory! ${player_name} has built all ${bldg_name} and ${bldg_name2}.'), array(
                     'i18n' => array('bldg_name', 'bldg_name2'),
                     'player_name' => $player['name'],
                     'bldg_name' => $bldg_names[0],
@@ -616,7 +619,7 @@ class taluva extends Table
 
         // You win if you are the only player remaining
         if (count($players) == 1) {
-            self::notifyAllPlayers('message', clienttranslate('Game over! No other players remain.'), array());
+            $this->bga->notify->all('message', clienttranslate('Game over! No other players remain.'), array());
             $this->sendScores();
             $this->gamestate->nextState('gameEnd');
             return;
@@ -634,14 +637,14 @@ class taluva extends Table
         $tile = $this->getTileInHand($player_id);
         if ($tile == null) {
             // No more tiles
-            self::notifyAllPlayers('message', clienttranslate('Game over! No tiles remain.'), array());
+            $this->bga->notify->all('message', clienttranslate('Game over! No tiles remain.'), array());
             $this->sendScores();
             $this->gamestate->nextState('gameEnd');
             return;
         }
 
         $tile['remain'] = $this->getTilesRemain();
-        self::notifyAllPlayers('draw', '', $tile);
+        $this->bga->notify->all('draw', '', $tile);
         self::incStat(1, 'tiles');
         self::incStat(1, 'tiles', $player_id);
         self::giveExtraTime($player_id);
@@ -656,7 +659,7 @@ class taluva extends Table
         if (empty($this->getPossibleSpaces($player))) {
             $score = self::getUniqueValueFromDB("SELECT COUNT(1) * -1 FROM player WHERE player_eliminated = 0 and player_zombie = 0");
             self::DbQuery("UPDATE player SET player_score = $score WHERE player_id = {$player['id']}");
-            self::notifyAllPlayers('eliminate', clienttranslate('${player_name} cannot build and is eliminated!'), array(
+            $this->bga->notify->all('eliminate', clienttranslate('${player_name} cannot build and is eliminated!'), array(
                 'player_id' => $player_id,
                 'player_name' => $player['name'],
                 'score' => $score,
@@ -685,7 +688,7 @@ class taluva extends Table
         if (array_key_exists('zombiePass', $state['transitions'])) {
             $this->gamestate->nextState('zombiePass');
         } else {
-            throw new BgaVisibleSystemException('Zombie player ' . $active_player . ' stuck in unexpected state ' . $state['name']);
+            throw new VisibleSystemException('Zombie player ' . $active_player . ' stuck in unexpected state ' . $state['name']);
         }
     }
 

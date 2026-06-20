@@ -35,10 +35,6 @@
 
       public function build_page($viewArgs)
       {
-          global $g_user;
-          $current_player_id = $g_user->get_id();
-          $template = self::getGameName() . '_' . self::getGameName();
-
           // Remaining tile counter
           $this->tpl['count_remain'] = $this->game->getTilesRemain();
 
