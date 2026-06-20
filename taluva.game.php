@@ -162,8 +162,6 @@ class taluva extends Table
 
             // Give each player a tile
             $tile = $this->tiles->pickCard('deck', $player_id);
-            $tile['remain'] = $this->getTilesRemain();
-            self::notifyPlayer($player_id, 'draw', '', $tile);
             self::initStat('player', 'tiles', 0, $player_id);
             self::initStat('player', 'buildings_' . HUT, 0, $player_id);
             self::initStat('player', 'buildings_' . TEMPLE, 0, $player_id);
