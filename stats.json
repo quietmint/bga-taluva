@@ -1,0 +1,41 @@
+{
+	"table": {
+		"tiles": {
+			"id": 10,
+			"name": "Tiles placed",
+			"type": "int"
+		},
+		"z": {
+			"id": 11,
+			"name": "Highest level",
+			"type": "int"
+		}
+	},
+	"player": {
+		"tiles": {
+			"id": 10,
+			"name": "Tiles placed",
+			"type": "int"
+		},
+		"buildings_2": {
+			"id": 22,
+			"name": "Temples placed",
+			"type": "int"
+		},
+		"buildings_3": {
+			"id": 23,
+			"name": "Towers placed",
+			"type": "int"
+		},
+		"buildings_1": {
+			"id": 21,
+			"name": "Huts placed",
+			"type": "int"
+		},
+		"destroy": {
+			"id": 30,
+			"name": "Huts destroyed",
+			"type": "int"
+		}
+	}
+}

@@ -1,0 +1,35 @@
+{
+	"100": {
+		"name": "Tiles per player",
+		"values": {
+			"12": {
+				"name": "12"
+			},
+			"18": {
+				"name": "18",
+				"tmdisplay": "18 tiles per player"
+			},
+			"24": {
+				"name": "24",
+				"tmdisplay": "24 tiles per player"
+			}
+		},
+		"startcondition": {
+			"12": [],
+			"18": [
+				{
+					"type": "maxplayers",
+					"value": 2,
+					"message": "Must use 12 tiles per player with more than 2 players."
+				}
+			],
+			"24": [
+				{
+					"type": "maxplayers",
+					"value": 2,
+					"message": "Must use 12 tiles per player with more than 2 players."
+				}
+			]
+		}
+	}
+}

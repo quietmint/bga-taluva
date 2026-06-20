@@ -1,5 +1,7 @@
 <?php
 
+use Bga\GameFramework\Table;
+
 // Adjacency constants
 define('LEFT_TOP', 1);
 define('RIGHT_TOP', 2);
@@ -12,7 +14,7 @@ define('LEFT_MIDDLE', 6);
 define('CONTAINS_ALL', 1);
 define('CONTAINS_ANY', 2);
 
-class TaluvaSpace extends APP_GameClass
+class TaluvaSpace
 {
     public $id;
     public $x;
@@ -50,7 +52,7 @@ class TaluvaSpace extends APP_GameClass
 
     public function toXY()
     {
-        return '['. $this->x . ',' . $this->y .']';
+        return '[' . $this->x . ',' . $this->y . ']';
     }
 
     public function toXYZ()
@@ -68,11 +70,11 @@ class TaluvaSpace extends APP_GameClass
     // Is this space avaialble for placing a new building?
     public function canBuild()
     {
-        return $this->exists() && !$this->bldg_type && $this->face !== VOLCANO ;
+        return $this->exists() && !$this->bldg_type && $this->face !== VOLCANO;
     }
 }
 
-class TaluvaBoard extends APP_GameClass implements JsonSerializable
+class TaluvaBoard implements JsonSerializable
 {
     private $board = array();
     private $top = array();
@@ -80,7 +82,7 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
 
     public function __construct()
     {
-        $rows = self::getObjectListFromDB('SELECT id, x, y, z, r, face, tile_id, subface, tile_player_id, t.card_type AS tile_type, bldg_player_id, bldg_type FROM board b LEFT OUTER JOIN tile t ON (b.subface = 0 AND b.tile_id = t.card_id) ORDER BY x, y, z');
+        $rows = Table::getObjectListFromDB('SELECT id, x, y, z, r, face, tile_id, subface, tile_player_id, t.card_type AS tile_type, bldg_player_id, bldg_type FROM board b LEFT OUTER JOIN tile t ON (b.subface = 0 AND b.tile_id = t.card_id) ORDER BY x, y, z');
         foreach ($rows as $row) {
             $space = new TaluvaSpace($row);
             $x = $space->x;
@@ -417,7 +419,7 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
                     foreach ($settlement as $sSpace) {
                         $adjacents = $this->getAdjacentsOnTop($sSpace);
                         foreach ($adjacents as $adj) {
-                            if ($adj->face == $space->face && !$adj->bldg_type && !$this->getSpaceAbove($space)->exists() ) {
+                            if ($adj->face == $space->face && !$adj->bldg_type && !$this->getSpaceAbove($space)->exists()) {
                                 $huts["$adj"] = $adj;
                             }
                         }
@@ -432,12 +434,12 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
                 }
 
                 // OPTION B -- temple
-                if ($player['temples'] > 0 && count($settlement) >= 3 && !$this->hasBuilding(TEMPLE, $settlement) && !$this->getSpaceAbove($space)->exists() ) {
+                if ($player['temples'] > 0 && count($settlement) >= 3 && !$this->hasBuilding(TEMPLE, $settlement) && !$this->getSpaceAbove($space)->exists()) {
                     $options[TEMPLE * 10] = array($space);
                 }
 
                 // OPTION D -- tower
-                if ($player['towers'] > 0 && $space->z >= 3 && !$this->hasBuilding(TOWER, $settlement) && !$this->getSpaceAbove($space)->exists() ) {
+                if ($player['towers'] > 0 && $space->z >= 3 && !$this->hasBuilding(TOWER, $settlement) && !$this->getSpaceAbove($space)->exists()) {
                     $options[TOWER * 10] = array($space);
                 }
             }
@@ -446,7 +448,7 @@ class TaluvaBoard extends APP_GameClass implements JsonSerializable
             foreach ($hutOptions as $huts) {
                 $options[HUT * 10 + $i++] = $huts;
             }
-        } elseif ($player['huts'] > 0 && $space->z == 1 && !$this->getSpaceAbove($space)->exists() ) {
+        } elseif ($player['huts'] > 0 && $space->z == 1 && !$this->getSpaceAbove($space)->exists()) {
             // OPTION A -- new hut
             $options[HUT * 10] = array($space);
         }

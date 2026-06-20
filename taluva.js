@@ -328,8 +328,7 @@ define([
                 if (this.checkAction(action)) {
                     console.info('Taking action: ' + action, args);
                     args = args || {};
-                    //args.lock = true;
-                    this.ajaxcall('/taluva/taluva/' + action + '.html', args, this, function (result) { });
+                    this.bga.actions.performAction(action, args);
                 }
             },
 
